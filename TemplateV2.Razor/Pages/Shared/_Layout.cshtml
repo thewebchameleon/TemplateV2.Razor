@@ -14,8 +14,6 @@
     <link href="~/css/framework.min.css" rel="stylesheet" asp-append-version="true" />
     <link href="~/css/site.min.css" rel="preload" as="style" onload="this.rel='stylesheet'" asp-append-version="true" />
 
-    <script src="~/js/framework.min.js" defer asp-append-version="true"></script>
-    <script src="~/js/site.min.js" defer asp-append-version="true"></script>
 </head>
 <body id="page-top">
 
@@ -232,6 +230,9 @@
     </div>
 
     @await Html.PartialAsync("_Notifications")
+
+    <script src="~/js/framework.min.js" asp-append-version="true"></script>
+    <script src="~/js/site.min.js" asp-append-version="true"></script>
 
     @RenderSection("Scripts", required: false)
 </body>
