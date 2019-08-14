@@ -1,0 +1,226 @@
+﻿@page
+@model ManageUsersModel
+@{
+    ViewData["Title"] = "Manage Users";
+}
+
+<!-- Begin Page Content -->
+<div class="container-fluid">
+
+    <!-- Page Heading -->
+    <h1 class="h3 mb-4 text-gray-800">@ViewData["Title"] </h1>
+
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <a asp-page="/Admin/Users/Create" class="btn btn-primary" asp-permission="@PermissionKeys.ManageUsers">Create</a>
+
+            <a id="btnReloadData" href="#" class="btn btn-primary float-right">
+                <span class="icon text-white">
+                    <i class="fas fa-sync"></i>
+                </span>
+            </a>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table id="dataTable" class="table table-striped" style="width: 100%;" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Username</th>
+                            <th>Email Address</th>
+                            <th>First Name</th>
+                            <th>Registered Date</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>
+<!-- /.container-fluid -->
+@* disable modal *@
+<div class="modal fade" id="modalDisableUser" tabindex="-1" role="dialog" aria-labelledby="modalDisableUserLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-primary">
+                <h5 class="modal-title text-white" id="modalDisableUserLabel">Disable User</h5>
+                <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to disable this user?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-primary" data-dismiss="modal">No</button>
+                <form asp-page-handler="DisableUser" method="post">
+                    <input name="Id" type="hidden" />
+                    <button type="submit" class="btn btn-primary">Yes</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@* enable modal *@
+<div class="modal fade" id="modalEnableUser" tabindex="-1" role="dialog" aria-labelledby="modalEnableUserLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-primary">
+                <h5 class="modal-title text-white" id="modalEnableUserLabel">Enable User</h5>
+                <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to enable this user?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-primary" data-dismiss="modal">No</button>
+                <form asp-page-handler="EnableUser" method="post">
+                    <input name="Id" type="hidden" />
+                    <button type="submit" class="btn btn-primary">Yes</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@* unlock modal *@
+<div class="modal fade" id="modalUnlockUser" tabindex="-1" role="dialog" aria-labelledby="modalUnlockUserLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-primary">
+                <h5 class="modal-title text-white" id="modalUnlockUserLabel">Unlock User</h5>
+                <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to unlock this user?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-primary" data-dismiss="modal">No</button>
+                <form asp-page-handler="UnlockUser" method="post">
+                    <input name="Id" type="hidden" />
+                    <button type="submit" class="btn btn-primary">Yes</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts  {
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+
+            var table = loadDataTable('@Url.Page("/Admin/Users/Index", "Data")');
+
+            $("#btnReloadData").click(function () {
+                table.ajax.reload();
+            });
+
+            function loadDataTable(url, params) {
+
+                if (table) {
+                    table.destroy();
+                }
+
+                table = $('#dataTable').DataTable({
+                    ajax: {
+                        url: url,
+                        data: params,
+                        dataSrc: "users",
+                    },
+                    columns: [
+                        {
+                            data: "id"
+                        },
+                        {
+                            data: "username"
+                        },
+                        {
+                            data: "email_Address"
+                        },
+                        {
+                            data: "first_Name"
+                        },
+                        {
+                            data: "created_Date",
+                            render: {
+                                display: function (data) {
+                                    return moment(data).format('Do MMMM YYYY');
+                                },
+                                sort: function (data) {
+                                    return moment(data).unix();
+                                },
+                                filter: function (data) {
+                                    return moment(data).format('Do MMMM YYYY');
+                                }
+                            }
+                        },
+                        {
+                            render: function (data, type, row, meta) {
+                                var actionButtons = '';
+
+                                if (row.is_Locked_Out) {
+                                    // unlock
+                                    actionButtons += '<a href="#" data-toggle="modal" data-target="#modalUnlockUser" data-target-id="' + row.id + '" class="mr-4 text-decoration-none">';
+                                    actionButtons += '<i class="fas fa-unlock text-warning"></i>';
+                                    actionButtons += '</a>';
+                                }
+
+                                if (row.is_Enabled) {
+                                    //disable
+                                    actionButtons += '<a href="#" data-toggle="modal" data-target="#modalDisableUser" data-target-id="' + row.id + '" class="mr-4 text-decoration-none">';
+                                    actionButtons += '<i class="fas fa-door-closed text-danger"></i>';
+                                    actionButtons += '</a>';
+                                } else {
+                                    // enable
+                                    actionButtons += '<a href="#" data-toggle="modal" data-target="#modalEnableUser" data-target-id="' + row.id + '" class="mr-4 text-decoration-none">';
+                                    actionButtons += '<i class="fas fa-door-open text-success"></i>';
+                                    actionButtons += '</a>';
+                                }
+
+                                // edit
+                                actionButtons += '<a href="/Admin/Users/Edit?id=' + row.id + '" class="text-decoration-none" data-toggle="tooltip" data-placement="left" title="Edit">';
+                                actionButtons += '<i class="fas fa-edit"></i>';
+                                actionButtons += '</a>';
+
+                                return actionButtons;
+                            }
+                        }
+                    ],
+                    columnDefs: [
+                        { targets: -1, orderable: false, className: 'table-actions' }
+                    ],
+                    order: [
+                        [0, 'desc'],
+                    ],
+                    processing: true,
+                    language: {
+                        processing: '<div class="spinner-border text-primary" role="status"></div>'
+                    },
+                    drawCallback: function (settings) {
+                        resetToolTips();
+                    },
+                    createdRow: function(row, data, dataIndex ) {
+                        if (data.is_Enabled === false) {
+                            $(row).addClass('disabled-row');
+                        }
+                    }
+                });
+
+                return table;
+
+            }
+
+        });
+
+    </script>
+
+}

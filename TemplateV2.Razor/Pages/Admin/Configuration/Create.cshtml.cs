@@ -1,0 +1,52 @@
+using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
+using TemplateV2.Models.ServiceModels.Admin;
+using TemplateV2.Models.ServiceModels.Admin.Configuration;
+using TemplateV2.Services.Contracts;
+
+namespace TemplateV2.Razor.Pages
+{
+    public class CreateConfigurationModel : BasePageModel
+    {
+        #region Private Fields
+
+        private readonly IAdminService _adminService;
+
+        #endregion
+
+        #region Properties
+
+        [BindProperty]
+        public CreateConfigurationItemRequest FormData { get; set; }
+
+        #endregion
+
+        #region Constructors
+
+        public CreateConfigurationModel(IAdminService adminService)
+        {
+            _adminService = adminService;
+        }
+
+        #endregion
+
+        public async Task OnGet()
+        {
+        }
+
+        public async Task<IActionResult> OnPost()
+        {
+            if (ModelState.IsValid)
+            {
+                var response = await _adminService.CreateConfigurationItem(FormData);
+                if (response.IsSuccessful)
+                {
+                    AddNotifications(response);
+                    return RedirectToPage("/Admin/Configuration/Index");
+                }
+                AddFormErrors(response);
+            }
+            return Page();
+        }
+    }
+}

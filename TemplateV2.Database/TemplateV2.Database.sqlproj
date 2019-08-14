@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <Name>TemplateV2.Database</Name>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectVersion>4.1</ProjectVersion>
+    <ProjectGuid>{22db86e0-bd4e-4186-bd71-3d4f70afb59a}</ProjectGuid>
+    <DSP>Microsoft.Data.Tools.Schema.Sql.Sql140DatabaseSchemaProvider</DSP>
+    <OutputType>Database</OutputType>
+    <RootPath>
+    </RootPath>
+    <RootNamespace>TemplateV2.Database</RootNamespace>
+    <AssemblyName>TemplateV2.Database</AssemblyName>
+    <ModelCollation>1033, CI</ModelCollation>
+    <DefaultFileStructure>BySchemaAndSchemaType</DefaultFileStructure>
+    <DeployToDatabase>True</DeployToDatabase>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetLanguage>CS</TargetLanguage>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <SqlServerVerification>False</SqlServerVerification>
+    <IncludeCompositeObjects>True</IncludeCompositeObjects>
+    <TargetDatabaseSet>True</TargetDatabaseSet>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>bin\Release\</OutputPath>
+    <BuildScriptName>$(MSBuildProjectName).sql</BuildScriptName>
+    <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>bin\Debug\</OutputPath>
+    <BuildScriptName>$(MSBuildProjectName).sql</BuildScriptName>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">11.0</VisualStudioVersion>
+    <!-- Default to the v11.0 targets path if the targets file for the current VS version is not found -->
+    <SSDTExists Condition="Exists('$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets')">True</SSDTExists>
+    <VisualStudioVersion Condition="'$(SSDTExists)' == ''">11.0</VisualStudioVersion>
+  </PropertyGroup>
+  <Import Condition="'$(SQLDBExtensionsRefPath)' != ''" Project="$(SQLDBExtensionsRefPath)\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
+  <Import Condition="'$(SQLDBExtensionsRefPath)' == ''" Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
+  <ItemGroup>
+    <Folder Include="Properties" />
+    <Folder Include="Schema Compares" />
+    <Folder Include="Scripts" />
+    <Folder Include="dbo" />
+    <Folder Include="dbo\Tables" />
+    <Folder Include="dbo\Stored Procedures" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="dbo\README.txt" />
+    <None Include="Schema Compares\Local.scmp" />
+    <None Include="Scripts\V1.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <RefactorLog Include="TemplateV2.Database.refactorlog" />
+  </ItemGroup>
+  <ItemGroup>
+    <Build Include="dbo\Tables\Configuration.sql" />
+    <Build Include="dbo\Tables\Permission.sql" />
+    <Build Include="dbo\Tables\Role.sql" />
+    <Build Include="dbo\Tables\Role_Permission.sql" />
+    <Build Include="dbo\Tables\Session.sql" />
+    <Build Include="dbo\Tables\Session_Event.sql" />
+    <Build Include="dbo\Tables\Session_Log.sql" />
+    <Build Include="dbo\Tables\Session_Log_Event.sql" />
+    <Build Include="dbo\Tables\User.sql" />
+    <Build Include="dbo\Tables\User_Role.sql" />
+    <Build Include="dbo\Tables\User_Token.sql" />
+    <Build Include="dbo\Stored Procedures\sp_configuration_item_create.sql" />
+    <Build Include="dbo\Stored Procedures\sp_configuration_item_update.sql" />
+    <Build Include="dbo\Stored Procedures\sp_configuration_items_get.sql" />
+    <Build Include="dbo\Stored Procedures\sp_permission_create.sql" />
+    <Build Include="dbo\Stored Procedures\sp_permission_update.sql" />
+    <Build Include="dbo\Stored Procedures\sp_permissions_get.sql" />
+    <Build Include="dbo\Stored Procedures\sp_role_create.sql" />
+    <Build Include="dbo\Stored Procedures\sp_role_disable.sql" />
+    <Build Include="dbo\Stored Procedures\sp_role_enable.sql" />
+    <Build Include="dbo\Stored Procedures\sp_role_permission_create.sql" />
+    <Build Include="dbo\Stored Procedures\sp_role_permission_delete.sql" />
+    <Build Include="dbo\Stored Procedures\sp_role_permissions_get.sql" />
+    <Build Include="dbo\Stored Procedures\sp_role_update.sql" />
+    <Build Include="dbo\Stored Procedures\sp_roles_get.sql" />
+    <Build Include="dbo\Stored Procedures\sp_session_add_user_id.sql" />
+    <Build Include="dbo\Stored Procedures\sp_session_create.sql" />
+    <Build Include="dbo\Stored Procedures\sp_session_event_create.sql" />
+    <Build Include="dbo\Stored Procedures\sp_session_event_update.sql" />
+    <Build Include="dbo\Stored Procedures\sp_session_events_get.sql" />
+    <Build Include="dbo\Stored Procedures\sp_session_get_by_id.sql" />
+    <Build Include="dbo\Stored Procedures\sp_session_log_create.sql" />
+    <Build Include="dbo\Stored Procedures\sp_session_log_event_create.sql" />
+    <Build Include="dbo\Stored Procedures\sp_session_log_events_get_by_session_id.sql" />
+    <Build Include="dbo\Stored Procedures\sp_session_logs_get_by_session_id.sql" />
+    <Build Include="dbo\Stored Procedures\sp_sessions_get_by_date.sql" />
+    <Build Include="dbo\Stored Procedures\sp_sessions_get_by_start_date.sql" />
+    <Build Include="dbo\Stored Procedures\sp_sessions_get_by_user_id.sql" />
+    <Build Include="dbo\Stored Procedures\sp_user_activate.sql" />
+    <Build Include="dbo\Stored Procedures\sp_user_add_invalid_login_attempt.sql" />
+    <Build Include="dbo\Stored Procedures\sp_user_create.sql" />
+    <Build Include="dbo\Stored Procedures\sp_user_disable.sql" />
+    <Build Include="dbo\Stored Procedures\sp_user_duplicate_check.sql" />
+    <Build Include="dbo\Stored Procedures\sp_user_enable.sql" />
+    <Build Include="dbo\Stored Procedures\sp_user_get_by_email.sql" />
+    <Build Include="dbo\Stored Procedures\sp_user_get_by_id.sql" />
+    <Build Include="dbo\Stored Procedures\sp_user_get_by_mobile_number.sql" />
+    <Build Include="dbo\Stored Procedures\sp_user_get_by_username.sql" />
+    <Build Include="dbo\Stored Procedures\sp_user_lockout.sql" />
+    <Build Include="dbo\Stored Procedures\sp_user_role_create.sql" />
+    <Build Include="dbo\Stored Procedures\sp_user_role_delete.sql" />
+    <Build Include="dbo\Stored Procedures\sp_user_roles_get.sql" />
+    <Build Include="dbo\Stored Procedures\sp_user_roles_get_by_user_id.sql" />
+    <Build Include="dbo\Stored Procedures\sp_user_token_create.sql" />
+    <Build Include="dbo\Stored Procedures\sp_user_token_get_by_guid.sql" />
+    <Build Include="dbo\Stored Procedures\sp_user_token_process.sql" />
+    <Build Include="dbo\Stored Procedures\sp_user_unlock.sql" />
+    <Build Include="dbo\Stored Procedures\sp_user_update.sql" />
+    <Build Include="dbo\Stored Procedures\sp_user_update_password.sql" />
+    <Build Include="dbo\Stored Procedures\sp_users_get.sql" />
+    <Build Include="dbo\Stored Procedures\sp_session_log_events_get_by_user_id.sql" />
+    <Build Include="dbo\Stored Procedures\sp_user_permissions_get_by_user_id.sql" />
+    <Build Include="dbo\Tables\User_Permission.sql" />
+  </ItemGroup>
+</Project>

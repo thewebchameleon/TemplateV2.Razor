@@ -1,0 +1,75 @@
+﻿@page
+@model LoginModel
+@{
+    ViewData["Title"] = "Login";
+    Layout = "~/Pages/Shared/_LayoutEmpty.cshtml";
+}
+
+<div class="container">
+
+    <!-- Outer Row -->
+    <div class="row justify-content-center">
+
+        <div class="col-xl-10 col-lg-12 col-md-9">
+
+            <div class="card o-hidden border-0 shadow-lg my-5">
+                <div class="card-body p-0">
+                    <!-- Nested Row within Card Body -->
+                    <div class="row">
+                        <div class="col-lg-6 d-none d-lg-block bg-login-image"></div>
+                        <div class="col-lg-6">
+                            <div class="p-5">
+                                <div class="text-center">
+                                    <h1 class="small text-gray-500 mb-4">Template <sup>V2</sup></h1>
+                                    <h1 class="h4 text-gray-900 mb-4">Login</h1>
+                                </div>
+                                <form class="user" method="post" role="form" asp-route-returnurl="@ViewData["ReturnUrl"]">
+                                    <div asp-validation-summary="All" class="text-danger"></div>
+                                    <div class="form-group">
+                                        <input asp-for="FormData.Username" class="form-control form-control-user" placeholder="Username">
+                                        <span asp-validation-for="FormData.Username" class="text-danger"></span>
+                                    </div>
+                                    <div class="form-group">
+                                        <input asp-for="FormData.Password" class="form-control form-control-user" placeholder="Password">
+                                        <span asp-validation-for="FormData.Password" class="text-danger"></span>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="custom-control custom-checkbox small">
+                                            <input asp-for="FormData.RememberMe" type="checkbox" class="custom-control-input" id="customCheck">
+                                            <label asp-for="FormData.RememberMe" class="custom-control-label" for="customCheck">Remember Me</label>
+                                        </div>
+                                    </div>
+                                    <button class="btn btn-primary btn-user btn-block" type="submit">
+                                        Login
+                                    </button>
+                                    <hr>
+                                    <div class="text-center">
+                                        <a href="index.html" class="btn btn-google btn-circle btn-lg">
+                                            <i class="fab fa-google fa-fw"></i>
+                                        </a>
+                                        <a href="index.html" class="btn btn-facebook btn-circle btn-lg">
+                                            <i class="fab fa-facebook-f fa-fw"></i>
+                                        </a>
+                                        <a href="index.html" class="btn btn-microsoft btn-circle btn-lg">
+                                            <i class="fab fa-microsoft fa-fw"></i>
+                                        </a>
+                                    </div>
+                                </form>
+                                <hr>
+                                <div class="text-center">
+                                    <a class="small" asp-page="/Account/ForgotPassword">Forgot Password?</a>
+                                </div>
+                                <div class="text-center">
+                                    <a class="small" asp-page="/Account/Register">Create an Account</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

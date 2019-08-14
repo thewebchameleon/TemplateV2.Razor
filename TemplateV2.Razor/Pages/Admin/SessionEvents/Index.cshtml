@@ -1,0 +1,67 @@
+﻿@page
+@model ManageSessionEventsModel
+@{
+    ViewData["Title"] = "Manage Session Events";
+}
+
+<!-- Begin Page Content -->
+<div class="container-fluid">
+
+    <!-- Page Heading -->
+    <h1 class="h3 mb-4 text-gray-800">@ViewData["Title"] </h1>
+
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <div class="panel-controls" asp-permission="@PermissionKeys.ManageSessionEvents">
+                <a asp-page="/Admin/SessionEvents/Create" class="btn btn-primary">Create</a>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table id="dataTable" class="table table-striped" style="width: 100%;" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>Key</th>
+                            <th>Description</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var sessionEvent in Model.SessionEvents)
+                        {
+                        <tr>
+                            <td>@sessionEvent.Key</td>
+                            <td>@sessionEvent.Description</td>
+                            <td>
+                                <a asp-page="/Admin/SessionEvents/Edit" asp-route-id="@sessionEvent.Id">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                            </td>
+                        </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>
+<!-- /.container-fluid -->
+@section Scripts  {
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+
+            var table = $('#dataTable').DataTable({
+                columnDefs: [
+                    { orderable: false, targets: -1 },
+                    {  }
+                ]
+            });
+
+        });
+
+    </script>
+
+}

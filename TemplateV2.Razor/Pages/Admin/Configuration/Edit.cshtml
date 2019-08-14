@@ -1,0 +1,127 @@
+﻿@page
+@model EditConfigurationModel
+@{
+    ViewData["Title"] = "Edit Configuration";
+}
+
+<!-- Begin Page Content -->
+<div class="container-fluid">
+
+    <!-- Page Heading -->
+    <h1 class="h3 mb-4 text-gray-800">@ViewData["Title"]</h1>
+
+    <div class="row justify-content-center">
+
+        <div class="col-xl-10 col-lg-12 col-md-9">
+
+            <div class="card border-0 shadow-lg">
+                <div class="card-body p-0">
+                    <!-- Nested Row within Card Body -->
+                    <div class="px-5 py-4">
+                        <form asp-controller="Admin" asp-action="CreateConfigurationItem" method="post" class="form-horizontal" role="form">
+                            <div asp-validation-summary="All" class="text-danger"></div>
+                            <div class="form-group">
+                                <label asp-for="Key" class="control-label"></label>
+                                <input asp-for="Key" class="form-control" readonly />
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="FormData.Description" class="control-label"></label>
+                                <textarea asp-for="FormData.Description" class="form-control"></textarea>
+                                <span asp-validation-for="FormData.Description" class="text-danger"></span>
+                            </div>
+                            @if (Model.FormData.BooleanValue.HasValue)
+                            {
+                                <div class="form-group">
+                                    <label asp-for="FormData.BooleanValue" class="control-label"></label>
+
+                                    <div>
+                                        <label class="stage-selector-radio">
+                                            <input asp-for="FormData.BooleanValue" type="radio" class="form-check-input" value="@true" />
+                                            <i class="fas fa-check bg-success"></i>
+                                            <span>On</span>
+                                        </label>
+                                        <label class="stage-selector-radio mb-3">
+                                            <input asp-for="FormData.BooleanValue" type="radio" class="form-check-input" value="@false" />
+                                            <i class="fas fa-times bg-danger"></i>
+                                            <span>Off</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            }
+                            @if (Model.FormData.IntValue.HasValue)
+                            {
+                                <div class="form-group">
+                                    <label asp-for="FormData.IntValue" class="control-label"></label>
+                                    <input asp-for="FormData.IntValue" class="form-control" />
+                                    <span asp-validation-for="FormData.IntValue" class="text-danger"></span>
+                                </div>
+                            }
+                            @if (Model.FormData.DecimalValue.HasValue)
+                            {
+                                <div class="form-group">
+                                    <label asp-for="FormData.DecimalValue" class="control-label"></label>
+                                    <input asp-for="FormData.DecimalValue" class="form-control" />
+                                    <span asp-validation-for="FormData.DecimalValue" class="text-danger"></span>
+                                </div>
+                            }
+                            @if (Model.FormData.MoneyValue.HasValue)
+                            {
+                                <div class="form-group">
+                                    <label asp-for="FormData.MoneyValue" class="control-label"></label>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text">R</div>
+                                        </div>
+                                        <input asp-for="FormData.MoneyValue" class="form-control" />
+                                    </div>
+                                    <span asp-validation-for="FormData.MoneyValue" class="text-danger"></span>
+                                </div>
+                            }
+                            @if (Model.FormData.DateTimeValue.HasValue)
+                            {
+                                <div class="form-group">
+                                    <label asp-for="FormData.DateTimeValue" class="control-label"></label>
+                                    <input asp-for="FormData.DateTimeValue" class="form-control" />
+                                    <span asp-validation-for="FormData.DateTimeValue" class="text-danger"></span>
+                                </div>
+                            }
+                            @if (Model.FormData.DateValue.HasValue)
+                            {
+                                <div class="form-group">
+                                    <label asp-for="FormData.DateValue" class="control-label"></label>
+                                    <input asp-for="FormData.DateValue" class="form-control" />
+                                    <span asp-validation-for="FormData.DateValue" class="text-danger"></span>
+                                </div>
+                            }
+                            @if (Model.FormData.TimeValue.HasValue)
+                            {
+                                <div class="form-group">
+                                    <label asp-for="FormData.TimeValue" class="control-label"></label>
+                                    <input asp-for="FormData.TimeValue" class="form-control" />
+                                    <span asp-validation-for="FormData.TimeValue" class="text-danger"></span>
+                                </div>
+                            }
+                            @if (!string.IsNullOrEmpty(Model.FormData.StringValue))
+                            {
+                                <div class="form-group">
+                                    <label asp-for="FormData.StringValue" class="control-label"></label>
+                                    <input asp-for="FormData.StringValue" class="form-control" />
+                                    <span asp-validation-for="FormData.StringValue" class="text-danger"></span>
+                                </div>
+                            }
+
+                            <div class="form-group my-4">
+                                <button type="submit" class="btn btn-primary btn-block">Update</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+
+</div>
+<!-- /.container-fluid -->

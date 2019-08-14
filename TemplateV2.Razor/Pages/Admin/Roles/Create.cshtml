@@ -1,0 +1,53 @@
+﻿@page
+@model CreateRoleModel
+@{
+    ViewData["Title"] = "Create Role";
+}
+
+<!-- Begin Page Content -->
+<div class="container-fluid">
+
+    <!-- Page Heading -->
+    <h1 class="h3 mb-4 text-gray-800">@ViewData["Title"]</h1>
+
+    <div class="row justify-content-center">
+
+        <div class="col-xl-10 col-lg-12 col-md-9">
+
+            <div class="card border-0 shadow-lg">
+                <div class="card-body p-0">
+                    <!-- Nested Row within Card Body -->
+                    <div class="px-5 py-4">
+                        <form asp-controller="Admin" asp-action="CreateRole" method="post" class="form-horizontal" role="form">
+                            <div asp-validation-summary="All" class="text-danger"></div>
+                            <div class="form-group">
+                                <label asp-for="FormData.Name" class="control-label"></label>
+                                <input asp-for="FormData.Name" class="form-control" />
+                                <span asp-validation-for="FormData.Name" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="FormData.Description" class="control-label"></label>
+                                <input asp-for="FormData.Description" class="form-control" />
+                                <span asp-validation-for="FormData.Description" class="text-danger"></span>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label asp-for="FormData.PermissionIds" class="control-label"></label>
+                                    <multiselect asp-for="FormData.PermissionIds" asp-items="Model.PermissionsLookup.Select(i => new SelectListItem() { Text = i.Name, Value = i.Id.ToString(), Group = new SelectListGroup() { Name = i.Group_Name }})"></multiselect>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-primary btn-block">Create</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+
+</div>
+<!-- /.container-fluid -->

@@ -1,0 +1,128 @@
+﻿@page
+@model ActivityLogModel
+@{
+    ViewData["Title"] = $"Activity Log";
+}
+
+<!-- Begin Page Content -->
+<div class="container-fluid">
+
+    <!-- Page Heading -->
+    <h1 class="h3 mb-4 text-gray-800">@ViewData["Title"] </h1>
+
+    <div class="card shadow mb-4">
+        <div class="card-header py-3 ">
+
+            <div class="row">
+                <div class="col-6"><strong>Username:</strong> @Model.UserEntity.Username</div>
+                <div class="col-6 text-right"><strong>User Id:</strong> @Model.UserEntity.Id</div>
+            </div>
+
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table id="dataTable" class="table table-borderless" style="width: 100%;" cellspacing="0">
+                    <thead class="d-none"></thead>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- /.container-fluid -->
+@section Scripts  {
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+        var groupedColumn = 0;
+        var table = $('#dataTable').DataTable({
+            ajax: {
+                url: '/Account/ActivityLog?handler=Data',
+                dataSrc: "activityLogs"
+            },
+            columns: [
+                {
+                    data: "date",
+                    render: function (data) {
+                        return moment(data).format('YYYYMMDD');
+                    }
+                },
+                {
+                    name: "time",
+                    data: "date",
+                    orderDataType: 'time',
+                    render: {
+                        display: function(data) {
+                            return moment(data).format('hh:mm A');
+                        },
+                        sort: function (data) {
+                            return moment(data).unix();
+                        }
+                    }
+                },
+                {
+                    data: "description",
+                    render: function (data, type, row, meta) {
+
+                        var icon = '<i class="fas fa-check-circle text-success mr-3"></i>';
+                        if (row.type == '2') { // error
+                            icon = '<i class="fas fa-exclamation-circle text-danger mr-3"></i>';
+                        }
+
+                        var tooltipList = buildTooltipList(row.info);
+                        if (tooltipList.length > 0) {
+                            var info = '<i class="fas fa-info-circle text-primary mr-3" data-toggle="tooltip" data-placement="left" data-html="true" title="' + tooltipList + '"></i>';
+                            return info + icon + data;
+                        } else {
+                            return icon + data;
+                        }
+                    }
+                }
+            ],
+            columnDefs: [
+                { targets: groupedColumn, visible: false },
+                { targets: 1, type: 'time' }
+            ],
+            order: [
+                [0, 'desc'],
+                [1, 'desc']
+            ],
+            processing: true,
+            language: {
+                processing: '<div class="spinner-border text-primary" role="status"></div>'
+            },
+            drawCallback: function (settings) {
+                resetToolTips();
+
+                var api = this.api();
+                var rows = api.rows({ page: 'current' }).nodes();
+                var last = null;
+
+                api.column(groupedColumn, { page: 'current' }).data().each(function (group, i) {
+
+                    var date = new Date(group);
+                    date.setHours(0);
+                    date.setMinutes(0);
+                    date.setSeconds(0);
+
+                    group = date.toString();
+
+                    if (last !== group) {
+                        $(rows).eq(i).before(
+                            '<tr class="group"><td colspan="5" class="font-weight-bold bg-primary text-white">' + moment(date).format('dddd - Do MMMM YYYY') + '</td></tr>'
+                        );
+
+                        last = group;
+                    }
+                });
+            }
+        });
+
+    });
+
+</script>
+
+}

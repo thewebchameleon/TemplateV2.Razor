@@ -1,0 +1,47 @@
+﻿<div id="notifications-container" class="position-absolute w-100 d-flex flex-column" style="top: 0">
+    @{
+        var rawNotifications = TempData["Notifications"] as string;
+        if (!string.IsNullOrEmpty(rawNotifications))
+        {
+            var notifications = JsonConvert.DeserializeObject<List<Notification>>(rawNotifications);
+            @foreach (var notification in notifications)
+            {
+                <div class="toast ml-auto m-4" role="alert">
+                    <div class="toast-header @GetNotificationHeadingColour(notification.Type)">
+                        <strong class="mr-auto text-white">@notification.Type.ToString()</strong>
+                        @*<small class="text-muted">666 mins ago</small>*@
+                        <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    <div class="toast-body">
+                        @Html.Raw(notification.Message)
+                    </div>
+                </div>
+            }
+        }
+    }
+</div>
+
+@functions {
+    public string GetNotificationHeadingColour(NotificationTypeEnum type)
+    {
+        if (type == NotificationTypeEnum.Information)
+        {
+            return "bg-primary";
+        }
+        if (type == NotificationTypeEnum.Error)
+        {
+            return "bg-danger";
+        }
+        if (type == NotificationTypeEnum.Success)
+        {
+            return "bg-success";
+        }
+        if (type == NotificationTypeEnum.Warning)
+        {
+            return "bg-warning";
+        }
+        return "bg-primary";
+    }
+}

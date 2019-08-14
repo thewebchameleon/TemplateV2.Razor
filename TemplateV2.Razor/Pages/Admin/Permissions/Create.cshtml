@@ -1,0 +1,58 @@
+﻿@page
+@model CreatePermissionModel
+@{
+    ViewData["Title"] = "Create Permission";
+}
+
+<!-- Begin Page Content -->
+<div class="container-fluid">
+
+    <!-- Page Heading -->
+    <h1 class="h3 mb-4 text-gray-800">@ViewData["Title"]</h1>
+
+    <div class="row justify-content-center">
+
+        <div class="col-xl-10 col-lg-12 col-md-9">
+
+            <div class="card border-0 shadow-lg">
+                <div class="card-body p-0">
+                    <!-- Nested Row within Card Body -->
+                    <div class="px-5 py-4">
+                        <p>Please remember to add any new Keys to the application source code</p>
+                        <form asp-controller="Admin" asp-action="CreatePermission" method="post" class="form-horizontal" role="form">
+                            <div asp-validation-summary="All" class="text-danger"></div>
+                            <div class="form-group">
+                                <label asp-for="FormData.Key" class="control-label"></label>
+                                <input asp-for="FormData.Key" class="form-control" />
+                                <span asp-validation-for="FormData.Key" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="FormData.Name" class="control-label"></label>
+                                <input asp-for="FormData.Name" class="form-control" />
+                                <span asp-validation-for="FormData.Name" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="FormData.GroupName" class="control-label"></label>
+                                <input asp-for="FormData.GroupName" class="form-control" />
+                                <span asp-validation-for="FormData.GroupName" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="FormData.Description" class="control-label"></label>
+                                <textarea asp-for="FormData.Description" class="form-control"></textarea>
+                                <span asp-validation-for="FormData.Description" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-primary">Create</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+
+</div>
+<!-- /.container-fluid -->

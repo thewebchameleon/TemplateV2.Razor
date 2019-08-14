@@ -1,0 +1,191 @@
+﻿@page
+@model ViewSessionModel
+@{
+    ViewData["Title"] = "Session";
+}
+
+<!-- Begin Page Content -->
+<div class="container-fluid">
+
+    <!-- Page Heading -->
+    <h1 class="h3 mb-4 text-gray-800">@ViewData["Title"] </h1>
+
+    <div class="card shadow mb-4">
+        <div class="card-header py-3 ">
+
+            <div class="row">
+                <div class="col-6"><strong>Session Id:</strong> @Model.SessionEntity.Id</div>
+                <div class="col-6 text-right"><strong>Date:</strong> @Model.SessionEntity.Created_Date.ToLongDateTimeString()</div>
+                @if (Model.UserEntity != null)
+                {
+                    <div class="col-12"><strong>Username:</strong> @Model.UserEntity.Username</div>
+                }
+            </div>
+
+        </div>
+        <div class="card-body py-0">
+            <div class="table-responsive">
+                <table id="dataTable" class="table table-borderless" style="width: 100%;" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>Time</th>
+                            <th>Method</th>
+                            <th>Route</th>
+                            <th>Handler</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- /.container-fluid -->
+@section Scripts  {
+
+    <script type="text/javascript">
+
+    $(document).ready(function () {
+
+        var table = $('#dataTable').DataTable({
+            ajax: {
+                url: '/Admin/Sessions/View?handler=Data&id=@Model.Id',
+                dataSrc: "logs",
+                complete: expandRows
+            },
+            columns: [
+                {
+                    data: "entity.created_Date",
+                    render: {
+                        display: function (data) {
+                            return moment(data).format('hh:mm A');
+                        },
+                        sort: function (data) {
+                            return moment(data).unix();
+                        }
+                    }
+                },
+                {
+                    data: "entity.method",
+                    render: {
+                        display: function (data) {
+
+                            if (data == 'GET') {
+                                 return '<i class="fas fa-arrow-right text-primary mr-3"></i>' + data;
+                            }
+                            if (data == 'POST') {
+                                 return '<i class="fas fa-arrow-left text-info mr-3"></i>' + data;
+                            }
+                            return data;
+                        }
+                    }
+                },
+                {
+                    data: "entity.page",
+                    render: function (data, type, row, meta) {
+                        var page = '';
+                        if (data.startsWith('/')) {
+                            data = data.substring(1, data.length);
+                        }
+
+                        if (row.entity.isAJAX === false) {
+                            page += '<i class="far fa-file mr-3" data-toggle="tooltip" data-placement="left" title="Page"></i>';
+                        } else {
+                            page += '<i class="fas fa-globe mr-3 text-primary" data-toggle="tooltip" data-placement="left" title="AJAX"></i>';
+                        }
+
+                        page += data
+
+                        return page;
+                    }
+                },
+                {
+                    data: "entity.handler_Name"
+                }
+            ],
+            columnDefs: [
+                { targets: 0, type: 'time' },
+                { targets: [1, 2, 3], orderable: false },
+            ],
+            order: [[0, 'asc']],
+            paging: false,
+            searching: false,
+            info: false,
+            processing: true,
+            language: {
+                processing: '<div class="spinner-border text-primary" role="status"></div>'
+            }
+        });
+
+        function expandRows() {
+            table.rows().every(function () {
+                var tr = $(this);
+                var row = table.row(tr);
+
+                var content = format(this.data())
+                if (content) {
+                    row.child(content).show();
+                    resetToolTips();
+                }
+            });
+        }
+
+    });
+
+    // format inner data
+    function format(d) {
+        // `d` is the original data object for the row
+
+        var hasEvents = d.events.length > 0;
+        var hasPostData = (d.entity.action_Data_JSON || '') != '';
+
+        if (hasEvents || hasPostData) {
+            var result = '<div class="table-responsive text-nowrap table-child bg-gray-100"><table class="table-borderless" style="width:100%;margin-bottom:0;" cellspacing="0">';
+
+            if (hasPostData) {
+                result += '<tr>';
+                result += '<td colspan="2"><i class="fas fa-globe mr-3"></i>' + d.entity.url + '</td>';
+                result += '</tr>';
+
+                result += '<tr>';
+                result += '<td class="json-compact-text" colspan="2">' + prettyPrintJson.toHtml(JSON.parse(d.entity.action_Data_JSON), undefined, 2) + '</td>';
+                result += '</tr>';
+            }
+
+            if (hasEvents) {
+                $.each(d.events, function (i, item) {
+                    result += '<tr>';
+                    result += '<td>';
+
+                    var tooltipList = buildTooltipList(item.info);
+                    if (tooltipList.length > 0) {
+                        var info = '<i class="fas fa-info-circle text-primary mr-3" data-toggle="tooltip" data-placement="top" data-html="true" title="' + tooltipList + '"></i>';
+                        result += info;
+                    }
+
+                    result += '<i class="' + getIcon(item.event) + ' mr-3"></i>';
+                    result += item.event.description;
+                    result += '</td>';
+
+                    result += '</tr>';
+
+                });
+            }
+
+            return result + '</table></div>';
+
+        }
+        return null;
+    }
+
+    function getIcon(event) {
+        if (event.key == 'ERROR') {
+            return 'fas fa-exclamation-circle text-danger';
+        }
+        return 'fas fa-check-circle text-success';
+    }
+
+    </script>
+
+}

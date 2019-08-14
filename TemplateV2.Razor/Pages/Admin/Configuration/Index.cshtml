@@ -1,0 +1,72 @@
+﻿@page
+@model ManageConfigurationModel
+@{
+    ViewData["Title"] = "Manage Configuration";
+}
+
+<!-- Begin Page Content -->
+<div class="container-fluid">
+
+    <!-- Page Heading -->
+    <h1 class="h3 mb-4 text-gray-800">@ViewData["Title"] </h1>
+
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <div class="panel-controls" asp-permission="@PermissionKeys.ManageConfiguration">
+                <a asp-page="/Admin/Configuration/Create" class="btn btn-primary">Create</a>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table id="dataTable" class="table table-striped" style="width: 100%;" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>Key</th>
+                            <th>Value</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var configurationItem in Model.ConfigurationItems)
+                        {
+                        <tr>
+                            <td>
+                                <span data-toggle="tooltip" data-placement="top" title="@configurationItem.Description">
+                                    <i class="fas fa-question-circle"></i>
+                                </span>
+                                @configurationItem.Key
+                            </td>
+                            <td>@configurationItem.GetDisplayValue()</td>
+                            <td>
+                                <a asp-page="/Admin/Configuration/Edit" asp-route-id="@configurationItem.Id">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                            </td>
+                        </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>
+<!-- /.container-fluid -->
+@section Scripts  {
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+
+            var table = $('#dataTable').DataTable({
+                columnDefs: [
+                    { orderable: false, targets: -1 },
+                    {  }
+                ]
+            });
+
+        });
+
+    </script>
+
+}

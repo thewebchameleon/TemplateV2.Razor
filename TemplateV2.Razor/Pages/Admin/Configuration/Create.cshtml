@@ -1,0 +1,249 @@
+﻿@page
+@model CreateConfigurationModel
+@{
+    ViewData["Title"] = "Create Configuration";
+}
+
+<!-- Begin Page Content -->
+<div class="container-fluid">
+    <i class="far fa-clock-o"></i>
+    <!-- Page Heading -->
+    <h1 class="h3 mb-4 text-gray-800">@ViewData["Title"]</h1>
+
+    <div class="row justify-content-center">
+
+        <div class="col-xl-10 col-lg-12 col-md-9">
+
+            <div class="card border-0 shadow-lg">
+                <div class="card-body p-0">
+                    <!-- Nested Row within Card Body -->
+                    <div class="px-5 py-4">
+                        <p>Please remember to add any new Keys to the application source code</p>
+                        <form asp-controller="Admin" asp-action="CreateConfigurationItem" method="post" class="form-horizontal" role="form">
+                            <div asp-validation-summary="All" class="text-danger"></div>
+                            <div class="form-group">
+                                <label asp-for="FormData.Key" class="control-label"></label>
+                                <input asp-for="FormData.Key" class="form-control" />
+                                <span asp-validation-for="FormData.Key" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="FormData.Description" class="control-label"></label>
+                                <textarea asp-for="FormData.Description" class="form-control" ></textarea>
+                                <span asp-validation-for="FormData.Description" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label">Value</label>
+                                <div class="btn-group-flex btn-group" role="group" aria-label="Basic example">
+                                    <button id="btnString" type="button" class="btn btn-secondary">
+                                        <i class="fas fa-font"></i>
+                                        <div>String</div>
+                                    </button>
+                                    <button id="btnBoolean" type="button" class="btn btn-secondary">
+                                        <i class="fas fa-genderless"></i>
+                                        <div>Boolean</div>
+                                    </button>
+                                    <button id="btnInt" type="button" class="btn btn-secondary">
+                                        <span class=" fa-1x">
+                                            <strong class="">123</strong>
+                                        </span>
+                                        <div>Integer</div>
+                                    </button>
+                                    <button id="btnDecimal" type="button" class="btn btn-secondary">
+                                        <span class=" fa-1x">
+                                            <strong class="">1.23</strong>
+                                        </span>
+                                        <div>Decimal</div>
+                                    </button>
+                                    <button id="btnMoney" type="button" class="btn btn-secondary">
+                                        <i class="fas fa-money-bill-alt"></i>
+                                        <div>Money</div>
+                                    </button>
+                                    <button id="btnDateTime" type="button" class="btn btn-secondary">
+                                        <i class="fas fa-calendar-day"></i>
+                                        <div>DateTime</div>
+                                    </button>
+                                    <button id="btnDate" type="button" class="btn btn-secondary">
+                                        <i class="fas fa-calendar"></i>
+                                        <div>Date</div>
+                                    </button>
+                                    <button id="btnTime" type="button" class="btn btn-secondary">
+                                        <i class="far fa-clock"></i>
+                                        <div>Time</div>
+                                    </button>
+                                </div>
+                            </div>
+                            <div id="groupString" class="form-group" style="display: none;">
+                                <label asp-for="FormData.StringValue" class="control-label"></label>
+                                <input asp-for="FormData.StringValue" class="form-control" />
+                                <span asp-validation-for="FormData.StringValue" class="text-danger"></span>
+                            </div>
+                            <div id="groupBoolean" class="form-group" style="display: none;">
+                                <label asp-for="FormData.BooleanValue" class="control-label"></label>
+
+                                <div>
+                                    <label class="stage-selector-radio">
+                                        <input asp-for="FormData.BooleanValue" type="radio" class="form-check-input" value="@true" />
+                                        <i class="fas fa-check bg-success"></i>
+                                        <span>On</span>
+                                    </label>
+                                    <label class="stage-selector-radio mb-3">
+                                        <input asp-for="FormData.BooleanValue" type="radio" class="form-check-input" value="@false" />
+                                        <i class="fas fa-times bg-danger"></i>
+                                        <span>Off</span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div id="groupInt" class="form-group" style="display: none;">
+                                <label asp-for="FormData.IntValue" class="control-label"></label>
+                                <input asp-for="FormData.IntValue" class="form-control" />
+                                <span asp-validation-for="FormData.IntValue" class="text-danger"></span>
+                            </div>
+                            <div id="groupDecimal" class="form-group" style="display: none;">
+                                <label asp-for="FormData.DecimalValue" class="control-label"></label>
+                                <input asp-for="FormData.DecimalValue" class="form-control" />
+                                <span asp-validation-for="FormData.DecimalValue" class="text-danger"></span>
+                            </div>
+                            <div id="groupMoney" class="form-group" style="display: none;">
+                                <label asp-for="FormData.MoneyValue" class="control-label"></label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text">R</div>
+                                    </div>
+                                    <input asp-for="FormData.MoneyValue" class="form-control" />
+                                </div>
+                                <span asp-validation-for="FormData.MoneyValue" class="text-danger"></span>
+                            </div>
+                            <div id="groupDateTime" class="form-group" style="display: none;">
+                                <label asp-for="FormData.DateTimeValue" class="control-label"></label>
+                                <div id="dateDateTime" class="input-group mb-3 date datetimepicker" data-target-input="nearest">
+                                    <input asp-for="FormData.DateTimeValue" type="text" class="form-control datetimepicker-input" data-target="#dateDateTime" />
+                                    <div class="input-group-append" data-target="#dateDateTime" data-toggle="datetimepicker">
+                                        <div class="input-group-text bg-primary text-white">
+                                            <i class="fas fa-calendar-day"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <span asp-validation-for="FormData.DateTimeValue" class="text-danger"></span>
+                            </div>
+                            <div id="groupDate" class="form-group" style="display: none;">
+                                <label asp-for="FormData.DateValue" class="control-label"></label>
+                                <div id="dateDay" class="input-group mb-3 date datepicker" data-target-input="nearest">
+                                    <input asp-for="FormData.DateValue" type="text" class="form-control datetimepicker-input" data-target="#dateDay" />
+                                    <div class="input-group-append" data-target="#dateDay" data-toggle="datetimepicker">
+                                        <div class="input-group-text bg-primary text-white">
+                                            <i class="fas fa-calendar-day"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <span asp-validation-for="FormData.DateValue" class="text-danger"></span>
+                            </div>
+                            <div id="groupTime" class="form-group" style="display: none;">
+                                <label asp-for="FormData.TimeValue" class="control-label"></label>
+                                <div id="dateTime" class="input-group mb-3 date timepicker" data-target-input="nearest">
+                                    <input asp-for="FormData.TimeValue" type="text" class="form-control datetimepicker-input" data-target="#dateTime" />
+                                    <div class="input-group-append" data-target="#dateTime" data-toggle="datetimepicker">
+                                        <div class="input-group-text bg-primary text-white">
+                                            <i class="fas fa-clock"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <span asp-validation-for="FormData.TimeValue" class="text-danger"></span>
+                            </div>
+
+                            <div id="groupCreate" class="form-group my-4" style="display: none;">
+                                <button type="submit" class="btn btn-primary btn-block my-3">Create</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+
+</div>
+<!-- /.container-fluid -->
+@section Scripts  {
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+        $("#btnString").click(function () {
+            collapseFields();
+            $(this).addClass('active');
+            $("#groupString").show();
+            $("#groupCreate").show();
+        });
+
+        $("#btnBoolean").click(function () {
+            collapseFields();
+            $(this).addClass('active');
+            $("#groupBoolean").show();
+            $("#groupCreate").show();
+        });
+
+        $("#btnInt").click(function () {
+            collapseFields();
+            $(this).addClass('active');
+            $("#groupInt").show();
+            $("#groupCreate").show();
+        });
+
+        $("#btnDecimal").click(function () {
+            collapseFields();
+            $(this).addClass('active');
+            $("#groupDecimal").show();
+            $("#groupCreate").show();
+        });
+
+        $("#btnMoney").click(function () {
+            collapseFields();
+            $(this).addClass('active');
+            $("#groupMoney").show();
+            $("#groupCreate").show();
+        });
+
+        $("#btnDateTime").click(function () {
+            collapseFields();
+            $(this).addClass('active');
+            $("#groupDateTime").show();
+            $("#groupCreate").show();
+        });
+
+        $("#btnDate").click(function () {
+            collapseFields();
+            $(this).addClass('active');
+            $("#groupDate").show();
+            $("#groupCreate").show();
+        });
+
+        $("#btnTime").click(function () {
+            collapseFields();
+            $(this).addClass('active');
+            $("#groupTime").show();
+            $("#groupCreate").show();
+        });
+
+        collapseFields();
+    });
+
+    function collapseFields() {
+        $("#groupCreate").hide();
+        $("#groupString").hide();
+        $("#groupBoolean").hide();
+        $("#groupInt").hide();
+        $("#groupDecimal").hide();
+        $("#groupMoney").hide();
+        $("#groupDateTime").hide();
+        $("#groupDate").hide();
+        $("#groupTime").hide();
+
+        $(".btn-group-flex").children('button.active').removeClass('active');
+    }
+
+</script>
+
+}
