@@ -29,6 +29,9 @@ using TemplateV2.Infrastructure.Repositories.ServiceRepos.EmailTemplateRepo.Cont
 using TemplateV2.Infrastructure.Repositories.ServiceRepos.EmailTemplateRepo;
 using TemplateV2.Services.Managers.Contracts;
 using TemplateV2.Services.Managers;
+using System.Globalization;
+using Microsoft.AspNetCore.Localization;
+using System.Collections.Generic;
 
 namespace TemplateV2.Razor
 {
@@ -145,7 +148,17 @@ namespace TemplateV2.Razor
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            app.UseRequestLocalization(ApplicationConstants.CultureInfo);
+            app.UseRequestLocalization(options =>
+            {
+                options.DefaultRequestCulture = new RequestCulture(ApplicationConstants.SupportedCultures.First().Name);
+                options.SupportedCultures = ApplicationConstants.SupportedCultures;
+                options.SupportedUICultures = ApplicationConstants.SupportedCultures;
+                options.RequestCultureProviders = new List<IRequestCultureProvider>
+                {
+                    new QueryStringRequestCultureProvider(),
+                    new CookieRequestCultureProvider()
+                };
+            });
 
             if (env.IsDevelopment())
             {

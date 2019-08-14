@@ -9,10 +9,12 @@
 
     <title>@ViewData["Title"]</title>
 
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i">
-    <link rel="stylesheet" href="~/lib/fontawesome-free/css/all.min.css">
-    <link rel="stylesheet" href="~/css/framework.min.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="preload" as="style" onload="this.rel='stylesheet'">
+    <link href="~/lib/fontawesome-free/css/all.min.css" rel="preload" as="style" onload="this.rel='stylesheet'">
+    <link href="~/css/framework.min.css" rel="stylesheet" asp-append-version="true" />
+    <link href="~/css/site.min.css" rel="preload" as="style" onload="this.rel='stylesheet'" asp-append-version="true" />
+
+    <script src="~/js/framework.min.js" defer asp-append-version="true"></script>
 </head>
 <body id="page-top">
 
@@ -230,7 +232,6 @@
 
     @await Html.PartialAsync("_Notifications")
 
-    <script src="~/js/framework.min.js" asp-append-version="true"></script>
     <script src="~/js/site.min.js" asp-append-version="true"></script>
 
     @RenderSection("Scripts", required: false)

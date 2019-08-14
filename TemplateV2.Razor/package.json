@@ -37,9 +37,7 @@
     "jquery-validation-unobtrusive": "3.2.11",
     "pretty-print-json": "0.1.0",
     "countdown": "2.6.0",
-    "tempusdominus-bootstrap-4": "5.1.2",
-    "cldr": "5.3.0",
-    "globalize": "1.4.2"
+    "tempusdominus-bootstrap-4": "5.1.2"
   },
   "dependencies": {
     "jquery": "^3.4.1"

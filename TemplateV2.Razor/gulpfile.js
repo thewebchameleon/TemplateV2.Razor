@@ -40,11 +40,8 @@ gulp.task('build-scripts-framework', function () {
             './node_modules/pretty-print-json/dist/pretty-print-json.min.js',
             './node_modules/countdown/countdown.js',
             './wwwroot/lib/tempusdominus-bootstrap-4/tempusdominus-bootstrap-4.min.js',
-            './node_modules/clrd/lib/clrd.js',
-            './node_modules/globalize/dist/globalize-runtime.js',
-            './node_modules/globalize/dist/globalize/number.js',
-            './node_modules/globalize/dist/globalize/date.js',
-            './node_modules/globalize/dist/globalize/currency.js'
+            './wwwroot/lib/globalize/lib/globalize.js',
+            './wwwroot/lib/globalize/lib/globalize.culture.en-ZA.js'
         ])
         .pipe(concat('framework.min.js'))
         .pipe(gulp.dest('./wwwroot/js'));

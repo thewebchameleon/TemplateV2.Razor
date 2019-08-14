@@ -1,5 +1,5 @@
 ﻿const TOAST_DELAY = 6000;
-Globalize.locale('en-za');
+Globalize.culture('en-ZA');
 
 $(document).ready(function () {
 
