@@ -1,4 +1,4 @@
-# Template.Razor V2
+# Template.Razor V2 [![Build Status](https://dev.azure.com/adrianbrink/TemplateV2.Razor/_apis/build/status/thewebchameleon.TemplateV2.Razor?branchName=master)](https://dev.azure.com/adrianbrink/TemplateV2.Razor/_build/latest?definitionId=21&branchName=master)
 Intended for building **small self-contained business applications**, this template strives to be fast, secure and easy to understand.
 #### [Demo](https://templatev2-razor.azurewebsites.net/)
 #### Test User
