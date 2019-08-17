@@ -127,7 +127,6 @@ namespace TemplateV2.Services.Managers
 
                 await _sessionProvider.Set(SessionConstants.UserPermissions, permissions);
             }
-            permissions = new List<PermissionEntity>();
             return permissions;
         }
 
