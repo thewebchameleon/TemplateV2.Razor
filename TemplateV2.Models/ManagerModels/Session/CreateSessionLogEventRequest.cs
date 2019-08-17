@@ -13,13 +13,4 @@ namespace TemplateV2.Models.ManagerModels.Session
             Info = new Dictionary<string, string>();
         }
     }
-
-    public static class CreateSessionLogEventRequest_Extensions
-    {
-        public static CreateSessionLogEventRequest AddInfo(this CreateSessionLogEventRequest request, string key, string value)
-        {
-            request.Info.Add(key, value);
-            return request;
-        }
-    }
 }
