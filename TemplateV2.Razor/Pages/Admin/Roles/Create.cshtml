@@ -36,7 +36,7 @@
                                     <multiselect asp-for="FormData.PermissionIds" asp-items="Model.PermissionsLookup.Select(i => new SelectListItem() { Text = i.Name, Value = i.Id.ToString(), Group = new SelectListGroup() { Name = i.Group_Name }})"></multiselect>
                                 </div>
                             </div>
-                            <div class="form-group">
+                            <div class="form-group my-4">
                                 <button type="submit" class="btn btn-primary btn-block">Create</button>
                             </div>
                         </form>
