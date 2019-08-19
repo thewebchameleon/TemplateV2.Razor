@@ -1,8 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
-using TemplateV2.Models.ServiceModels.Admin;
 using TemplateV2.Models.ServiceModels.Admin.Configuration;
-using TemplateV2.Services.Contracts;
+using TemplateV2.Services.Admin.Contracts;
 
 namespace TemplateV2.Razor.Pages
 {
@@ -10,7 +9,7 @@ namespace TemplateV2.Razor.Pages
     {
         #region Private Fields
 
-        private readonly IAdminService _adminService;
+        private readonly IConfigurationService _configService;
 
         #endregion
 
@@ -23,9 +22,9 @@ namespace TemplateV2.Razor.Pages
 
         #region Constructors
 
-        public CreateConfigurationModel(IAdminService adminService)
+        public CreateConfigurationModel(IConfigurationService configService)
         {
-            _adminService = adminService;
+            _configService = configService;
         }
 
         #endregion
@@ -38,7 +37,7 @@ namespace TemplateV2.Razor.Pages
         {
             if (ModelState.IsValid)
             {
-                var response = await _adminService.CreateConfigurationItem(FormData);
+                var response = await _configService.CreateConfigurationItem(FormData);
                 if (response.IsSuccessful)
                 {
                     AddNotifications(response);

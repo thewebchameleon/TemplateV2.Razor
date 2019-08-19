@@ -1,10 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using TemplateV2.Models.ServiceModels.Admin.Sessions;
-using TemplateV2.Services.Contracts;
+using TemplateV2.Services.Admin.Contracts;
 
 namespace TemplateV2.Razor.Pages
 {
@@ -12,7 +11,7 @@ namespace TemplateV2.Razor.Pages
     {
         #region Private Fields
 
-        private readonly IAdminService _adminService;
+        private readonly ISessionService _sessionService;
 
         #endregion
 
@@ -24,9 +23,9 @@ namespace TemplateV2.Razor.Pages
 
         #region Constructors
 
-        public ManageSessionsModel(IAdminService adminService)
+        public ManageSessionsModel(ISessionService sessionService)
         {
-            _adminService = adminService;
+            _sessionService = sessionService;
             SessionExpirationMinutes = 1;
         }
 
@@ -39,7 +38,7 @@ namespace TemplateV2.Razor.Pages
 
         public async Task<JsonResult> OnGetLastXDays(int days)
         {
-            var response = await _adminService.GetSessions(new GetSessionsRequest()
+            var response = await _sessionService.GetSessions(new GetSessionsRequest()
             {
                 LastXDays = days
             });
@@ -49,7 +48,7 @@ namespace TemplateV2.Razor.Pages
 
         public async Task<JsonResult> OnGetFilterByDate(DateTime date)
         {
-            var response = await _adminService.GetSessions(new GetSessionsRequest()
+            var response = await _sessionService.GetSessions(new GetSessionsRequest()
             {
                 Day = date
             });
@@ -59,7 +58,7 @@ namespace TemplateV2.Razor.Pages
 
         public async Task<JsonResult> OnGetFilterByUserId(int userId)
         {
-            var response = await _adminService.GetSessions(new GetSessionsRequest()
+            var response = await _sessionService.GetSessions(new GetSessionsRequest()
             {
                 UserId = userId
             });
@@ -69,7 +68,7 @@ namespace TemplateV2.Razor.Pages
 
         public async Task<JsonResult> OnGetFilterByMobileNumber(string mobileNumber)
         {
-            var response = await _adminService.GetSessions(new GetSessionsRequest()
+            var response = await _sessionService.GetSessions(new GetSessionsRequest()
             {
                 MobileNumber = mobileNumber
             });
@@ -79,7 +78,7 @@ namespace TemplateV2.Razor.Pages
 
         public async Task<JsonResult> OnGetFilterByUsername(string username)
         {
-            var response = await _adminService.GetSessions(new GetSessionsRequest()
+            var response = await _sessionService.GetSessions(new GetSessionsRequest()
             {
                 Username = username
             });
@@ -89,7 +88,7 @@ namespace TemplateV2.Razor.Pages
 
         public async Task<JsonResult> OnGetRecent()
         {
-            var response = await _adminService.GetSessions(new GetSessionsRequest()
+            var response = await _sessionService.GetSessions(new GetSessionsRequest()
             {
                 Last24Hours = true
             });
@@ -99,7 +98,7 @@ namespace TemplateV2.Razor.Pages
 
         public async Task<JsonResult> OnGetFilterByEmailAddress(string emailAddress)
         {
-            var response = await _adminService.GetSessions(new GetSessionsRequest()
+            var response = await _sessionService.GetSessions(new GetSessionsRequest()
             {
                 EmailAddress = emailAddress
             });

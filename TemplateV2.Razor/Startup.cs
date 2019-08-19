@@ -32,6 +32,8 @@ using TemplateV2.Services.Managers;
 using System.Globalization;
 using Microsoft.AspNetCore.Localization;
 using System.Collections.Generic;
+using TemplateV2.Services.Admin;
+using TemplateV2.Services.Admin.Contracts;
 
 namespace TemplateV2.Razor
 {
@@ -67,8 +69,14 @@ namespace TemplateV2.Razor
             services.AddTransient<IUnitOfWorkFactory, UnitOfWorkFactory>();
 
             services.AddTransient<IAccountService, AccountService>();
-            services.AddTransient<IAdminService, AdminService>();
             services.AddTransient<IHomeService, HomeService>();
+
+            //admin
+            services.AddTransient<IConfigurationService, ConfigurationService>();
+            services.AddTransient<IPermissionsService, PermissionsService>();
+            services.AddTransient<IRoleService, RoleService>();
+            services.AddTransient<IUserService, UserService>();
+            services.AddTransient<ISessionService, SessionService>();
 
             services.AddTransient<IAuthenticationManager, AuthenticationManager>();
             services.AddTransient<ICacheManager, CacheManager>();

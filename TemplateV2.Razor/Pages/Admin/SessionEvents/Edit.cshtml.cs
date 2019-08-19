@@ -1,8 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
-using TemplateV2.Models.ServiceModels.Admin.Permissions;
 using TemplateV2.Models.ServiceModels.Admin.SessionEvents;
-using TemplateV2.Services.Contracts;
+using TemplateV2.Services.Admin.Contracts;
 
 namespace TemplateV2.Razor.Pages
 {
@@ -10,7 +9,7 @@ namespace TemplateV2.Razor.Pages
     {
         #region Private Fields
 
-        private readonly IAdminService _adminService;
+        private readonly ISessionService _sessionService;
 
         #endregion
 
@@ -28,16 +27,16 @@ namespace TemplateV2.Razor.Pages
 
         #region Constructors
 
-        public EditSessionEventModel(IAdminService adminService)
+        public EditSessionEventModel(ISessionService sessionService)
         {
-            _adminService = adminService;
+            _sessionService = sessionService;
         }
 
         #endregion
 
         public async Task OnGet()
         {
-            var response = await _adminService.GetSessionEvent(new GetSessionEventRequest()
+            var response = await _sessionService.GetSessionEvent(new GetSessionEventRequest()
             {
                 Id = Id
             });
@@ -54,7 +53,7 @@ namespace TemplateV2.Razor.Pages
             if (ModelState.IsValid)
             {
                 FormData.Id = Id;
-                var response = await _adminService.UpdateSessionEvent(FormData);
+                var response = await _sessionService.UpdateSessionEvent(FormData);
                 if (response.IsSuccessful)
                 {
                     AddNotifications(response);

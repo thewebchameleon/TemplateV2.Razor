@@ -1,11 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using System.Collections.Generic;
 using System.Threading.Tasks;
-using TemplateV2.Models.DomainModels;
-using TemplateV2.Models.ServiceModels.Admin;
 using TemplateV2.Models.ServiceModels.Admin.Configuration;
-using TemplateV2.Services.Contracts;
+using TemplateV2.Services.Admin.Contracts;
 
 namespace TemplateV2.Razor.Pages
 {
@@ -13,7 +9,7 @@ namespace TemplateV2.Razor.Pages
     {
         #region Private Fields
 
-        private readonly IAdminService _adminService;
+        private readonly IConfigurationService _configService;
 
         #endregion
 
@@ -31,16 +27,16 @@ namespace TemplateV2.Razor.Pages
 
         #region Constructors
 
-        public EditConfigurationModel(IAdminService adminService)
+        public EditConfigurationModel(IConfigurationService configService)
         {
-            _adminService = adminService;
+            _configService = configService;
         }
 
         #endregion
 
         public async Task OnGet()
         {
-            var response = await _adminService.GetConfigurationItem(new GetConfigurationItemRequest()
+            var response = await _configService.GetConfigurationItem(new GetConfigurationItemRequest()
             {
                 Id = Id
             });
@@ -63,7 +59,7 @@ namespace TemplateV2.Razor.Pages
             if (ModelState.IsValid)
             {
                 FormData.Id = Id;
-                var response = await _adminService.UpdateConfigurationItem(FormData);
+                var response = await _configService.UpdateConfigurationItem(FormData);
                 if (response.IsSuccessful)
                 {
                     AddNotifications(response);

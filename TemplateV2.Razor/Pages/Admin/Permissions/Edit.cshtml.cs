@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using TemplateV2.Models.ServiceModels.Admin.Permissions;
-using TemplateV2.Services.Contracts;
+using TemplateV2.Services.Admin.Contracts;
 
 namespace TemplateV2.Razor.Pages
 {
@@ -9,7 +9,7 @@ namespace TemplateV2.Razor.Pages
     {
         #region Private Fields
 
-        private readonly IAdminService _adminService;
+        private readonly IPermissionsService _permissionsService;
 
         #endregion
 
@@ -27,16 +27,16 @@ namespace TemplateV2.Razor.Pages
 
         #region Constructors
 
-        public EditPermissionModel(IAdminService adminService)
+        public EditPermissionModel(IPermissionsService permissionsService)
         {
-            _adminService = adminService;
+            _permissionsService = permissionsService;
         }
 
         #endregion
 
         public async Task OnGet()
         {
-            var response = await _adminService.GetPermission(new GetPermissionRequest()
+            var response = await _permissionsService.GetPermission(new GetPermissionRequest()
             {
                 Id = Id
             });
@@ -55,7 +55,7 @@ namespace TemplateV2.Razor.Pages
             if (ModelState.IsValid)
             {
                 FormData.Id = Id;
-                var response = await _adminService.UpdatePermission(FormData);
+                var response = await _permissionsService.UpdatePermission(FormData);
                 if (response.IsSuccessful)
                 {
                     AddNotifications(response);

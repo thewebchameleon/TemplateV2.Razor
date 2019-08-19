@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using TemplateV2.Models.DomainModels;
 using TemplateV2.Models.ServiceModels.Admin.Users;
-using TemplateV2.Services.Contracts;
+using TemplateV2.Services.Admin.Contracts;
 using TemplateV2.Services.Managers.Contracts;
 
 namespace TemplateV2.Razor.Pages
@@ -12,7 +12,7 @@ namespace TemplateV2.Razor.Pages
     {
         #region Private Fields
 
-        private readonly IAdminService _adminService;
+        private readonly IUserService _userService;
         private readonly ICacheManager _cache;
 
         #endregion
@@ -28,9 +28,9 @@ namespace TemplateV2.Razor.Pages
 
         #region Constructors
 
-        public CreateUserModel(IAdminService adminService, ICacheManager cache)
+        public CreateUserModel(IUserService userService, ICacheManager cache)
         {
-            _adminService = adminService;
+            _userService = userService;
             _cache = cache;
             RolesLookup = new List<RoleEntity>();
         }
@@ -47,7 +47,7 @@ namespace TemplateV2.Razor.Pages
         {
             if (ModelState.IsValid)
             {
-                var response = await _adminService.CreateUser(FormData);
+                var response = await _userService.CreateUser(FormData);
                 if (response.IsSuccessful)
                 {
                     AddNotifications(response);

@@ -1,9 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using System.Collections.Generic;
 using System.Threading.Tasks;
-using TemplateV2.Models.DomainModels;
-using TemplateV2.Services.Contracts;
+using TemplateV2.Services.Admin.Contracts;
 
 namespace TemplateV2.Razor.Pages
 {
@@ -11,7 +8,7 @@ namespace TemplateV2.Razor.Pages
     {
         #region Private Fields
 
-        private readonly IAdminService _adminService;
+        private readonly IRoleService _roleService;
 
         #endregion
 
@@ -22,9 +19,9 @@ namespace TemplateV2.Razor.Pages
 
         #region Constructors
 
-        public ManageRolesModel(IAdminService adminService)
+        public ManageRolesModel(IRoleService roleService)
         {
-            _adminService = adminService;
+            _roleService = roleService;
         }
 
         #endregion
@@ -35,13 +32,13 @@ namespace TemplateV2.Razor.Pages
 
         public async Task<JsonResult> OnGetData()
         {
-            var response = await _adminService.GetRoles();
+            var response = await _roleService.GetRoles();
             return new JsonResult(response);
         }
 
         public async Task<IActionResult> OnPostDisableRole(int id)
         {
-            var response = await _adminService.DisableRole(new Models.ServiceModels.Admin.Roles.DisableRoleRequest()
+            var response = await _roleService.DisableRole(new Models.ServiceModels.Admin.Roles.DisableRoleRequest()
             {
                 Id = id
             });
@@ -51,7 +48,7 @@ namespace TemplateV2.Razor.Pages
 
         public async Task<IActionResult> OnPostEnableRole(int id)
         {
-            var response = await _adminService.EnableRole(new Models.ServiceModels.Admin.Roles.EnableRoleRequest()
+            var response = await _roleService.EnableRole(new Models.ServiceModels.Admin.Roles.EnableRoleRequest()
             {
                 Id = id
             });

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using TemplateV2.Models.DomainModels;
 using TemplateV2.Models.ServiceModels.Admin.Users;
-using TemplateV2.Services.Contracts;
+using TemplateV2.Services.Admin.Contracts;
 using TemplateV2.Services.Managers.Contracts;
 
 namespace TemplateV2.Razor.Pages
@@ -13,7 +13,7 @@ namespace TemplateV2.Razor.Pages
     {
         #region Private Fields
 
-        private readonly IAdminService _adminService;
+        private readonly IUserService _userService;
         private readonly ICacheManager _cache;
 
         #endregion
@@ -34,9 +34,9 @@ namespace TemplateV2.Razor.Pages
 
         #region Constructors
 
-        public EditUserModel(IAdminService adminService, ICacheManager cache)
+        public EditUserModel(IUserService userService, ICacheManager cache)
         {
-            _adminService = adminService;
+            _userService = userService;
             _cache = cache;
             RolesLookup = new List<RoleEntity>();
         }
@@ -45,7 +45,7 @@ namespace TemplateV2.Razor.Pages
 
         public async Task OnGet()
         {
-            var response = await _adminService.GetUser(new GetUserRequest()
+            var response = await _userService.GetUser(new GetUserRequest()
             {
                 Id = Id
             });
@@ -67,7 +67,7 @@ namespace TemplateV2.Razor.Pages
             if (ModelState.IsValid)
             {
                 FormData.Id = Id;
-                var response = await _adminService.UpdateUser(FormData);
+                var response = await _userService.UpdateUser(FormData);
                 if (response.IsSuccessful)
                 {
                     AddNotifications(response);
@@ -75,7 +75,7 @@ namespace TemplateV2.Razor.Pages
                 }
                 AddFormErrors(response);
             }
-            var userResponse = await _adminService.GetUser(new GetUserRequest()
+            var userResponse = await _userService.GetUser(new GetUserRequest()
             {
                 Id = Id
             });
@@ -86,7 +86,7 @@ namespace TemplateV2.Razor.Pages
 
         public async Task<IActionResult> OnPostDisableUser(int id)
         {
-            var response = await _adminService.DisableUser(new Models.ServiceModels.Admin.Users.DisableUserRequest()
+            var response = await _userService.DisableUser(new Models.ServiceModels.Admin.Users.DisableUserRequest()
             {
                 Id = id
             });
@@ -96,7 +96,7 @@ namespace TemplateV2.Razor.Pages
 
         public async Task<IActionResult> OnPostEnableUser(int id)
         {
-            var response = await _adminService.EnableUser(new Models.ServiceModels.Admin.Users.EnableUserRequest()
+            var response = await _userService.EnableUser(new Models.ServiceModels.Admin.Users.EnableUserRequest()
             {
                 Id = id
             });
@@ -106,7 +106,7 @@ namespace TemplateV2.Razor.Pages
 
         public async Task<IActionResult> OnPostUnlockUser(int id)
         {
-            var response = await _adminService.UnlockUser(new Models.ServiceModels.Admin.Users.UnlockUserRequest()
+            var response = await _userService.UnlockUser(new Models.ServiceModels.Admin.Users.UnlockUserRequest()
             {
                 Id = id
             });
@@ -116,7 +116,7 @@ namespace TemplateV2.Razor.Pages
 
         public async Task<IActionResult> OnPostConfirmRegistration(int id)
         {
-            var response = await _adminService.ConfirmRegistration(new Models.ServiceModels.Admin.Users.ConfirmRegistrationRequest()
+            var response = await _userService.ConfirmRegistration(new Models.ServiceModels.Admin.Users.ConfirmRegistrationRequest()
             {
                 Id = id
             });
@@ -129,7 +129,7 @@ namespace TemplateV2.Razor.Pages
             ModelState.Clear(); // needed to prevent other forms being included in validation
             if (TryValidateModel(request))
             {
-                var response = await _adminService.GenerateResetPasswordUrl(request);
+                var response = await _userService.GenerateResetPasswordUrl(request);
                 if (response.IsSuccessful)
                 {
                     return new JsonResult(response);
@@ -145,7 +145,7 @@ namespace TemplateV2.Razor.Pages
             ModelState.Clear(); // needed to prevent other forms being included in validation
             if (TryValidateModel(request))
             {
-                var response = await _adminService.SendResetPasswordEmail(request);
+                var response = await _userService.SendResetPasswordEmail(request);
                 if (response.IsSuccessful)
                 {
                     return new JsonResult(response);

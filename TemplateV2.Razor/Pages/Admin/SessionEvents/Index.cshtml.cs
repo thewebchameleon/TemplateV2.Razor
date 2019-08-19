@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using TemplateV2.Models.DomainModels;
+using TemplateV2.Services.Admin.Contracts;
 using TemplateV2.Services.Contracts;
 
 namespace TemplateV2.Razor.Pages
@@ -10,7 +11,7 @@ namespace TemplateV2.Razor.Pages
     {
         #region Private Fields
 
-        private readonly IAdminService _adminService;
+        private readonly ISessionService _sessionService;
 
         #endregion
 
@@ -22,9 +23,9 @@ namespace TemplateV2.Razor.Pages
 
         #region Constructors
 
-        public ManageSessionEventsModel(IAdminService adminService)
+        public ManageSessionEventsModel(ISessionService sessionService)
         {
-            _adminService = adminService;
+            _sessionService = sessionService;
             SessionEvents = new List<SessionEventEntity>();
         }
 
@@ -32,7 +33,7 @@ namespace TemplateV2.Razor.Pages
 
         public async Task OnGet()
         {
-            var response = await _adminService.GetSessionEvents();
+            var response = await _sessionService.GetSessionEvents();
             SessionEvents = response.SessionEvents;
         }
     }

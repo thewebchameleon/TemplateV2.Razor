@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using TemplateV2.Models.DomainModels;
-using TemplateV2.Services.Contracts;
+using TemplateV2.Services.Admin.Contracts;
 
 namespace TemplateV2.Razor.Pages
 {
@@ -10,7 +10,7 @@ namespace TemplateV2.Razor.Pages
     {
         #region Private Fields
 
-        private readonly IAdminService _adminService;
+        private readonly IConfigurationService _configService;
 
         #endregion
 
@@ -22,9 +22,9 @@ namespace TemplateV2.Razor.Pages
 
         #region Constructors
 
-        public ManageConfigurationModel(IAdminService adminService)
+        public ManageConfigurationModel(IConfigurationService adminService)
         {
-            _adminService = adminService;
+            _configService = adminService;
             ConfigurationItems = new List<ConfigurationEntity>();
         }
 
@@ -32,7 +32,7 @@ namespace TemplateV2.Razor.Pages
 
         public async Task OnGet()
         {
-            var response = await _adminService.GetConfigurationItems();
+            var response = await _configService.GetConfigurationItems();
             ConfigurationItems = response.ConfigurationItems;
         }
     }

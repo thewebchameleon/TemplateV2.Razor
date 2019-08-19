@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using TemplateV2.Models.DomainModels;
 using TemplateV2.Models.ServiceModels.Admin.Sessions;
-using TemplateV2.Services.Contracts;
+using TemplateV2.Services.Admin.Contracts;
 
 namespace TemplateV2.Razor.Pages
 {
@@ -10,7 +10,7 @@ namespace TemplateV2.Razor.Pages
     {
         #region Private Fields
 
-        private readonly IAdminService _adminService;
+        private readonly ISessionService _sessionService;
 
         #endregion
 
@@ -28,16 +28,16 @@ namespace TemplateV2.Razor.Pages
 
         #region Constructors
 
-        public ViewSessionModel(IAdminService adminService)
+        public ViewSessionModel(ISessionService sessionService)
         {
-            _adminService = adminService;
+            _sessionService = sessionService;
         }
 
         #endregion
 
         public async Task OnGet()
         {
-            var response = await _adminService.GetSession(new GetSessionRequest()
+            var response = await _sessionService.GetSession(new GetSessionRequest()
             {
                 Id = Id
             });
@@ -47,7 +47,7 @@ namespace TemplateV2.Razor.Pages
 
         public async Task<JsonResult> OnGetData(int id)
         {
-            var response = await _adminService.GetSessionLogs(new GetSessionLogsRequest()
+            var response = await _sessionService.GetSessionLogs(new GetSessionLogsRequest()
             {
                 Session_Id = id
             });

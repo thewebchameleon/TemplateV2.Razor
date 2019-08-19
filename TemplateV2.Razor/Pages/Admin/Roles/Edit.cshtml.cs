@@ -1,11 +1,11 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
-using TemplateV2.Services.Contracts;
 using TemplateV2.Models.ServiceModels.Admin.Roles;
 using TemplateV2.Models.DomainModels;
 using System.Collections.Generic;
 using System.Linq;
 using TemplateV2.Services.Managers.Contracts;
+using TemplateV2.Services.Admin.Contracts;
 
 namespace TemplateV2.Razor.Pages
 {
@@ -13,7 +13,7 @@ namespace TemplateV2.Razor.Pages
     {
         #region Private Fields
 
-        private readonly IAdminService _adminService;
+        private readonly IRoleService _roleService;
         private readonly ICacheManager _cache;
 
         #endregion
@@ -34,9 +34,9 @@ namespace TemplateV2.Razor.Pages
 
         #region Constructors
 
-        public EditRoleModel(IAdminService adminService, ICacheManager cache)
+        public EditRoleModel(IRoleService roleService, ICacheManager cache)
         {
-            _adminService = adminService;
+            _roleService = roleService;
             _cache = cache;
             PermissionsLookup = new List<PermissionEntity>();
         }
@@ -45,7 +45,7 @@ namespace TemplateV2.Razor.Pages
 
         public async Task OnGet()
         {
-            var response = await _adminService.GetRole(new GetRoleRequest()
+            var response = await _roleService.GetRole(new GetRoleRequest()
             {
                 Id = Id
             });
@@ -65,7 +65,7 @@ namespace TemplateV2.Razor.Pages
             if (ModelState.IsValid)
             {
                 FormData.Id = Id;
-                var response = await _adminService.UpdateRole(FormData);
+                var response = await _roleService.UpdateRole(FormData);
                 if (response.IsSuccessful)
                 {
                     AddNotifications(response);
@@ -73,7 +73,7 @@ namespace TemplateV2.Razor.Pages
                 }
                 AddFormErrors(response);
             }
-            var roleResponse = await _adminService.GetRole(new GetRoleRequest()
+            var roleResponse = await _roleService.GetRole(new GetRoleRequest()
             {
                 Id = Id
             });
@@ -84,7 +84,7 @@ namespace TemplateV2.Razor.Pages
 
         public async Task<IActionResult> OnPostDisableRole(int id)
         {
-            var response = await _adminService.DisableRole(new Models.ServiceModels.Admin.Roles.DisableRoleRequest()
+            var response = await _roleService.DisableRole(new DisableRoleRequest()
             {
                 Id = id
             });
@@ -94,7 +94,7 @@ namespace TemplateV2.Razor.Pages
 
         public async Task<IActionResult> OnPostEnableRole(int id)
         {
-            var response = await _adminService.EnableRole(new Models.ServiceModels.Admin.Roles.EnableRoleRequest()
+            var response = await _roleService.EnableRole(new EnableRoleRequest()
             {
                 Id = id
             });

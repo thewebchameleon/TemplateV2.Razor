@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using TemplateV2.Models.DomainModels;
+using TemplateV2.Services.Admin.Contracts;
 using TemplateV2.Services.Contracts;
 
 namespace TemplateV2.Razor.Pages
@@ -10,7 +11,7 @@ namespace TemplateV2.Razor.Pages
     {
         #region Private Fields
 
-        private readonly IAdminService _adminService;
+        private readonly IPermissionsService _permissionsService;
 
         #endregion
 
@@ -22,9 +23,9 @@ namespace TemplateV2.Razor.Pages
 
         #region Constructors
 
-        public ManagePermissionsModel(IAdminService adminService)
+        public ManagePermissionsModel(IPermissionsService permissionsService)
         {
-            _adminService = adminService;
+            _permissionsService = permissionsService;
 
             Permissions = new List<PermissionEntity>();
         }
@@ -33,7 +34,7 @@ namespace TemplateV2.Razor.Pages
 
         public async Task OnGet()
         {
-            var response = await _adminService.GetPermissions();
+            var response = await _permissionsService.GetPermissions();
             Permissions = response.Permissions;
         }
     }
