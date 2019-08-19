@@ -1,13 +1,11 @@
 using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using TemplateV2.Infrastructure.Cache.Contracts;
 using TemplateV2.Models.DomainModels;
-using TemplateV2.Models.ServiceModels;
 using TemplateV2.Models.ServiceModels.Admin.Users;
 using TemplateV2.Services.Contracts;
+using TemplateV2.Services.Managers.Contracts;
 
 namespace TemplateV2.Razor.Pages
 {
@@ -16,7 +14,7 @@ namespace TemplateV2.Razor.Pages
         #region Private Fields
 
         private readonly IAdminService _adminService;
-        private readonly IApplicationCache _cache;
+        private readonly ICacheManager _cache;
 
         #endregion
 
@@ -36,7 +34,7 @@ namespace TemplateV2.Razor.Pages
 
         #region Constructors
 
-        public EditUserModel(IAdminService adminService, IApplicationCache cache)
+        public EditUserModel(IAdminService adminService, ICacheManager cache)
         {
             _adminService = adminService;
             _cache = cache;

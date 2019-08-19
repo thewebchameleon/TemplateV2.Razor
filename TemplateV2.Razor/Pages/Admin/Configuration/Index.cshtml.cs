@@ -32,7 +32,7 @@ namespace TemplateV2.Razor.Pages
 
         public async Task OnGet()
         {
-            var response = await _adminService.GetConfigurationManagement();
+            var response = await _adminService.GetConfigurationItems();
             ConfigurationItems = response.ConfigurationItems;
         }
     }

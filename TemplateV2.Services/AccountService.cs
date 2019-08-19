@@ -15,7 +15,7 @@ using TemplateV2.Infrastructure.Cache.Contracts;
 using TemplateV2.Infrastructure.Configuration;
 using TemplateV2.Infrastructure.Session;
 using TemplateV2.Infrastructure.Session.Contracts;
-using TemplateV2.Infrastructure.Repositories.UnitOfWork.Contracts;
+using TemplateV2.Repositories.UnitOfWork.Contracts;
 using TemplateV2.Models;
 using TemplateV2.Models.DomainModels;
 using TemplateV2.Models.ServiceModels;
@@ -35,11 +35,11 @@ namespace TemplateV2.Services
         private readonly ISessionManager _sessionManager;
         private readonly IAuthenticationManager _authenticationManager;
 
-        private readonly IEmailService _emailService;
+        private readonly IEmailManager _emailManager;
 
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IUnitOfWorkFactory _uowFactory;
-        private readonly IApplicationCache _cache;
+        private readonly ICacheManager _cache;
         private readonly ISessionProvider _sessionProvider;
 
         #endregion
@@ -49,9 +49,9 @@ namespace TemplateV2.Services
         public AccountService(
             ILogger<AccountService> logger,
             ISessionManager sessionManager,
-            IEmailService emailService,
+            IEmailManager emailManager,
             IUnitOfWorkFactory uowFactory,
-            IApplicationCache cache,
+            ICacheManager cache,
             ISessionProvider sessionProvider,
             IHttpContextAccessor httpContextAccessor)
         {
@@ -63,7 +63,7 @@ namespace TemplateV2.Services
 
             _cache = cache;
             _sessionManager = sessionManager;
-            _emailService = emailService;
+            _emailManager = emailManager;
         }
 
         #endregion
@@ -90,7 +90,7 @@ namespace TemplateV2.Services
             int id;
             using (var uow = _uowFactory.GetUnitOfWork())
             {
-                id = await uow.UserRepo.CreateUser(new Infrastructure.Repositories.DatabaseRepos.UserRepo.Models.CreateUserRequest()
+                id = await uow.UserRepo.CreateUser(new Repositories.DatabaseRepos.UserRepo.Models.CreateUserRequest()
                 {
                     Username = username,
                     Email_Address = request.EmailAddress,
@@ -113,7 +113,7 @@ namespace TemplateV2.Services
                 }
             });
 
-            await _emailService.SendAccountActivation(new Models.ServiceModels.Email.SendAccountActivationRequest()
+            await _emailManager.SendAccountActivation(new Models.ServiceModels.Email.SendAccountActivationRequest()
             {
                 UserId = id
             });
@@ -128,7 +128,7 @@ namespace TemplateV2.Services
 
             using (var uow = _uowFactory.GetUnitOfWork())
             {
-                var userToken = await uow.UserRepo.GetUserTokenByGuid(new Infrastructure.Repositories.DatabaseRepos.UserRepo.Models.GetUserTokenByGuidRequest()
+                var userToken = await uow.UserRepo.GetUserTokenByGuid(new Repositories.DatabaseRepos.UserRepo.Models.GetUserTokenByGuidRequest()
                 {
                     Guid = new Guid(request.Token)
                 });
@@ -151,7 +151,7 @@ namespace TemplateV2.Services
                     return response;
                 }
 
-                await uow.UserRepo.ActivateAccount(new Infrastructure.Repositories.DatabaseRepos.UserRepo.Models.ActivateAccountRequest()
+                await uow.UserRepo.ActivateAccount(new Repositories.DatabaseRepos.UserRepo.Models.ActivateAccountRequest()
                 {
                     Id = userToken.User_Id,
                     Updated_By = ApplicationConstants.SystemUserId
@@ -169,7 +169,7 @@ namespace TemplateV2.Services
 
             using (var uow = _uowFactory.GetUnitOfWork())
             {
-                var userToken = await uow.UserRepo.GetUserTokenByGuid(new Infrastructure.Repositories.DatabaseRepos.UserRepo.Models.GetUserTokenByGuidRequest()
+                var userToken = await uow.UserRepo.GetUserTokenByGuid(new Repositories.DatabaseRepos.UserRepo.Models.GetUserTokenByGuidRequest()
                 {
                     Guid = new Guid(request.Token)
                 });
@@ -192,14 +192,14 @@ namespace TemplateV2.Services
                     return response;
                 }
 
-                await uow.UserRepo.UpdateUserPassword(new Infrastructure.Repositories.DatabaseRepos.UserRepo.Models.UpdateUserPasswordRequest()
+                await uow.UserRepo.UpdateUserPassword(new Repositories.DatabaseRepos.UserRepo.Models.UpdateUserPasswordRequest()
                 {
                     User_Id = userToken.User_Id,
                     Password_Hash = PasswordHelper.HashPassword(request.NewPassword),
                     Updated_By = ApplicationConstants.SystemUserId
                 });
 
-                await uow.UserRepo.ProcessUserToken(new Infrastructure.Repositories.DatabaseRepos.UserRepo.Models.ProcessUserTokenRequest()
+                await uow.UserRepo.ProcessUserToken(new Repositories.DatabaseRepos.UserRepo.Models.ProcessUserTokenRequest()
                 {
                     Guid = userToken.Guid,
                     Updated_By = ApplicationConstants.SystemUserId
@@ -225,7 +225,7 @@ namespace TemplateV2.Services
             UserEntity user;
             using (var uow = _uowFactory.GetUnitOfWork())
             {
-                user = await uow.UserRepo.GetUserByUsername(new Infrastructure.Repositories.DatabaseRepos.UserRepo.Models.GetUserByUsernameRequest()
+                user = await uow.UserRepo.GetUserByUsername(new Repositories.DatabaseRepos.UserRepo.Models.GetUserByUsernameRequest()
                 {
                     Username = request.Username
                 });
@@ -239,7 +239,7 @@ namespace TemplateV2.Services
                         // check if we need to lock the user
                         if (user.Invalid_Login_Attempts >= config.Max_Login_Attempts && !user.Is_Locked_Out)
                         {
-                            await uow.UserRepo.LockoutUser(new Infrastructure.Repositories.DatabaseRepos.UserRepo.Models.LockoutUserRequest()
+                            await uow.UserRepo.LockoutUser(new Repositories.DatabaseRepos.UserRepo.Models.LockoutUserRequest()
                             {
                                 Id = user.Id,
                                 Lockout_End = DateTime.Now.AddMinutes(config.Account_Lockout_Expiry_Minutes),
@@ -253,7 +253,7 @@ namespace TemplateV2.Services
                         }
                         else
                         {
-                            var dbRequest = new Infrastructure.Repositories.DatabaseRepos.UserRepo.Models.AddInvalidLoginAttemptRequest()
+                            var dbRequest = new Repositories.DatabaseRepos.UserRepo.Models.AddInvalidLoginAttemptRequest()
                             {
                                 User_Id = user.Id,
                                 Updated_By = ApplicationConstants.SystemUserId
@@ -278,7 +278,7 @@ namespace TemplateV2.Services
                 {
                     if (user.Lockout_End <= DateTime.Now)
                     {
-                        await uow.UserRepo.UnlockUser(new Infrastructure.Repositories.DatabaseRepos.UserRepo.Models.UnlockUserRequest()
+                        await uow.UserRepo.UnlockUser(new Repositories.DatabaseRepos.UserRepo.Models.UnlockUserRequest()
                         {
                             Id = user.Id,
                             Updated_By = ApplicationConstants.SystemUserId
@@ -298,7 +298,7 @@ namespace TemplateV2.Services
                 }
                 else if (user.Invalid_Login_Attempts > 0) // cleanup of old invalid login attempts
                 {
-                    await uow.UserRepo.UnlockUser(new Infrastructure.Repositories.DatabaseRepos.UserRepo.Models.UnlockUserRequest()
+                    await uow.UserRepo.UnlockUser(new Repositories.DatabaseRepos.UserRepo.Models.UnlockUserRequest()
                     {
                         Id = user.Id,
                         Updated_By = ApplicationConstants.SystemUserId
@@ -318,7 +318,7 @@ namespace TemplateV2.Services
                     return response;
                 }
 
-                var sessionEntity = await uow.SessionRepo.AddUserToSession(new Infrastructure.Repositories.DatabaseRepos.SessionRepo.Models.AddUserToSessionRequest()
+                var sessionEntity = await uow.SessionRepo.AddUserToSession(new Repositories.DatabaseRepos.SessionRepo.Models.AddUserToSessionRequest()
                 {
                     Id = session.SessionEntity.Id,
                     User_Id = user.Id,
@@ -374,7 +374,7 @@ namespace TemplateV2.Services
             var response = new UpdateProfileResponse();
             var user = await _sessionManager.GetUser();
 
-            var dbRequest = new Infrastructure.Repositories.DatabaseRepos.UserRepo.Models.UpdateUserRequest()
+            var dbRequest = new Repositories.DatabaseRepos.UserRepo.Models.UpdateUserRequest()
             {
                 Id = user.Id,
                 Username = request.Username,
@@ -408,7 +408,7 @@ namespace TemplateV2.Services
             var mobileNumber = request.MobileNumber.SafeTrim();
             var username = request.EmailAddress.SafeTrim();
 
-            var duplicateUserRequest = new Infrastructure.Repositories.DatabaseRepos.UserRepo.Models.FetchDuplicateUserRequest()
+            var duplicateUserRequest = new Repositories.DatabaseRepos.UserRepo.Models.FetchDuplicateUserRequest()
             {
                 Username = username,
                 Email_Address = emailAddress,
@@ -489,7 +489,7 @@ namespace TemplateV2.Services
             UserTokenEntity userToken;
             using (var uow = _uowFactory.GetUnitOfWork())
             {
-                userToken = await uow.UserRepo.GetUserTokenByGuid(new Infrastructure.Repositories.DatabaseRepos.UserRepo.Models.GetUserTokenByGuidRequest()
+                userToken = await uow.UserRepo.GetUserTokenByGuid(new Repositories.DatabaseRepos.UserRepo.Models.GetUserTokenByGuidRequest()
                 {
                     Guid = new Guid(request.Token)
                 });
@@ -524,7 +524,7 @@ namespace TemplateV2.Services
             UserEntity user;
             using (var uow = _uowFactory.GetUnitOfWork())
             {
-                user = await uow.UserRepo.GetUserByEmail(new Infrastructure.Repositories.DatabaseRepos.UserRepo.Models.GetUserByEmailRequest()
+                user = await uow.UserRepo.GetUserByEmail(new Repositories.DatabaseRepos.UserRepo.Models.GetUserByEmailRequest()
                 {
                     Email_Address = request.EmailAddress
                 });
@@ -533,7 +533,7 @@ namespace TemplateV2.Services
 
             if (user != null)
             {
-                await _emailService.SendResetPassword(new Models.ServiceModels.Email.SendResetPasswordRequest()
+                await _emailManager.SendResetPassword(new Models.ServiceModels.Email.SendResetPasswordRequest()
                 {
                     UserId = user.Id
                 });
@@ -550,7 +550,7 @@ namespace TemplateV2.Services
 
             using (var uow = _uowFactory.GetUnitOfWork())
             {
-                await uow.UserRepo.UpdateUserPassword(new Infrastructure.Repositories.DatabaseRepos.UserRepo.Models.UpdateUserPasswordRequest()
+                await uow.UserRepo.UpdateUserPassword(new Repositories.DatabaseRepos.UserRepo.Models.UpdateUserPasswordRequest()
                 {
                     User_Id = user.Id,
                     Password_Hash = PasswordHelper.HashPassword(request.NewPassword),
@@ -575,7 +575,7 @@ namespace TemplateV2.Services
 
             using (var uow = _uowFactory.GetUnitOfWork())
             {
-                var logEvents = await uow.SessionRepo.GetSessionLogEventsByUserId(new Infrastructure.Repositories.DatabaseRepos.SessionRepo.Models.GetSessionLogEventsByUserIdRequest()
+                var logEvents = await uow.SessionRepo.GetSessionLogEventsByUserId(new Repositories.DatabaseRepos.SessionRepo.Models.GetSessionLogEventsByUserIdRequest()
                 {
                     User_Id = user.Id
                 });

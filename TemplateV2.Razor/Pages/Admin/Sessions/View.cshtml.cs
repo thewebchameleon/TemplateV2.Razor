@@ -1,7 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-using System.Threading;
 using System.Threading.Tasks;
-using TemplateV2.Infrastructure.Cache.Contracts;
 using TemplateV2.Models.DomainModels;
 using TemplateV2.Models.ServiceModels.Admin.Sessions;
 using TemplateV2.Services.Contracts;
@@ -30,7 +28,7 @@ namespace TemplateV2.Razor.Pages
 
         #region Constructors
 
-        public ViewSessionModel(IAdminService adminService, IApplicationCache cache)
+        public ViewSessionModel(IAdminService adminService)
         {
             _adminService = adminService;
         }

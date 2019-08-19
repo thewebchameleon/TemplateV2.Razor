@@ -12,6 +12,7 @@
   <ItemGroup>
     <ProjectReference Include="..\TemplateV2.Infrastructure\TemplateV2.Infrastructure.csproj" />
     <ProjectReference Include="..\TemplateV2.Models\TemplateV2.Models.csproj" />
+    <ProjectReference Include="..\TemplateV2.Repositories\TemplateV2.Repositories.csproj" />
   </ItemGroup>
 
 </Project>

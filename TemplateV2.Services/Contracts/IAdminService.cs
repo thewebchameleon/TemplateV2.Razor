@@ -10,7 +10,9 @@ namespace TemplateV2.Services.Contracts
 {
     public interface IAdminService
     {
-        Task<GetUserManagementResponse> GetUserManagement();
+        #region Users
+
+        Task<GetUsersResponse> GetUsers();
 
         Task<DisableUserResponse> DisableUser(DisableUserRequest request);
 
@@ -30,7 +32,11 @@ namespace TemplateV2.Services.Contracts
 
         Task<SendResetPasswordEmailResponse> SendResetPasswordEmail(SendResetPasswordEmailRequest request);
 
-        Task<GetRoleManagementResponse> GetRoleManagement();
+        #endregion
+
+        #region Roles
+
+        Task<GetRolesResponse> GetRoles();
 
         Task<DisableRoleResponse> DisableRole(DisableRoleRequest request);
 
@@ -42,8 +48,11 @@ namespace TemplateV2.Services.Contracts
 
         Task<CreateRoleResponse> CreateRole(CreateRoleRequest request);
 
+        #endregion
 
-        Task<GetPermissionManagementResponse> GetPermissionManagement();
+        #region Permissions
+
+        Task<GetPermissionsResponse> GetPermissions();
 
         Task<GetPermissionResponse> GetPermission(GetPermissionRequest request);
 
@@ -51,9 +60,11 @@ namespace TemplateV2.Services.Contracts
 
         Task<CreatePermissionResponse> CreatePermission(CreatePermissionRequest request);
 
+        #endregion
 
+        #region Configuration
 
-        Task<GetConfigurationManagementResponse> GetConfigurationManagement();
+        Task<GetConfigurationItemsResponse> GetConfigurationItems();
 
         Task<GetConfigurationItemResponse> GetConfigurationItem(GetConfigurationItemRequest request);
 
@@ -61,6 +72,9 @@ namespace TemplateV2.Services.Contracts
 
         Task<CreateConfigurationItemResponse> CreateConfigurationItem(CreateConfigurationItemRequest request);
 
+        #endregion
+
+        #region Sessions
 
         Task<GetSessionsResponse> GetSessions(GetSessionsRequest request);
 
@@ -68,12 +82,14 @@ namespace TemplateV2.Services.Contracts
 
         Task<GetSessionLogsResponse> GetSessionLogs(GetSessionLogsRequest request);
 
-        Task<GetSessionEventManagementResponse> GetSessionEventManagement();
+        Task<GetSessionEventsResponse> GetSessionEvents();
 
         Task<GetSessionEventResponse> GetSessionEvent(GetSessionEventRequest request);
 
         Task<UpdateSessionEventResponse> UpdateSessionEvent(UpdateSessionEventRequest request);
 
         Task<CreateSessionEventResponse> CreateSessionEvent(CreateSessionEventRequest request);
+
+        #endregion
     }
 }

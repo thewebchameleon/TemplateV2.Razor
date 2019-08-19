@@ -33,7 +33,7 @@ namespace TemplateV2.Razor.Pages
 
         public async Task OnGet()
         {
-            var response = await _adminService.GetPermissionManagement();
+            var response = await _adminService.GetPermissions();
             Permissions = response.Permissions;
         }
     }

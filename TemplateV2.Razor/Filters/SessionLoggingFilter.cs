@@ -4,12 +4,10 @@ using Newtonsoft.Json;
 using System.Linq;
 using System.Threading.Tasks;
 using TemplateV2.Common.Helpers;
-using TemplateV2.Infrastructure.Cache.Contracts;
 using TemplateV2.Infrastructure.Configuration;
 using TemplateV2.Infrastructure.Session;
 using TemplateV2.Infrastructure.Session.Contracts;
-using TemplateV2.Infrastructure.Repositories.UnitOfWork.Contracts;
-using TemplateV2.Services.Contracts;
+using TemplateV2.Repositories.UnitOfWork.Contracts;
 using System.Collections.Generic;
 using TemplateV2.Services.Managers.Contracts;
 
@@ -19,12 +17,12 @@ namespace TemplateV2.Razor.Filters
     {
         private readonly ISessionManager _sessionManager;
         private readonly IUnitOfWorkFactory _uowFactory;
-        private readonly IApplicationCache _cache;
+        private readonly ICacheManager _cache;
         private readonly ISessionProvider _sessionProvider;
 
         public SessionLoggingFilter(
             ISessionManager sessionManager,
-            IApplicationCache cache,
+            ICacheManager cache,
             IUnitOfWorkFactory uowFactory,
             ISessionProvider sessionProvider)
         {
@@ -51,7 +49,7 @@ namespace TemplateV2.Razor.Filters
             {
                 var methoInfo = context.HandlerMethod.MethodInfo.Name;
                 var method = context.HttpContext.Request.Method;
-                var dbRequest = new Infrastructure.Repositories.DatabaseRepos.SessionRepo.Models.CreateSessionLogRequest()
+                var dbRequest = new Repositories.DatabaseRepos.SessionRepo.Models.CreateSessionLogRequest()
                 {
                     Session_Id = session.SessionEntity.Id,
                     Page = (string)context.RouteData.Values["Page"],

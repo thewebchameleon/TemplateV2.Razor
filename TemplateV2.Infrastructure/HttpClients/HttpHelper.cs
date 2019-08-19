@@ -92,6 +92,7 @@ namespace TemplateV2.Infrastructure.HttpClients
             {
                 throw new InternalServiceErrorException(responseMessage.RequestMessage.RequestUri.ToString(), responseData);
             }
+            // handle other HTTP status codes here
             throw new UnsupportedHttpCodeException(httpCode, responseMessage.ReasonPhrase);
         }
     }

@@ -8,9 +8,9 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using TemplateV2.Infrastructure.Configuration;
-using TemplateV2.Infrastructure.Repositories.DatabaseRepos.SessionRepo.Contracts;
-using TemplateV2.Infrastructure.Repositories.DatabaseRepos.UserRepo.Contracts;
-using TemplateV2.Infrastructure.Repositories.UnitOfWork.Contracts;
+using TemplateV2.Repositories.DatabaseRepos.SessionRepo.Contracts;
+using TemplateV2.Repositories.DatabaseRepos.UserRepo.Contracts;
+using TemplateV2.Repositories.UnitOfWork.Contracts;
 using TemplateV2.Infrastructure.Session;
 using TemplateV2.Infrastructure.Session.Contracts;
 using TemplateV2.Models.DomainModels;
@@ -63,7 +63,7 @@ namespace TemplateV2.Services.Managers
 
                 using (var uow = _uowFactory.GetUnitOfWork())
                 {
-                    response.SessionEntity = await uow.SessionRepo.CreateSession(new Infrastructure.Repositories.DatabaseRepos.SessionRepo.Models.CreateSessionRequest()
+                    response.SessionEntity = await uow.SessionRepo.CreateSession(new Repositories.DatabaseRepos.SessionRepo.Models.CreateSessionRequest()
                     {
                         Created_By = ApplicationConstants.SystemUserId
                     });
@@ -105,14 +105,14 @@ namespace TemplateV2.Services.Managers
 
                 using (var uow = _uowFactory.GetUnitOfWork())
                 {
-                    var userRoles = await uow.UserRepo.GetUserRolesByUserId(new Infrastructure.Repositories.DatabaseRepos.UserRepo.Models.GetUserRolesByUserIdRequest()
+                    var userRoles = await uow.UserRepo.GetUserRolesByUserId(new Repositories.DatabaseRepos.UserRepo.Models.GetUserRolesByUserIdRequest()
                     {
                         User_Id = userId
                     });
                     var rolePermissionsLookup = await _cache.RolePermissions();
                     var rolePermissions = rolePermissionsLookup.Where(rp => userRoles.Select(ur => ur.Role_Id).Contains(rp.Role_Id));
 
-                    var userPermissions = await uow.UserRepo.GetUserPermissionsByUserId(new Infrastructure.Repositories.DatabaseRepos.UserRepo.Models.GetUserPermissionsByIdRequest()
+                    var userPermissions = await uow.UserRepo.GetUserPermissionsByUserId(new Repositories.DatabaseRepos.UserRepo.Models.GetUserPermissionsByIdRequest()
                     {
                         User_Id = userId
                     });
@@ -166,7 +166,7 @@ namespace TemplateV2.Services.Managers
 
             using (var uow = _uowFactory.GetUnitOfWork())
             {
-                await uow.SessionRepo.CreateSessionLogEvent(new Infrastructure.Repositories.DatabaseRepos.SessionRepo.Models.CreateSessionLogEventRequest()
+                await uow.SessionRepo.CreateSessionLogEvent(new Repositories.DatabaseRepos.SessionRepo.Models.CreateSessionLogEventRequest()
                 {
                     Session_Log_Id = session.SessionLogId,
                     Event_Id = eventItem.Id,
@@ -195,7 +195,7 @@ namespace TemplateV2.Services.Managers
 
             using (var uow = _uowFactory.GetUnitOfWork())
             {
-                user = await uow.UserRepo.GetUserById(new Infrastructure.Repositories.DatabaseRepos.UserRepo.Models.GetUserByIdRequest()
+                user = await uow.UserRepo.GetUserById(new Repositories.DatabaseRepos.UserRepo.Models.GetUserByIdRequest()
                 {
                     Id = userId.Value
                 });
@@ -211,7 +211,7 @@ namespace TemplateV2.Services.Managers
         {
             using (var uow = _uowFactory.GetUnitOfWork())
             {
-                var sessionEntity = await uow.SessionRepo.AddUserToSession(new Infrastructure.Repositories.DatabaseRepos.SessionRepo.Models.AddUserToSessionRequest()
+                var sessionEntity = await uow.SessionRepo.AddUserToSession(new Repositories.DatabaseRepos.SessionRepo.Models.AddUserToSessionRequest()
                 {
                     Id = sessionId,
                     User_Id = userId,

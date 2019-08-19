@@ -1,8 +1,8 @@
 using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
-using TemplateV2.Infrastructure.Cache.Contracts;
 using TemplateV2.Models.ServiceModels.Home;
 using TemplateV2.Services.Contracts;
+using TemplateV2.Services.Managers.Contracts;
 
 namespace TemplateV2.Services
 {
@@ -12,7 +12,7 @@ namespace TemplateV2.Services
 
         private readonly ILogger<HomeService> _logger;
 
-        private readonly IApplicationCache _cache;
+        private readonly ICacheManager _cache;
 
         #endregion
 
@@ -20,7 +20,7 @@ namespace TemplateV2.Services
 
         public HomeService(
             ILogger<HomeService> logger,
-            IApplicationCache cache)
+            ICacheManager cache)
         {
             _logger = logger;
             _cache = cache;

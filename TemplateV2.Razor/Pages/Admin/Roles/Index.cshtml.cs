@@ -35,7 +35,7 @@ namespace TemplateV2.Razor.Pages
 
         public async Task<JsonResult> OnGetData()
         {
-            var response = await _adminService.GetRoleManagement();
+            var response = await _adminService.GetRoles();
             return new JsonResult(response);
         }
 

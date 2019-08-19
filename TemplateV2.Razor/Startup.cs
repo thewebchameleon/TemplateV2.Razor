@@ -19,14 +19,14 @@ using TemplateV2.Infrastructure.Email;
 using TemplateV2.Infrastructure.Email.Contracts;
 using TemplateV2.Infrastructure.Session;
 using TemplateV2.Infrastructure.Session.Contracts;
-using TemplateV2.Infrastructure.Repositories.UnitOfWork;
-using TemplateV2.Infrastructure.Repositories.UnitOfWork.Contracts;
+using TemplateV2.Repositories.UnitOfWork;
+using TemplateV2.Repositories.UnitOfWork.Contracts;
 using TemplateV2.Razor.Filters;
 using TemplateV2.Razor.Middleware;
 using TemplateV2.Services;
 using TemplateV2.Services.Contracts;
-using TemplateV2.Infrastructure.Repositories.ServiceRepos.EmailTemplateRepo.Contracts;
-using TemplateV2.Infrastructure.Repositories.ServiceRepos.EmailTemplateRepo;
+using TemplateV2.Repositories.ServiceRepos.EmailTemplateRepo.Contracts;
+using TemplateV2.Repositories.ServiceRepos.EmailTemplateRepo;
 using TemplateV2.Services.Managers.Contracts;
 using TemplateV2.Services.Managers;
 using System.Globalization;
@@ -64,10 +64,8 @@ namespace TemplateV2.Razor
             services.AddDistributedMemoryCache();
             services.AddTransient<ICacheProvider, MemoryCacheProvider>();
 
-            services.AddTransient<IApplicationCache, ApplicationCache>();
             services.AddTransient<IUnitOfWorkFactory, UnitOfWorkFactory>();
 
-            services.AddTransient<IEmailService, EmailService>();
             services.AddTransient<IAccountService, AccountService>();
             services.AddTransient<IAdminService, AdminService>();
             services.AddTransient<IHomeService, HomeService>();
@@ -75,6 +73,7 @@ namespace TemplateV2.Razor
             services.AddTransient<IAuthenticationManager, AuthenticationManager>();
             services.AddTransient<ICacheManager, CacheManager>();
             services.AddTransient<ISessionManager, SessionManager>();
+            services.AddTransient<IEmailManager, EmailManager>();
 
             services.AddTransient<IEmailTemplateRepo, EmailTemplateRepo>();
 

@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using TemplateV2.Infrastructure.Cache;
 using TemplateV2.Infrastructure.Cache.Contracts;
 using TemplateV2.Infrastructure.Configuration.Models;
-using TemplateV2.Infrastructure.Repositories.UnitOfWork.Contracts;
+using TemplateV2.Repositories.UnitOfWork.Contracts;
 using TemplateV2.Models.DomainModels;
 using TemplateV2.Services.Managers.Contracts;
 
@@ -110,6 +110,44 @@ namespace TemplateV2.Services.Managers
             }
 
             _cacheProvider.Set(CacheConstants.RolePermissions, items);
+
+            return items;
+        }
+
+        public async Task<List<RoleEntity>> Roles()
+        {
+            var items = new List<RoleEntity>();
+            if (_cacheProvider.TryGet(CacheConstants.Roles, out items))
+            {
+                return items;
+            }
+
+            using (var uow = _uowFactory.GetUnitOfWork())
+            {
+                items = await uow.UserRepo.GetRoles();
+
+                uow.Commit();
+            }
+            _cacheProvider.Set(CacheConstants.Roles, items);
+
+            return items;
+        }
+
+        public async Task<List<UserRoleEntity>> UserRoles()
+        {
+            var items = new List<UserRoleEntity>();
+            if (_cacheProvider.TryGet(CacheConstants.UserRoles, out items))
+            {
+                return items;
+            }
+
+            using (var uow = _uowFactory.GetUnitOfWork())
+            {
+                items = await uow.UserRepo.GetUserRoles();
+
+                uow.Commit();
+            }
+            _cacheProvider.Set(CacheConstants.UserRoles, items);
 
             return items;
         }

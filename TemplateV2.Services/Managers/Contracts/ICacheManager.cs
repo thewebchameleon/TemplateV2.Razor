@@ -9,9 +9,13 @@ namespace TemplateV2.Services.Managers.Contracts
     {
         Task<ApplicationConfiguration> Configuration();
 
-        Task<List<PermissionEntity>> Permissions();
+        Task<List<RoleEntity>> Roles();
+
+        Task<List<UserRoleEntity>> UserRoles();
 
         Task<List<RolePermissionEntity>> RolePermissions();
+
+        Task<List<PermissionEntity>> Permissions();
 
         Task<List<SessionEventEntity>> SessionEvents();
 
