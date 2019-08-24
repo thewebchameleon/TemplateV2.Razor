@@ -47,6 +47,7 @@ Intended for building **small self-contained business applications**, this templ
 - Passwords are hashed using [BCrypt](https://github.com/BcryptNet/bcrypt.net)
 - Users are locked out after a configurable amount of invalid attempts
 - All form posts are marked with a `[ValidateAntiForgeryToken]` attribute
+- Idle sessions are automatically logged out
 
 ### Sessions
 - Custom session logging implementation which is recorded to the database
