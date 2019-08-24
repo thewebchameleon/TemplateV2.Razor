@@ -9,7 +9,10 @@ let gulp = require("gulp"),
 
 gulp.task('build-css', function () {
     return gulp
-        .src(["./wwwroot/sass/framework.scss", "./wwwroot/sass/site.scss" ])
+        .src([
+            './wwwroot/sass/framework.scss',
+            './wwwroot/sass/site.scss'
+        ])
         .pipe(sourcemaps.init())
         .pipe(sass({
             outputStyle: "compressed"

@@ -1,5 +1,8 @@
-﻿const TOAST_DELAY = 6000;
+﻿const TOAST_DELAY = 6000; // toasts last 6 seconds
 Globalize.culture('en-ZA');
+IdleSeconds = 0;
+IdleTimeoutSeconds = 120; // 2 minutes, todo: this should match the session expiration date
+IdleTimeoutModalSeconds = IdleTimeoutSeconds - 30; // 30 seconds before session expires
 
 $(document).ready(function () {
 
@@ -55,8 +58,6 @@ $(document).ready(function () {
 
     });
 
-
-
     // datapickers
     $(".datepicker").datetimepicker({
         format: 'DD/MM/YYYY'
@@ -81,7 +82,63 @@ $(document).ready(function () {
             console.log(message);
         };
     }
+
+    // auto logout feature
+    EnableAutoLogout(IdleTimeoutModalSeconds, IdleTimeoutSeconds);
 });
+
+function EnableAutoLogout(expiryModalSeconds, expirySeconds) {
+    if ($('#modalAutoLogout')[0]) { // check if we have the modal available
+
+        var expiryTime = new Date().getTime() + (IdleTimeoutSeconds * 1000);
+        
+        // reset idle timer on mouse / keypress movement
+        $(this).mousemove(function (e) {
+            if (isModalOpen() === false) {
+                IdleSeconds = 0;
+            }
+        });
+        $(this).keypress(function (e) {
+            if (isModalOpen() === false) {
+                IdleSeconds = 0;
+            }
+        });
+
+        $('#btnDismissAutoLogout').click(function () {
+            IdleSeconds = 0;
+            expiryTime = new Date().getTime() + (IdleTimeoutSeconds * 1000);
+        });
+
+        setInterval(function () {
+            IdleSeconds++;
+
+            if (IdleSeconds >= expiryModalSeconds) {
+                $('#modalAutoLogout').modal({
+                    backdrop: "static",
+                    keyboard: false
+                });
+
+                const second = 1000,
+                    minute = second * 60,
+                    hour = minute * 60,
+                    day = hour * 24;
+
+                var secondsRemaining = Math.floor(((expiryTime - new Date().getTime()) % (minute)) / second);
+                if (secondsRemaining < 0) {
+                    secondsRemaining = 0;
+                    window.location = '/Account/Logout';
+                    return;
+                }
+
+                document.getElementById('txtAutoLogoutSecondsRemaining').innerText = secondsRemaining;
+            }
+        }, 1000); // poll every 1 second
+    }
+
+    function isModalOpen() {
+        return $('#modalAutoLogout').is(':visible');
+    }
+}
 
 function showNotification(message, type, autoHide) {
     var typeCss = '';
