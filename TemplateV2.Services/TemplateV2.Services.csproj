@@ -15,4 +15,8 @@
     <ProjectReference Include="..\TemplateV2.Repositories\TemplateV2.Repositories.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Policies\" />
+  </ItemGroup>
+
 </Project>

@@ -1,0 +1,27 @@
+﻿@page
+@model Error404Model
+@{
+    ViewData["Title"] = "Page not found";
+    Layout = "_LayoutEmpty";
+}
+<style>
+    body {
+        background: none !important;
+        position: absolute;
+        width: 100%;
+        display: flex;
+        align-items: center;
+    }
+</style>
+
+<div class="container-fluid h-100">
+
+    <div class="text-center">
+        <div class="error mx-auto" data-text="401">401</div>
+        <p class="lead text-gray-800 mb-5">Not Authorized</p>
+        <p class="text-gray-500 mb-0">You are not authorized to access this area...</p>
+        <a asp-page="/Index">&larr; Back to Home</a>
+    </div>
+
+</div>
+<!-- /.container-fluid -->
