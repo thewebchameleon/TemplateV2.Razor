@@ -18,12 +18,15 @@
                 <div class="card-header py-3 text-right">
                     @if (!Model.UserEntity.Registration_Confirmed)
                     {
-                        <a href="#" class="btn btn-success btn-icon-split" data-toggle="modal" data-target="#modalConfirmRegistration" data-target-id="@Model.UserEntity.Id">
-                            <span class="icon text-white-50">
-                                <i class="fas fa-id-badge"></i>
-                            </span>
-                            <span class="text">Confirm Registration</span>
-                        </a>
+                        <form asp-page-handler="ConfirmRegistration" method="post" class="d-inline-block">
+                            <input name="Id" type="hidden" value="@Model.UserEntity.Id" />
+                            <button class="btn btn-success btn-icon-split" type="submit">
+                                <span class="icon text-white-50">
+                                    <i class="fas fa-id-badge"></i>
+                                </span>
+                                <span class="text">Confirm Registration</span>
+                            </button>
+                        </form>
                     }
                     @if (Model.UserEntity.Is_Locked_Out)
                     {
