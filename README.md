@@ -61,7 +61,7 @@ Intended for building **small self-contained business applications**, this templ
 - Roles are a grouping of permissions assigned to users
 - Permissions are access rights assigned to roles allowing access to otherwise restricted areas of the application
 
-### Configuratation
+### Configuration
 - Configuration items are used to control various aspects of the application ranging from features to core settings
 - Stored as strong MSSQL types (`boolean`, `datetime`, `date`, `time`, `decimal`, `int`, `money`, `string`)
 
