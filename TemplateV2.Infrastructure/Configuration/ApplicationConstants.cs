@@ -10,24 +10,20 @@ namespace TemplateV2.Infrastructure.Configuration
         public const int SessionTimeoutSeconds = 60 * 10; // 10 minutes
         public const int ResponseCachingSeconds = 60 * 60 * 24; // 24 hours
 
-        public static List<CultureInfo> SupportedCultures
+        public static CultureInfo Culture
         {
             get
             {
-                var list = new List<CultureInfo>();
-
-                // first item is always the default
                 var cultureInfo_ZA = new CultureInfo("en-ZA");
 
                 cultureInfo_ZA.NumberFormat.CurrencySymbol = "R";
                 cultureInfo_ZA.NumberFormat.CurrencyGroupSeparator = " ";
                 cultureInfo_ZA.NumberFormat.CurrencyDecimalSeparator = ".";
 
-                cultureInfo_ZA.NumberFormat.NumberGroupSeparator = ".";
-                cultureInfo_ZA.NumberFormat.NumberDecimalSeparator = " ";
-                list.Add(cultureInfo_ZA);
+                cultureInfo_ZA.NumberFormat.NumberGroupSeparator = " ";
+                cultureInfo_ZA.NumberFormat.NumberDecimalSeparator = ".";
 
-                return list;
+                return cultureInfo_ZA;
             }
         }
         

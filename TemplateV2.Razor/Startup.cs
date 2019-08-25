@@ -155,17 +155,9 @@ namespace TemplateV2.Razor
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            app.UseRequestLocalization(options =>
-            {
-                options.DefaultRequestCulture = new RequestCulture(ApplicationConstants.SupportedCultures.First().Name);
-                options.SupportedCultures = ApplicationConstants.SupportedCultures;
-                options.SupportedUICultures = ApplicationConstants.SupportedCultures;
-                options.RequestCultureProviders = new List<IRequestCultureProvider>
-                {
-                    new QueryStringRequestCultureProvider(),
-                    new CookieRequestCultureProvider()
-                };
-            });
+            // force the application to run under the specified culture
+            CultureInfo.DefaultThreadCurrentCulture = ApplicationConstants.Culture;
+            CultureInfo.DefaultThreadCurrentUICulture = ApplicationConstants.Culture;
 
             if (env.IsDevelopment())
             {

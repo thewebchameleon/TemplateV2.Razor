@@ -42,9 +42,7 @@ gulp.task('build-scripts-framework', function () {
             './node_modules/moment/min/moment.min.js',
             './node_modules/pretty-print-json/dist/pretty-print-json.min.js',
             './node_modules/countdown/countdown.js',
-            './wwwroot/lib/tempusdominus-bootstrap-4/tempusdominus-bootstrap-4.min.js',
-            './wwwroot/lib/globalize/lib/globalize.js',
-            './wwwroot/lib/globalize/lib/globalize.culture.en-ZA.js'
+            './wwwroot/lib/tempusdominus-bootstrap-4/tempusdominus-bootstrap-4.min.js'
         ])
         .pipe(concat('framework.min.js'))
         .pipe(gulp.dest('./wwwroot/js'));

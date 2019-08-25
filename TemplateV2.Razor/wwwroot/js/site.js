@@ -1,7 +1,6 @@
 ﻿const TOAST_DELAY = 6000; // toasts last 6 seconds
-Globalize.culture('en-ZA');
 IdleSeconds = 0;
-IdleTimeoutSeconds = 120; // 2 minutes, todo: this should match the session expiration date
+IdleTimeoutSeconds = 10000; // 2 minutes, todo: this should match the session expiration date
 IdleTimeoutModalSeconds = IdleTimeoutSeconds - 30; // 30 seconds before session expires
 
 $(document).ready(function () {

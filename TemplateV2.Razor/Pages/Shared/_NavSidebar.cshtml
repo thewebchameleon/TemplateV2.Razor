@@ -1,0 +1,164 @@
+﻿@inject TemplateV2.Services.Managers.Contracts.ISessionManager _sessionManager
+@{
+    var user = await _sessionManager.GetUser();
+}
+
+<!-- Sidebar -->
+<ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+
+    <!-- Sidebar - Brand -->
+    <a class="sidebar-brand d-flex align-items-center justify-content-center" asp-page="/Index">
+        <div class="sidebar-brand-icon rotate-n-15">
+            <i class="fas fa-laugh-wink"></i>
+        </div>
+        <div class="sidebar-brand-text mx-3">Template <sup>V2</sup></div>
+    </a>
+
+    <!-- Divider -->
+    <hr class="sidebar-divider my-0">
+
+    <!-- Nav Item - Dashboard -->
+    <li class="nav-item active">
+        <a class="nav-link" asp-page="/Index">
+            <i class="fas fa-fw fa-tachometer-alt"></i>
+            <span>Dashboard</span>
+        </a>
+    </li>
+
+    <!-- Divider -->
+    <hr class="sidebar-divider">
+
+    <!-- Heading -->
+    <div class="sidebar-heading">
+        Interface
+    </div>
+
+    <!-- Nav Item - Pages Collapse Menu -->
+    <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+            <i class="fas fa-fw fa-cog"></i>
+            <span>Components</span>
+        </a>
+        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                <h6 class="collapse-header">Custom Components:</h6>
+                <a class="collapse-item" asp-page="/Template/Components/Buttons">Buttons</a>
+                <a class="collapse-item" asp-page="/Template/Components/Cards">Cards</a>
+            </div>
+        </div>
+    </li>
+
+    <!-- Nav Item - Utilities Collapse Menu -->
+    <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities" aria-expanded="true" aria-controls="collapseUtilities">
+            <i class="fas fa-fw fa-wrench"></i>
+            <span>Utilities</span>
+        </a>
+        <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                <h6 class="collapse-header">Custom Utilities:</h6>
+                <a class="collapse-item" asp-page="/Template/Utilities/Colors">Colors</a>
+                <a class="collapse-item" asp-page="/Template/Utilities/Borders">Borders</a>
+                <a class="collapse-item" asp-page="/Template/Utilities/Animations">Animations</a>
+                <a class="collapse-item" asp-page="/Template/Utilities/Other">Other</a>
+            </div>
+        </div>
+    </li>
+
+    <!-- Divider -->
+    <hr class="sidebar-divider">
+
+    <!-- Heading -->
+    <div class="sidebar-heading">
+        Addons
+    </div>
+
+    <!-- Nav Item - Pages Collapse Menu -->
+    <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="true" aria-controls="collapsePages">
+            <i class="fas fa-fw fa-folder"></i>
+            <span>Pages</span>
+        </a>
+        <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                <h6 class="collapse-header">Other Pages:</h6>
+                <a class="collapse-item" asp-page="/Template/Pages/BlankPage">Blank Page</a>
+            </div>
+        </div>
+    </li>
+
+    <!-- Nav Item - Charts -->
+    <li class="nav-item">
+        <a class="nav-link" asp-page="/Template/Charts">
+            <i class="fas fa-fw fa-chart-area"></i>
+            <span>Charts</span>
+        </a>
+    </li>
+
+    <!-- Nav Item - Tables -->
+    <li class="nav-item">
+        <a class="nav-link" asp-page="/Template/Tables">
+            <i class="fas fa-fw fa-table"></i>
+            <span>Tables</span>
+        </a>
+    </li>
+
+    <!-- Divider -->
+    <hr class="sidebar-divider" asp-permission="@PermissionKeys.ViewAdmin" />
+
+    <!-- Heading -->
+    <div class="sidebar-heading" asp-permission="@PermissionKeys.ViewAdmin">
+        Admin
+    </div>
+
+    <!-- Nav Item - Charts -->
+    <li class="nav-item" asp-permission="@PermissionKeys.ManageUsers">
+        <a class="nav-link" asp-page="/Admin/Users/Index">
+            <i class="fas fa-fw fa-users"></i>
+            <span>Users</span>
+        </a>
+    </li>
+
+    <!-- Nav Item - Tables -->
+    <li class="nav-item" asp-permission="@PermissionKeys.ManageRoles">
+        <a class="nav-link" asp-page="/Admin/Roles/Index">
+            <i class="fas fa-fw fa-user-shield"></i>
+            <span>Roles</span>
+        </a>
+    </li>
+
+    <!-- Nav Item - Tables -->
+    <li class="nav-item" asp-permission="@PermissionKeys.ViewSessions">
+        <a class="nav-link" asp-page="/Admin/Sessions/Index">
+            <i class="fas fa-fw fa-list"></i>
+            <span>Sessions</span>
+        </a>
+    </li>
+
+    <!-- Nav Item - Pages Collapse Menu -->
+    <li class="nav-item" asp-permission="@PermissionKeys.ViewAdmin">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseAdmin" aria-expanded="true" aria-controls="collapseAdmin">
+            <i class="fas fa-fw fa-wrench"></i>
+            <span>Configuration</span>
+        </a>
+        <div id="collapseAdmin" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                <h6 class="collapse-header">Global</h6>
+                <a class="collapse-item" asp-page="/Admin/Configuration/Index" asp-permission="@PermissionKeys.ManageConfiguration">Application</a>
+                <h6 class="collapse-header">Lookups</h6>
+                <a class="collapse-item" asp-page="/Admin/Permissions/Index" asp-permission="@PermissionKeys.ManagePermissions">Permissions</a>
+                <a class="collapse-item" asp-page="/Admin/SessionEvents/Index" asp-permission="@PermissionKeys.ManageSessionEvents">Session Events</a>
+            </div>
+        </div>
+    </li>
+
+    <!-- Divider -->
+    <hr class="sidebar-divider d-none d-md-block">
+
+    <!-- Sidebar Toggler (Sidebar) -->
+    <div class="text-center d-none d-md-inline">
+        <button class="rounded-circle border-0" id="sidebarToggle"></button>
+    </div>
+
+</ul>
+<!-- End of Sidebar -->

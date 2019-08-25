@@ -1,0 +1,40 @@
+﻿<!-- Logout modal-->
+<div class="modal fade" id="modalLogout" tabindex="-1" role="dialog" aria-labelledby="modealLogoutLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modealLogoutLabel">Logout</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">Please confirm if you are ready to end your current session.</div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                <a class="btn btn-primary" asp-action="Logout" asp-controller="Account">Logout</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Auto logout modal-->
+<div class="modal fade" id="modalAutoLogout" tabindex="-1" role="dialog" aria-labelledby="modalAutoLogoutLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-primary">
+                <h5 class="modal-title text-white" id="modalAutoLogoutLabel">Are you still there?</h5>
+            </div>
+            <div class="modal-body">
+                <p>For security reasons, we will automatically log you out in</p>
+                <ul>
+                    <li><span id="txtAutoLogoutSecondsRemaining"></span>Seconds</li>
+                </ul>
+            </div>
+            <div class="modal-footer">
+                <button id="btnDismissAutoLogout" type="button" class="btn btn-outline-primary" data-dismiss="modal">Stay logged in</button>
+                <input name="Id" type="hidden" />
+                <a type="submit" class="btn btn-primary" asp-controller="Account" asp-action="Logout">Log me out</a>
+            </div>
+        </div>
+    </div>
+</div>
