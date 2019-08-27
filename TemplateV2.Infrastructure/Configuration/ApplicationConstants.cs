@@ -9,7 +9,7 @@ namespace TemplateV2.Infrastructure.Configuration
         public const int SystemUserId = 1;
         public const int ResponseCachingSeconds = 60 * 60 * 24; // 24 hours
 
-        public const int SessionTimeoutSeconds = 60 * 1; // 10 minutes
+        public const int SessionTimeoutSeconds = 60 * 10; // 10 minutes
         public const int SessionModalTimeoutSeconds = SessionTimeoutSeconds - 30; // 30 seconds before session expires (only if the auto-logout feature is enabled)
 
         public static CultureInfo Culture
