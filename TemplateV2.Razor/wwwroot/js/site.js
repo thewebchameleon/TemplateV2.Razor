@@ -1,6 +1,6 @@
 ﻿const TOAST_DELAY = 6000; // toasts last 6 seconds
 IdleSeconds = 0;
-IdleTimeoutSeconds = 10000; // 2 minutes, todo: this should match the session expiration date
+IdleTimeoutSeconds = 120; // 2 minutes, todo: this should match the session expiration date
 IdleTimeoutModalSeconds = IdleTimeoutSeconds - 30; // 30 seconds before session expires
 
 $(document).ready(function () {
@@ -87,25 +87,24 @@ $(document).ready(function () {
 });
 
 function EnableAutoLogout(expiryModalSeconds, expirySeconds) {
+    var expiryTime = new Date().getTime() + (expirySeconds * 1000);
+
     if ($('#modalAutoLogout')[0]) { // check if we have the modal available
 
-        var expiryTime = new Date().getTime() + (IdleTimeoutSeconds * 1000);
-        
         // reset idle timer on mouse / keypress movement
         $(this).mousemove(function (e) {
             if (isModalOpen() === false) {
-                IdleSeconds = 0;
+                resetExpiryTime(expirySeconds);
             }
         });
         $(this).keypress(function (e) {
             if (isModalOpen() === false) {
-                IdleSeconds = 0;
+                resetExpiryTime(expirySeconds);
             }
         });
 
         $('#btnDismissAutoLogout').click(function () {
-            IdleSeconds = 0;
-            expiryTime = new Date().getTime() + (IdleTimeoutSeconds * 1000);
+            resetExpiryTime(expirySeconds);
         });
 
         setInterval(function () {
@@ -122,7 +121,7 @@ function EnableAutoLogout(expiryModalSeconds, expirySeconds) {
                     hour = minute * 60,
                     day = hour * 24;
 
-                var secondsRemaining = Math.floor(((expiryTime - new Date().getTime()) % (minute)) / second);
+                var secondsRemaining = Math.floor(((getExpiryTime() - new Date().getTime()) % (minute)) / second);
                 if (secondsRemaining < 0) {
                     secondsRemaining = 0;
                     window.location = '/Account/Logout';
@@ -136,6 +135,15 @@ function EnableAutoLogout(expiryModalSeconds, expirySeconds) {
 
     function isModalOpen() {
         return $('#modalAutoLogout').is(':visible');
+    }
+
+    function getExpiryTime() {
+        return expiryTime;
+    }
+
+    function resetExpiryTime(expirySeconds) {
+        expiryTime = new Date().getTime() + (expirySeconds * 1000);
+        IdleSeconds = 0;
     }
 }
 

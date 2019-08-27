@@ -1,7 +1,7 @@
 ﻿@page
 @model Error404Model
 @{
-    ViewData["Title"] = "Page not found";
+    ViewData["Title"] = "Access Denied";
     Layout = "_LayoutEmpty";
 }
 <style>
@@ -19,7 +19,7 @@
     <div class="text-center">
         <div class="error mx-auto" data-text="401">401</div>
         <p class="lead text-gray-800 mb-5">Not Authorized</p>
-        <p class="text-gray-500 mb-0">You are not authorized to access this area...</p>
+        <p class="text-gray-500 mb-0">You do not have access to this page, please contact the website administrator.</p>
         <a asp-page="/Index">&larr; Back to Home</a>
     </div>
 
