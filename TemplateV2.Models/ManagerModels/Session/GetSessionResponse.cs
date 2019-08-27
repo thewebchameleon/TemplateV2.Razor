@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using TemplateV2.Models.DomainModels;
 
 namespace TemplateV2.Models.ManagerModels.Session

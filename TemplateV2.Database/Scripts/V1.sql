@@ -130,28 +130,37 @@ VALUES ('PASSWORD_RESET_EMAIL_SENT', 'Reset password email sent', 1, GETDATE(), 
 
 --add configuration
 INSERT INTO [Configuration]
-([Key], [Description], [Boolean_Value], [DateTime_Value], [Decimal_Value], [Int_Value], [Money_Value], [String_Value], [Created_By], [Created_Date], [Updated_By], [Updated_Date])
-VALUES ('SESSION_LOGGING_IS_ENABLED', 'Feature switch for session and event tracking', 1, NULL, NULL, NULL, NULL, NULL, 1, GETDATE(), 1, GETDATE())
+([Key], [Description], [Is_Client_Side], [Boolean_Value], [DateTime_Value], [Decimal_Value], [Int_Value], [Money_Value], [String_Value], [Created_By], [Created_Date], [Updated_By], [Updated_Date])
+VALUES ('SESSION_LOGGING_IS_ENABLED', 'Feature switch for session and event tracking', 0, 1, NULL, NULL, NULL, NULL, NULL, 1, GETDATE(), 1, GETDATE())
 
 INSERT INTO [Configuration]
-([Key], [Description], [Boolean_Value], [DateTime_Value], [Decimal_Value], [Int_Value], [Money_Value], [String_Value], [Created_By], [Created_Date], [Updated_By], [Updated_Date])
-VALUES ('HOME_PROMO_BANNER_IS_ENABLED', 'Feature switch for a promotional banner on the home page', 1, NULL, NULL, NULL, NULL, NULL, 1, GETDATE(), 1, GETDATE())
+([Key], [Description], [Is_Client_Side], [Boolean_Value], [DateTime_Value], [Decimal_Value], [Int_Value], [Money_Value], [String_Value], [Created_By], [Created_Date], [Updated_By], [Updated_Date])
+VALUES ('HOME_PROMO_BANNER_IS_ENABLED', 'Feature switch for a promotional banner on the home page', 0, 1, NULL, NULL, NULL, NULL, NULL, 1, GETDATE(), 1, GETDATE())
 
 INSERT INTO [Configuration]
-([Key], [Description], [Boolean_Value], [DateTime_Value], [Decimal_Value], [Int_Value], [Money_Value], [String_Value], [Created_By], [Created_Date], [Updated_By], [Updated_Date])
-VALUES ('ACCOUNT_LOCKOUT_EXPIRY_MINUTES', 'The amount of time before a locked out user can login again', NULL, NULL, NULL, 10, NULL, NULL, 1, GETDATE(), 1, GETDATE())
+([Key], [Description], [Is_Client_Side], [Boolean_Value], [DateTime_Value], [Decimal_Value], [Int_Value], [Money_Value], [String_Value], [Created_By], [Created_Date], [Updated_By], [Updated_Date])
+VALUES ('ACCOUNT_LOCKOUT_EXPIRY_MINUTES', 'The amount of time before a locked out user can login again', 0, NULL, NULL, NULL, 10, NULL, NULL, 1, GETDATE(), 1, GETDATE())
 
 INSERT INTO [Configuration]
-([Key], [Description], [Boolean_Value], [DateTime_Value], [Decimal_Value], [Int_Value], [Money_Value], [String_Value], [Created_By], [Created_Date], [Updated_By], [Updated_Date])
-VALUES ('MAX_LOGIN_ATTEMPTS', 'The amount of invalid password login attempts that a user may perform', NULL, NULL, NULL, 1, NULL, NULL, 1, GETDATE(), 1, GETDATE())
+([Key], [Description], [Is_Client_Side], [Boolean_Value], [DateTime_Value], [Decimal_Value], [Int_Value], [Money_Value], [String_Value], [Created_By], [Created_Date], [Updated_By], [Updated_Date])
+VALUES ('MAX_LOGIN_ATTEMPTS', 'The amount of invalid password login attempts that a user may perform', 0, NULL, NULL, NULL, 1, NULL, NULL, 1, GETDATE(), 1, GETDATE())
 
 INSERT INTO [Configuration]
-([Key], [Description], [Boolean_Value], [DateTime_Value], [Decimal_Value], [Int_Value], [Money_Value], [String_Value], [Created_By], [Created_Date], [Updated_By], [Updated_Date])
-VALUES ('SYSTEM_FROM_EMAIL_ADDRESS', 'The email address used for emails from the system', NULL, NULL, NULL, NULL, NULL, 'TemplateV2.mvc@example.com', 1, GETDATE(), 1, GETDATE())
+([Key], [Description], [Is_Client_Side], [Boolean_Value], [DateTime_Value], [Decimal_Value], [Int_Value], [Money_Value], [String_Value], [Created_By], [Created_Date], [Updated_By], [Updated_Date])
+VALUES ('SYSTEM_FROM_EMAIL_ADDRESS', 'The email address used for emails from the system', 0, NULL, NULL, NULL, NULL, NULL, 'TemplateV2.mvc@example.com', 1, GETDATE(), 1, GETDATE())
 
 INSERT INTO [Configuration]
-([Key], [Description], [Boolean_Value], [DateTime_Value], [Decimal_Value], [Int_Value], [Money_Value], [String_Value], [Created_By], [Created_Date], [Updated_By], [Updated_Date])
-VALUES ('CONTACT_EMAIL_ADDRESS', 'The email address used for receiving contact messages', NULL, NULL, NULL, NULL, NULL, 'contact.TemplateV2.mvc@example.com', 1, GETDATE(), 1, GETDATE())
+([Key], [Description], [Is_Client_Side], [Boolean_Value], [DateTime_Value], [Decimal_Value], [Int_Value], [Money_Value], [String_Value], [Created_By], [Created_Date], [Updated_By], [Updated_Date])
+VALUES ('CONTACT_EMAIL_ADDRESS', 'The email address used for receiving contact messages', 0, NULL, NULL, NULL, NULL, NULL, 'contact.TemplateV2.mvc@example.com', 1, GETDATE(), 1, GETDATE())
+
+-- client-side
+INSERT INTO [Configuration]
+([Key], [Description], [Is_Client_Side], [Boolean_Value], [DateTime_Value], [Decimal_Value], [Int_Value], [Money_Value], [String_Value], [Created_By], [Created_Date], [Updated_By], [Updated_Date])
+VALUES ('TOAST_DELAY_SECONDS', 'The amount of seconds for toast notifications to display', 1, NULL, NULL, NULL, 6, NULL, NULL, 1, GETDATE(), 1, GETDATE())
+
+INSERT INTO [Configuration]
+([Key], [Description], [Is_Client_Side], [Boolean_Value], [DateTime_Value], [Decimal_Value], [Int_Value], [Money_Value], [String_Value], [Created_By], [Created_Date], [Updated_By], [Updated_Date])
+VALUES ('AUTO_LOGOUT_IS_ENABLED', 'Feature switch to detect if the user is idle and automatically log them out', 1, 1, NULL, NULL, NULL, NULL, NULL, 1, GETDATE(), 1, GETDATE())
 
 
 --add permissions

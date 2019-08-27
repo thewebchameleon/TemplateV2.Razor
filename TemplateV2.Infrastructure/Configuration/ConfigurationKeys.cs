@@ -11,5 +11,9 @@ namespace TemplateV2.Infrastructure.Configuration
         public const string Max_Login_Attempts = "MAX_LOGIN_ATTEMPTS";
         public const string System_From_Email_Address = "SYSTEM_FROM_EMAIL_ADDRESS";
         public const string Contact_Email_Address = "CONTACT_EMAIL_ADDRESS";
+
+        // client-side
+        public const string Auto_Logout_Is_Enabled = "AUTO_LOGOUT_IS_ENABLED";
+        public const string Toast_Delay_Seconds = "TOAST_DELAY_SECONDS";
     }
 }

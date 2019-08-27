@@ -1,6 +1,7 @@
 ﻿CREATE PROCEDURE [dbo].[sp_configuration_item_create]
 	@Key				VARCHAR(256),
 	@Description		VARCHAR(256),
+	@Is_Client_Side		BIT,
 	@Boolean_Value		BIT,
 	@DateTime_Value		DATETIME,
 	@Date_Value			DATE,
@@ -16,6 +17,7 @@ BEGIN
 	    (
 		[Key],
         [Description],
+		[Is_Client_Side],
         [Boolean_Value],
         [DateTime_Value],
 		[Date_Value],
@@ -34,6 +36,7 @@ BEGIN
 	    (
 		@Key,
 		@Description,
+		@Is_Client_Side,
 		@Boolean_Value,
 		@DateTime_Value,
 		@Date_Value,

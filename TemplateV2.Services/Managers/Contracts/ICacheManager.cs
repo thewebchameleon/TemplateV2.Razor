@@ -9,6 +9,8 @@ namespace TemplateV2.Services.Managers.Contracts
     {
         Task<ApplicationConfiguration> Configuration();
 
+        Task<ApplicationConfiguration_Javascript> Configuration_Javascript();
+
         Task<List<RoleEntity>> Roles();
 
         Task<List<UserRoleEntity>> UserRoles();

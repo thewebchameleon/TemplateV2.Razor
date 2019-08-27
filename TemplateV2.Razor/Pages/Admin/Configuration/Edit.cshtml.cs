@@ -45,8 +45,11 @@ namespace TemplateV2.Razor.Pages
             {
                 Id = response.ConfigurationItem.Id,
                 Description = response.ConfigurationItem.Description,
+                IsClientSide = response.ConfigurationItem.Is_Client_Side,
                 BooleanValue = response.ConfigurationItem.Boolean_Value,
                 DateTimeValue = response.ConfigurationItem.DateTime_Value,
+                DateValue = response.ConfigurationItem.Date_Value,
+                TimeValue = response.ConfigurationItem.Time_Value,
                 DecimalValue = response.ConfigurationItem.Decimal_Value,
                 IntValue = response.ConfigurationItem.Int_Value,
                 MoneyValue = response.ConfigurationItem.Money_Value,

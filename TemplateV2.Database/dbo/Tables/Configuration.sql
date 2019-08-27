@@ -3,6 +3,7 @@
     [Key]				VARCHAR (256)   NOT NULL,
     [Description]		VARCHAR (256)   NOT NULL,
     [Boolean_Value]		BIT             NULL,
+	[Is_Client_Side]	BIT             NOT NULL DEFAULT(0),
     [DateTime_Value]	DATETIME        NULL,
 	[Date_Value]		DATE			NULL,
 	[Time_Value]		TIME			NULL,

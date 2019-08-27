@@ -4,6 +4,7 @@ AS
          SELECT [Id],
                 [Key],
                 [Description],
+				[Is_Client_Side],
                 [Boolean_Value],
                 [DateTime_Value],
 				[Date_Value],

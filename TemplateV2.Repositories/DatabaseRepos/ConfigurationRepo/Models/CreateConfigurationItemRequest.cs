@@ -8,13 +8,15 @@ namespace TemplateV2.Repositories.DatabaseRepos.ConfigurationRepo.Models
 
         public string Description { get; set; }
 
+        public bool Is_Client_Side { get; set; }
+
         public bool? Boolean_Value { get; set; }
 
         public DateTime? DateTime_Value { get; set; }
 
         public DateTime? Date_Value { get; set; }
 
-        public DateTime? Time_Value { get; set; }
+        public TimeSpan? Time_Value { get; set; }
 
         public decimal? Decimal_Value { get; set; }
 

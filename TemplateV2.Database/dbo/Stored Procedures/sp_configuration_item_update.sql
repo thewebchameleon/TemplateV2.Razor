@@ -1,6 +1,7 @@
 ﻿CREATE PROCEDURE [dbo].[sp_configuration_item_update]
 	@Id					INT,
 	@Description		VARCHAR(256),
+	@Is_Client_Side		BIT,
 	@Boolean_Value		BIT,
 	@DateTime_Value		DATETIME,
 	@Date_Value			DATE,
@@ -15,6 +16,7 @@ BEGIN
 	UPDATE [Configuration]
 	SET
         [Description] = @Description,
+		[Is_Client_Side] = @Is_Client_Side,
         [Boolean_Value] = @Boolean_Value,
         [DateTime_Value] = @DateTime_Value,
 		[Date_Value] = @Date_Value,

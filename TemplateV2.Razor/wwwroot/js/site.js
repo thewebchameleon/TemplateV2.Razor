@@ -1,92 +1,113 @@
-﻿const TOAST_DELAY = 6000; // toasts last 6 seconds
-IdleSeconds = 0;
-IdleTimeoutSeconds = 120; // 2 minutes, todo: this should match the session expiration date
-IdleTimeoutModalSeconds = IdleTimeoutSeconds - 30; // 30 seconds before session expires
+﻿// default values 
+TOAST_DELAY_SECONDS = 6; // toasts last 6 seconds
+IDLE_SECONDS = 0;
+IDLE_TIMEOUT_SECONDS = 120; // 2 minutes
+IDLE_TIMEOUT_MODAL_SECONDS = IDLE_TIMEOUT_SECONDS - 30; // 30 seconds before session expires
+AUTO_LOGOUT_IS_ENABLED = false;
 
-$(document).ready(function () {
+function GlobalViewModel(configJson) {
+    var self = this;
 
-    // enable toast notifications
-    $('.toast').toast(
-        {
-            autohide: true,
-            delay: TOAST_DELAY
-        }
-    ).toast('show');
+    var config = JSON.parse(configJson); 
 
-    // enable tooltips
-    $('[data-toggle="tooltip"]').tooltip();
+    TOAST_DELAY_SECONDS = config.Toast_Delay_Seconds;
+    IDLE_TIMEOUT_SECONDS = config.Idle_Timeout_Seconds;
+    IDLE_TIMEOUT_MODAL_SECONDS = config.Idle_Timeout_Modal_Seconds;
+    AUTO_LOGOUT_IS_ENABLED = config.Auto_Logout_Is_Enabled;
 
-    // multiselect component - form value handler
-    $('.selectpicker').on('changed.bs.select', function () {
+    self.initialise = function () {
 
-        var dataContainer = $(this).parent('.dropdown').siblings('.selectpicker-data');
-        dataContainer.empty();
+        $(document).ready(function () {
 
-        var id = $(this).attr('id');
-        var propertyName = id.replace('_', '.');
+            // enable toast notifications
+            $('.toast').toast(
+                {
+                    autohide: true,
+                    delay: TOAST_DELAY_SECONDS * 1000
+                }
+            ).toast('show');
 
-        var selectedValues = $(this).val();
-        selectedValues.forEach(function (value) {
-            dataContainer.append("<input type='hidden' name='" + propertyName + "' value=" + value + "></div>");
+            // enable tooltips
+            $('[data-toggle="tooltip"]').tooltip();
+
+            // multiselect component - form value handler
+            $('.selectpicker').on('changed.bs.select', function () {
+
+                var dataContainer = $(this).parent('.dropdown').siblings('.selectpicker-data');
+                dataContainer.empty();
+
+                var id = $(this).attr('id');
+                var propertyName = id.replace('_', '.');
+
+                var selectedValues = $(this).val();
+                selectedValues.forEach(function (value) {
+                    dataContainer.append("<input type='hidden' name='" + propertyName + "' value=" + value + "></div>");
+                });
+
+            });
+
+            // datetime picker - prevent explicit user input
+            $(".datetimepicker-input").keydown(function (e, el) {
+                e.preventDefault();
+                return false();
+            });
+
+            // number input only
+            $(".input-only-number").keydown(function (e, el) {
+                if (/^\d*$/.test(value)) {
+                    return true;
+                }
+                e.preventDefault();
+                return false();
+            });
+
+            // modals - pass id parameter to hidden field on modal
+            $('.modal').on('show.bs.modal', function (e) {
+
+                var id = $(e.relatedTarget).data('target-id');
+
+                // populate modal form id element
+                $(this).find('input[type=hidden][name="Id"]').val(id);
+
+            });
+
+            // datapickers
+            $(".datepicker").datetimepicker({
+                format: 'DD/MM/YYYY'
+            });
+
+            $(".timepicker").datetimepicker({
+                format: 'hh:mm A'
+            });
+
+            $(".datetimepicker").datetimepicker({
+                format: 'DD/MM/YYYY hh:mm A'
+            });
+
+            $(".datepicker, .datetimepicker, .datepicker").on("change.datetimepicker", function (e) {
+                if (e.date) {
+                    $(this).attr('data-date', moment(e.date).format('DD/MMMM/YYYY'));
+                }
+            });
+
+            // datatables ajax error handling
+            if ($.fn.dataTable) {
+                $.fn.dataTable.ext.errMode = function (settings, helpPage, message) {
+                    showNotification(message, 'Error', false);
+                    console.log(message);
+                };
+            }
+
+            // auto logout feature
+            if (AUTO_LOGOUT_IS_ENABLED === true) {
+                enableAutoLogout(IDLE_TIMEOUT_MODAL_SECONDS, IDLE_TIMEOUT_SECONDS);
+            }
         });
+    };
+}
 
-    });
-
-    // datetime picker - prevent explicit user input
-    $(".datetimepicker-input").keydown(function (e, el) {
-        e.preventDefault();
-        return false();
-    });
-
-    // number input only
-    $(".input-only-number").keydown(function (e, el) {
-        if (/^\d*$/.test(value)) {
-            return true;
-        }
-        e.preventDefault();
-        return false();
-    });
-
-    // modals - pass id parameter to hidden field on modal
-    $('.modal').on('show.bs.modal', function (e) {
-
-        var id = $(e.relatedTarget).data('target-id');
-
-        // populate modal form id element
-        $(this).find('input[type=hidden][name="Id"]').val(id);
-
-    });
-
-    // datapickers
-    $(".datepicker").datetimepicker({
-        format: 'DD/MM/YYYY'
-    });
-
-    $(".timepicker").datetimepicker({
-        format: 'LT'
-    });
-
-    $(".datetimepicker").datetimepicker();
-
-    $(".datepicker, .datetimepicker, .datepicker").on("change.datetimepicker", function (e) {
-        if (e.date) {
-            $(this).attr('data-date', moment(e.date).format('DD/MMMM/YYYY'));
-        }
-    });
-
-    // datatables ajax error handling
-    if ($.fn.dataTable) {
-        $.fn.dataTable.ext.errMode = function (settings, helpPage, message) {
-            showNotification(message, 'Error', false);
-            console.log(message);
-        };
-    }
-
-    // auto logout feature
-    EnableAutoLogout(IdleTimeoutModalSeconds, IdleTimeoutSeconds);
-});
-
-function EnableAutoLogout(expiryModalSeconds, expirySeconds) {
+// enables the autologut feature
+function enableAutoLogout(expiryModalSeconds, expirySeconds) {
     var expiryTime = new Date().getTime() + (expirySeconds * 1000);
 
     if ($('#modalAutoLogout')[0]) { // check if we have the modal available
@@ -108,9 +129,9 @@ function EnableAutoLogout(expiryModalSeconds, expirySeconds) {
         });
 
         setInterval(function () {
-            IdleSeconds++;
+            IDLE_SECONDS++;
 
-            if (IdleSeconds >= expiryModalSeconds) {
+            if (IDLE_SECONDS >= expiryModalSeconds) {
                 $('#modalAutoLogout').modal({
                     backdrop: "static",
                     keyboard: false
@@ -143,10 +164,11 @@ function EnableAutoLogout(expiryModalSeconds, expirySeconds) {
 
     function resetExpiryTime(expirySeconds) {
         expiryTime = new Date().getTime() + (expirySeconds * 1000);
-        IdleSeconds = 0;
+        IDLE_SECONDS = 0;
     }
 }
 
+// displays a toast notification
 function showNotification(message, type, autoHide) {
     var typeCss = '';
     if (type === 'Information') {
@@ -177,16 +199,17 @@ function showNotification(message, type, autoHide) {
     $('.toast:last').toast(
         {
             autohide: autoHide,
-            delay: TOAST_DELAY
+            delay: TOAST_DELAY_SECONDS
         }
     ).toast('show');
 }
 
+// re-initializes tooltips (eg: datatables ajax callback)
 function resetToolTips() {
     $('[data-toggle="tooltip"]').tooltip('update');
 }
 
-// used to interpret a C# dictionary and output an html list <li>
+// used to interpret a C# dictionary (JSON) and output an html list <li>
 function buildTooltipList(dictionary) {
     var list = '';
 
@@ -214,7 +237,7 @@ function buildTooltipList(dictionary) {
     return list;
 }
 
-// gets the last action date from 'Admin/Sessions/GetSessionResponse.cs'
+// gets the last action date from the C# object 'Admin/Sessions/GetSessionResponse.cs' (JSON)
 function getLastActionDate(session, defaultExpirationMinutes) {
     var lastSessionLogDate = session.last_Session_Event_Date ? new Date(session.last_Session_Event_Date) : null;
     var lastSessionEventDate = session.last_Session_Log_Date ? new Date(session.last_Session_Log_Date) : null;

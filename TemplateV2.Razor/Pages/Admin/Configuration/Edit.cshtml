@@ -29,6 +29,22 @@
                                 <textarea asp-for="FormData.Description" class="form-control"></textarea>
                                 <span asp-validation-for="FormData.Description" class="text-danger"></span>
                             </div>
+                            <div class="form-group">
+                                <label asp-for="FormData.IsClientSide" class="control-label"></label>
+                                <div>
+                                    <label class="stage-selector-radio">
+                                        <input asp-for="FormData.IsClientSide" type="radio" class="form-check-input" value="@true" />
+                                        <i class="fas fa-check bg-success"></i>
+                                        <span>Yes</span>
+                                    </label>
+                                    <label class="stage-selector-radio mb-3">
+                                        <input asp-for="FormData.IsClientSide" type="radio" class="form-check-input" value="@false" />
+                                        <i class="fas fa-times bg-danger"></i>
+                                        <span>No</span>
+                                    </label>
+                                </div>
+                            </div>
+
                             @if (Model.FormData.BooleanValue.HasValue)
                             {
                                 <div class="form-group">

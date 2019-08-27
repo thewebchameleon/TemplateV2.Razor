@@ -14,6 +14,10 @@ namespace TemplateV2.Models.ServiceModels.Admin.Configuration
         [Required]
         public string Description { get; set; }
 
+        [Required]
+        [Display(Name = "Is Client Side")]
+        public bool IsClientSide { get; set; }
+
         [Display(Name = "Boolean value")]
         public bool? BooleanValue { get; set; }
 
@@ -27,7 +31,7 @@ namespace TemplateV2.Models.ServiceModels.Admin.Configuration
 
         [DataType(DataType.Time)]
         [Display(Name = "Time value")]
-        public DateTime? TimeValue { get; set; }
+        public TimeSpan? TimeValue { get; set; }
 
         [Display(Name = "Decimal value")]
         public decimal? DecimalValue { get; set; }

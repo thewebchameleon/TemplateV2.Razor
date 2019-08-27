@@ -6,6 +6,7 @@ using TemplateV2.Infrastructure.Configuration.Models;
 using TemplateV2.Repositories.UnitOfWork.Contracts;
 using TemplateV2.Models.DomainModels;
 using TemplateV2.Services.Managers.Contracts;
+using System.Linq;
 
 namespace TemplateV2.Services.Managers
 {
@@ -55,6 +56,26 @@ namespace TemplateV2.Services.Managers
             _cacheProvider.Set(CacheConstants.ConfigurationItems, items);
 
             return new ApplicationConfiguration(items);
+        }
+
+        public async Task<ApplicationConfiguration_Javascript> Configuration_Javascript()
+        {
+            var items = new List<ConfigurationEntity>();
+            if (_cacheProvider.TryGet(CacheConstants.ConfigurationItems_Javascript, out items))
+            {
+                return new ApplicationConfiguration_Javascript(items);
+            }
+
+            using (var uow = _uowFactory.GetUnitOfWork())
+            {
+                items = await uow.ConfigurationRepo.GetConfigurationItems();
+                items = items.Where(i => i.Is_Client_Side).ToList();
+                uow.Commit();
+            }
+
+            _cacheProvider.Set(CacheConstants.ConfigurationItems_Javascript, items);
+
+            return new ApplicationConfiguration_Javascript(items);
         }
 
         public async Task<List<PermissionEntity>> Permissions()

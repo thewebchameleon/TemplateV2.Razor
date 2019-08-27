@@ -82,6 +82,7 @@ namespace TemplateV2.Services.Admin
                 {
                     Id = request.Id,
                     Description = request.Description,
+                    Is_Client_Side = request.IsClientSide,
                     Boolean_Value = request.BooleanValue,
                     DateTime_Value = request.DateTimeValue,
                     Date_Value = request.DateValue,
@@ -105,7 +106,7 @@ namespace TemplateV2.Services.Admin
                 EventKey = SessionEventKeys.ConfigurationUpdated,
                 Info = new Dictionary<string, string>()
                 {
-                    { "Key", configItem.Key.ToString() }
+                    { "Key", configItem.Key }
                 }
             });
 
@@ -134,6 +135,7 @@ namespace TemplateV2.Services.Admin
                 {
                     Key = request.Key,
                     Description = request.Description,
+                    Is_Client_Side = request.IsClientSide,
                     Boolean_Value = request.BooleanValue,
                     DateTime_Value = request.DateTimeValue,
                     Date_Value = request.DateValue,
@@ -154,7 +156,7 @@ namespace TemplateV2.Services.Admin
                 EventKey = SessionEventKeys.ConfigurationCreated,
                 Info = new Dictionary<string, string>()
                 {
-                    { "Key", request.Key.ToString() }
+                    { "Key", request.Key }
                 }
             });
 
