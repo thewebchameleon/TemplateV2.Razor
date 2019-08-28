@@ -8,12 +8,12 @@ AUTO_LOGOUT_IS_ENABLED = false;
 function GlobalViewModel(configJson) {
     var self = this;
 
-    var config = JSON.parse(configJson); 
+    var configItems = JSON.parse(configJson).Items; 
 
-    TOAST_DELAY_SECONDS = config.Toast_Delay_Seconds;
-    IDLE_TIMEOUT_SECONDS = config.Idle_Timeout_Seconds;
-    IDLE_TIMEOUT_MODAL_SECONDS = config.Idle_Timeout_Modal_Seconds;
-    AUTO_LOGOUT_IS_ENABLED = config.Auto_Logout_Is_Enabled;
+    TOAST_DELAY_SECONDS = configItems.filter(function (item) { return item.Key === 'TOAST_DELAY_SECONDS'; })[0].Int_Value;
+    IDLE_TIMEOUT_SECONDS = configItems.filter(function (item) { return item.Key === 'IDLE_TIMEOUT_SECONDS'; })[0].Int_Value;
+    IDLE_TIMEOUT_MODAL_SECONDS = configItems.filter(function (item) { return item.Key === 'IDLE_TIMEOUT_MODAL_SECONDS'; })[0].Int_Value; 
+    AUTO_LOGOUT_IS_ENABLED = configItems.filter(function (item) { return item.Key === 'AUTO_LOGOUT_IS_ENABLED'; })[0].Boolean_Value;
 
     self.initialise = function () {
 

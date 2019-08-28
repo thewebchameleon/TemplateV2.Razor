@@ -18,7 +18,9 @@
                 <div class="card-body p-0">
                     <!-- Nested Row within Card Body -->
                     <div class="px-5 py-4">
-                        <p>Please remember to add any new Keys to the application source code</p>
+                        <div class="alert alert-info" role="alert">
+                            Keys must be uppercase, contain only letters, numbers and use underscores instead of spaces.
+                        </div>
                         <form asp-controller="Admin" asp-action="CreateConfigurationItem" method="post" class="form-horizontal" role="form">
                             <div asp-validation-summary="All" class="text-danger"></div>
                             <div class="form-group">
@@ -32,19 +34,12 @@
                                 <span asp-validation-for="FormData.Description" class="text-danger"></span>
                             </div>
                             <div class="form-group">
-                                <label asp-for="FormData.IsClientSide" class="control-label"></label>
-                                <div>
-                                    <label class="stage-selector-radio">
-                                        <input asp-for="FormData.IsClientSide" type="radio" class="form-check-input" value="@true" />
-                                        <i class="fas fa-check bg-success"></i>
-                                        <span>Yes</span>
-                                    </label>
-                                    <label class="stage-selector-radio mb-3">
-                                        <input asp-for="FormData.IsClientSide" type="radio" class="form-check-input" value="@false" />
-                                        <i class="fas fa-times bg-danger"></i>
-                                        <span>No</span>
-                                    </label>
-                                </div>
+                                <input asp-for="FormData.IsClientSide" type="checkbox">
+                                <label asp-for="FormData.IsClientSide"></label>
+                                <label asp-for="FormData.IsClientSide">Is Client Side</label>
+                                <span data-toggle="tooltip" data-placement="top" title="Be cautious about sending configuration values to the user's browser">
+                                    <i class="fas fa-exclamation-triangle text-warning"></i>
+                                </span>
                             </div>
 
                             <!-- Nav tabs -->
@@ -102,7 +97,6 @@
                                     </a>
                                 </li>
 
-
                             </ul>
 
                             <!-- Tab panes -->
@@ -116,13 +110,13 @@
                                 </div>
                                 <div class="tab-pane" id="boolean" role="tabpanel" aria-labelledby="tab-boolean">
                                     <label asp-for="FormData.BooleanValue" class="control-label"></label>
-                                    <div>
-                                        <label class="stage-selector-radio">
+                                    <div class="radio-buttons mb-3">
+                                        <label>
                                             <input asp-for="FormData.BooleanValue" type="radio" class="form-check-input" value="@true" />
                                             <i class="fas fa-check bg-success"></i>
                                             <span>On</span>
                                         </label>
-                                        <label class="stage-selector-radio mb-3">
+                                        <label>
                                             <input asp-for="FormData.BooleanValue" type="radio" class="form-check-input" value="@false" />
                                             <i class="fas fa-times bg-danger"></i>
                                             <span>Off</span>
@@ -143,7 +137,7 @@
                                     <label asp-for="FormData.MoneyValue" class="control-label"></label>
                                     <div class="input-group">
                                         <div class="input-group-prepend">
-                                            <div class="input-group-text">R</div>
+                                            <div class="input-group-text bg-primary text-white">R</div>
                                         </div>
                                         <input asp-for="FormData.MoneyValue" class="form-control" />
                                     </div>
@@ -200,10 +194,10 @@
 
 @section Scripts  {
 
-<script type="text/javascript">
+    <script type="text/javascript">
 
-  
 
-</script>
+
+    </script>
 
 }

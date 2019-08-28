@@ -34,10 +34,9 @@
                                         <span asp-validation-for="FormData.Password" class="text-danger"></span>
                                     </div>
                                     <div class="form-group">
-                                        <div class="custom-control custom-checkbox small">
-                                            <input asp-for="FormData.RememberMe" type="checkbox" class="custom-control-input" id="customCheck">
-                                            <label asp-for="FormData.RememberMe" class="custom-control-label" for="customCheck">Remember Me</label>
-                                        </div>
+                                        <input asp-for="FormData.RememberMe" type="checkbox">
+                                        <label asp-for="FormData.RememberMe"></label>
+                                        <label asp-for="FormData.RememberMe">Remember Me</label>
                                     </div>
                                     <button class="btn btn-primary btn-user btn-block" type="submit">
                                         Login

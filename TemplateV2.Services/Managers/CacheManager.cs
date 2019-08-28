@@ -7,6 +7,7 @@ using TemplateV2.Repositories.UnitOfWork.Contracts;
 using TemplateV2.Models.DomainModels;
 using TemplateV2.Services.Managers.Contracts;
 using System.Linq;
+using TemplateV2.Infrastructure.Configuration;
 
 namespace TemplateV2.Services.Managers
 {
@@ -60,7 +61,7 @@ namespace TemplateV2.Services.Managers
 
         public async Task<ApplicationConfiguration_Javascript> Configuration_Javascript()
         {
-            var items = new List<ConfigurationEntity>();
+            var items = new List<Client_Configuration>();
             if (_cacheProvider.TryGet(CacheConstants.ConfigurationItems_Javascript, out items))
             {
                 return new ApplicationConfiguration_Javascript(items);
@@ -68,10 +69,34 @@ namespace TemplateV2.Services.Managers
 
             using (var uow = _uowFactory.GetUnitOfWork())
             {
-                items = await uow.ConfigurationRepo.GetConfigurationItems();
-                items = items.Where(i => i.Is_Client_Side).ToList();
+                var response = await uow.ConfigurationRepo.GetConfigurationItems();
+                items = response.Where(i => i.Is_Client_Side).Select(i => new Client_Configuration()
+                {
+                    Key = i.Key,
+                    Boolean_Value = i.Boolean_Value,
+                    DateTime_Value = i.DateTime_Value,
+                    Date_Value = i.Date_Value,
+                    Decimal_Value = i.Decimal_Value,
+                    Description = i.Description,
+                    Int_Value = i.Int_Value,
+                    Money_Value = i.Money_Value,
+                    String_Value = i.String_Value,
+                    Time_Value = i.Time_Value
+                }).ToList();
                 uow.Commit();
             }
+
+            items.Add(new Client_Configuration()
+            {
+                Key = "IDLE_TIMEOUT_SECONDS",
+                Int_Value = ApplicationConstants.SessionTimeoutSeconds
+            });
+
+            items.Add(new Client_Configuration()
+            {
+                Key = "IDLE_TIMEOUT_MODAL_SECONDS",
+                Int_Value = ApplicationConstants.SessionModalTimeoutSeconds
+            });
 
             _cacheProvider.Set(CacheConstants.ConfigurationItems_Javascript, items);
 
