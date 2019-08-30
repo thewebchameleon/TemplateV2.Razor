@@ -42,14 +42,13 @@
                             {
                                 <div class="form-group">
                                     <label asp-for="FormData.BooleanValue" class="control-label"></label>
-
-                                    <div>
-                                        <label class="stage-selector-radio">
+                                    <div class="radio-buttons mb-3">
+                                        <label>
                                             <input asp-for="FormData.BooleanValue" type="radio" class="form-check-input" value="@true" />
                                             <i class="fas fa-check bg-success"></i>
                                             <span>On</span>
                                         </label>
-                                        <label class="stage-selector-radio mb-3">
+                                        <label>
                                             <input asp-for="FormData.BooleanValue" type="radio" class="form-check-input" value="@false" />
                                             <i class="fas fa-times bg-danger"></i>
                                             <span>Off</span>
