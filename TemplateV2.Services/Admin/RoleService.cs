@@ -185,7 +185,8 @@ namespace TemplateV2.Services.Admin
             var roles = await _cache.Roles();
             var role = roles.FirstOrDefault(r => r.Id == id);
 
-            await CreateOrDeleteRolePermissions(request.PermissionIds, id, sessionUser.Id);
+            var selectedPermissionIds = request.PermissionIds.Where(p => p.Selected).Select(p => p.Id).ToList();
+            await CreateOrDeleteRolePermissions(selectedPermissionIds, id, sessionUser.Id);
 
             await _sessionManager.WriteSessionLogEvent(new Models.ManagerModels.Session.CreateSessionLogEventRequest()
             {
