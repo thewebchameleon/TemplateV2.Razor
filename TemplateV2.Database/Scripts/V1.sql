@@ -166,7 +166,7 @@ VALUES ('AUTO_LOGOUT_IS_ENABLED', 'Feature switch to detect if the user is idle 
 --add permissions
 INSERT INTO [Permission]
 ([Key], [Group_Name], [Name], [Description], [Created_By], [Created_Date], [Updated_By], [Updated_Date])
-VALUES ('SESSIONS_VIEW', 'Sessions', 'View sessions', 'View user''s sessions', 1, GETDATE(), 1, GETDATE())
+VALUES ('SESSIONS_VIEW', 'Admin', 'View sessions', 'View user''s sessions', 1, GETDATE(), 1, GETDATE())
 
 INSERT INTO [Permission]
 ([Key], [Group_Name], [Name], [Description], [Created_By], [Created_Date], [Updated_By], [Updated_Date])

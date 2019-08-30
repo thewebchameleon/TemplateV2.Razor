@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using TemplateV2.Services.Managers.Contracts;
 using TemplateV2.Services.Admin.Contracts;
+using TemplateV2.Models;
 
 namespace TemplateV2.Razor.Pages
 {
@@ -56,7 +57,10 @@ namespace TemplateV2.Razor.Pages
                 Id = response.Role.Id,
                 Description = response.Role.Description,
                 Name = response.Role.Name,
-                PermissionIds = response.Permissions.Select(c => c.Id).ToList()
+                PermissionIds = response.Permissions.Select(c => new CheckboxItemSelection() {
+                    Id = c.Id,
+                    Selected = true
+                }).ToList()
             };
         }
 

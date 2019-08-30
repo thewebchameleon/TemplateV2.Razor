@@ -28,10 +28,28 @@
                     <div class="px-5 py-4">
                         <form class="user" method="post" role="form">
                             <div asp-validation-summary="All" class="text-danger"></div>
-                            <div class="form-group">
-                                <label asp-for="FormData.Username" class="control-label"></label>
-                                <input asp-for="FormData.Username" class="form-control" />
-                                <span asp-validation-for="FormData.Username" class="text-danger"></span>
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label asp-for="FormData.Username" class="control-label"></label>
+                                    <input asp-for="FormData.Username" class="form-control" />
+                                    <span asp-validation-for="FormData.Username" class="text-danger"></span>
+                                </div>
+                                @if (Model.Roles.Any())
+                                {
+                                    <div class="form-group col-md-6">
+                                        <label asp-for="Roles" class="control-label"></label>
+                                        <label class="d-block form-control">
+                                            @foreach (var (item, index) in Model.Roles.WithIndex())
+                                            {
+                                                if (index > 0)
+                                                {
+                                                    <span class="font-weight-bold">|</span>
+                                                }
+                                                @item.Name
+                                            }
+                                        </label>
+                                    </div>
+                                }
                             </div>
                             <div class="form-row">
                                 <div class="form-group col-md-6">
@@ -162,7 +180,7 @@
                         });
 
                         valSummary.removeClass("validation-summary-valid").addClass("validation-summary-errors");
-                        
+
                     }
                     if (response.status == 500) {
                           $("#panelFail").show();

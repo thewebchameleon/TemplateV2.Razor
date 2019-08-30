@@ -33,7 +33,7 @@
                             <div class="form-row">
                                 <div class="form-group col-md-6">
                                     <label asp-for="FormData.PermissionIds" class="control-label"></label>
-                                    <multiselect asp-for="FormData.PermissionIds" asp-items="Model.PermissionsLookup.Select(i => new SelectListItem() { Text = i.Name, Value = i.Id.ToString(), Group = new SelectListGroup() { Name = i.Group_Name }})"></multiselect>
+                                    <multiselect asp-for="FormData.PermissionIds" asp-items="Model.PermissionsLookup.ToSelectList()"></multiselect>
                                 </div>
                             </div>
                             <div class="form-group my-4">

@@ -220,7 +220,8 @@ namespace TemplateV2.Services.Admin
                 uow.Commit();
             }
 
-            await CreateOrDeleteRolePermissions(request.PermissionIds, request.Id, sessionUser.Id);
+            var selectedPermissionIds = request.PermissionIds.Where(p => p.Selected).Select(p => p.Id).ToList();
+            await CreateOrDeleteRolePermissions(selectedPermissionIds, request.Id, sessionUser.Id);
 
             _cache.Remove(CacheConstants.Roles);
             _cache.Remove(CacheConstants.RolePermissions);

@@ -2,6 +2,7 @@
     height: 0;
     width: 0;
     visibility: hidden;
+    display: none;
 
     &:checked + label {
         background: #4e73df;

@@ -13,11 +13,11 @@ namespace TemplateV2.Models.ServiceModels.Admin.Roles
         public string Description { get; set; }
 
         [Display(Name = "Permissions")]
-        public List<int> PermissionIds { get; set; }
+        public List<CheckboxItemSelection> PermissionIds { get; set; }
 
         public UpdateRoleRequest()
         {
-            PermissionIds = new List<int>();
+            PermissionIds = new List<CheckboxItemSelection>();
         }
     }
 }

@@ -5,12 +5,13 @@ using Microsoft.AspNetCore.Razor.TagHelpers;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using TemplateV2.Models;
 using TemplateV2.Models.DomainModels;
 
 namespace TemplateV2.Razor.TagHelpers
 {
-    [HtmlTargetElement("multiselect", Attributes = "asp-items, asp-for")]
-    public class MultiSelectTagHelper : TagHelper
+    [HtmlTargetElement("multicheckbox", Attributes = "asp-items, asp-for")]
+    public class MultiCheckboxTagHelper : TagHelper
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
 
@@ -18,7 +19,7 @@ namespace TemplateV2.Razor.TagHelpers
 
         private string ElementName { get { return SelectedValues.Name; } }
 
-        public MultiSelectTagHelper(IHttpContextAccessor httpContextAccessor)
+        public MultiCheckboxTagHelper(IHttpContextAccessor httpContextAccessor)
         {
             _httpContextAccessor = httpContextAccessor;
         }
@@ -27,7 +28,7 @@ namespace TemplateV2.Razor.TagHelpers
         /// Gets or sets the items that are bound to this multiselect list
         /// </summary>
         [HtmlAttributeName("asp-items")]
-        public IEnumerable<SelectListItem> Items { get; set; }
+        public IEnumerable<CheckboxListItem> Items { get; set; }
 
         /// <summary>
         /// Gets or sets the selected values for the list
@@ -37,12 +38,11 @@ namespace TemplateV2.Razor.TagHelpers
 
         public override void Process(TagHelperContext context, TagHelperOutput output)
         {
-            output.TagName = "select";
+            output.TagName = "div";
             output.TagMode = TagMode.StartTagAndEndTag;
 
-            output.Attributes.SetAttribute("id", ElementId);
-            output.Attributes.SetAttribute("class", "selectpicker form-control");
-            output.Attributes.SetAttribute(new TagHelperAttribute("multiple"));
+            //output.Attributes.SetAttribute("class", "selectpicker form-control");
+            //output.Attributes.SetAttribute(new TagHelperAttribute("multiple"));
 
             if (SelectedValues.Model != null)
             {
@@ -51,16 +51,27 @@ namespace TemplateV2.Razor.TagHelpers
                 bool mustGroup = Items.Any(i => i.Group != null);
                 if (mustGroup)
                 {
+                    int index = 0;
                     foreach (var groupedItems in Items.GroupBy(i => i.Group.Name))
                     {
-                        sb.AppendLine($"<optgroup label='{groupedItems.Key}'>");
+                        sb.AppendLine($"<fieldset>");
+                        sb.AppendLine($"<legend class=''>{groupedItems.Key}</legend>");
+                        sb.AppendLine($"<div class='form-row'>");
                         foreach (var item in groupedItems)
                         {
                             var disabledAttribute = item.Disabled ? "disabled" : string.Empty;
-                            var selectedAttribute = ((List<int>)SelectedValues.Model).Any(c => c == int.Parse(item.Value)) ? "selected" : string.Empty;
-                            sb.AppendLine($"<option value='{item.Value}' {selectedAttribute} {disabledAttribute}>{item.Text}</option>");
+                            var selectedAttribute = ((List<CheckboxItemSelection>)SelectedValues.Model).Any(c => c.Id == int.Parse(item.Value)) ? "checked" : string.Empty;
+
+                            sb.AppendLine($"<div class='form-group d-flex align-items-center mr-3'>");
+                            sb.AppendLine($"<input type='hidden' name='{ElementName}[{index}].Id' value='{item.Value}'>");
+                            sb.AppendLine($"<input type='checkbox' id='{ElementId}[{index}].Id' name='{ElementName}[{index}].Selected' value='true' {disabledAttribute} {selectedAttribute} />");
+                            sb.AppendLine($"<label for='{ElementId}[{index}].Id'></label>");
+                            sb.AppendLine($"<label for='{ElementId}[{index}].Id'>{item.Text}</label>");
+                            sb.AppendLine($"</div>");
+                            index++;
                         }
-                        sb.AppendLine($"</optgroup>");
+                        sb.AppendLine($"</div>");
+                        sb.AppendLine($"</fieldset>");
                     }
                 }
                 else
@@ -73,26 +84,16 @@ namespace TemplateV2.Razor.TagHelpers
                     }
                 }
                 output.PreContent.SetHtmlContent(sb.ToString());
-
-                // configure selected inputs container
-                sb = new StringBuilder();
-                sb.AppendLine($"<div class='selectpicker-data'>");
-                foreach (var value in SelectedValues.Model as List<int>)
-                {
-                    sb.AppendLine($"<input type='hidden' name='{ElementName}' value='{value}' />");
-                }
-                sb.AppendLine($"</div>");
-                output.PostElement.AppendHtml(sb.ToString());
             }
         }
     }
 
-    public static class SelectListExtensions
+    public static class CheckboxListExtensions
     {
-        public static List<SelectListItem> ToSelectList(this List<PermissionEntity> items)
+        public static List<CheckboxListItem> ToCheckboxList(this List<PermissionEntity> items)
         {
             return items.Select(i =>
-            new SelectListItem()
+            new CheckboxListItem()
             {
                 Text = i.Name,
                 Value = i.Id.ToString(),
@@ -102,16 +103,18 @@ namespace TemplateV2.Razor.TagHelpers
                 }
             }).ToList();
         }
+    }
 
-        public static List<SelectListItem> ToSelectList(this List<RoleEntity> items)
-        {
-            return items.Select(i =>
-            new SelectListItem()
-            {
-                Text = i.Name,
-                Value = i.Id.ToString()
-            }).ToList();
-        }
+    public class CheckboxListItem
+    {
+        public string Text { get; set; }
 
+        public string Value { get; set; }
+
+        public SelectListGroup Group { get; set; }
+
+        public bool Disabled { get; set; }
+
+        public bool Selected { get; set; }
     }
 }

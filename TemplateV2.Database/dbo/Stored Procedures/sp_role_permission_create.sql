@@ -16,17 +16,16 @@ BEGIN
 	BEGIN
 
 		-- reactivate deleted record
-		DECLARE @Id INT;
-
 		UPDATE [Role_Permission]
-		SET 
+		SET		
 				[Is_Deleted] = 0,
 				[Updated_By] = Created_By,
 				[Updated_Date] = GETDATE()
 		WHERE	[Role_Id] = @Role_Id
 		AND		[Permission_Id] = @Permission_Id
 
-		SELECT @Id AS [Id]
+		SELECT @Permission_Id AS [Id]
+
 	END 
 	ELSE
 	BEGIN

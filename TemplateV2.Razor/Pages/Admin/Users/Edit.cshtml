@@ -99,7 +99,7 @@
                             <div class="form-row">
                                 <div class="form-group col-md-6">
                                     <label asp-for="FormData.RoleIds" class="control-label"></label>
-                                    <multiselect asp-for="FormData.RoleIds" asp-items="Model.RolesLookup.Select(i => new SelectListItem(i.Name, i.Id.ToString()))"></multiselect>
+                                    <multiselect asp-for="FormData.RoleIds" asp-items="Model.RolesLookup.ToSelectList()"></multiselect>
                                 </div>
                             </div>
                             <div class="form-group my-4">

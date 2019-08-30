@@ -103,56 +103,54 @@
         </a>
     </li>
 
-    <!-- Divider -->
-    <hr class="sidebar-divider" asp-permission="@PermissionKeys.ViewAdmin" />
+    <div asp-role-group="@PermissionGroupConstants.Admin">
 
-    <!-- Heading -->
-    <div class="sidebar-heading" asp-permission="@PermissionKeys.ViewAdmin">
-        Admin
+        <hr class="sidebar-divider" />
+
+        <div class="sidebar-heading">
+            Admin
+        </div>
+
+        <li class="nav-item" asp-permission="@PermissionKeys.ManageUsers">
+            <a class="nav-link" asp-page="/Admin/Users/Index">
+                <i class="fas fa-fw fa-users"></i>
+                <span>Users</span>
+            </a>
+        </li>
+
+        <li class="nav-item" asp-permission="@PermissionKeys.ManageRoles">
+            <a class="nav-link" asp-page="/Admin/Roles/Index">
+                <i class="fas fa-fw fa-user-shield"></i>
+                <span>Roles</span>
+            </a>
+        </li>
+
+        <li class="nav-item" asp-permission="@PermissionKeys.ViewSessions">
+            <a class="nav-link" asp-page="/Admin/Sessions/Index">
+                <i class="fas fa-fw fa-list"></i>
+                <span>Sessions</span>
+            </a>
+        </li>
+
+        <li class="nav-item" asp-permission="@PermissionKeys.ViewAdmin">
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseAdmin" aria-expanded="true" aria-controls="collapseAdmin">
+                <i class="fas fa-fw fa-wrench"></i>
+                <span>Configuration</span>
+            </a>
+            <div id="collapseAdmin" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    <h6 class="collapse-header" asp-permission="@PermissionKeys.ManageConfiguration">Global</h6>
+                    <a class="collapse-item" asp-page="/Admin/Configuration/Index" asp-permission="@PermissionKeys.ManageConfiguration">Application</a>
+                    
+                    <h6 class="collapse-header" asp-permissions="@new List<string>() { PermissionKeys.ManagePermissions, PermissionKeys.ManageSessionEvents }">Lookups</h6>
+                    <a class="collapse-item" asp-page="/Admin/Permissions/Index" asp-permission="@PermissionKeys.ManagePermissions">Permissions</a>
+                    <a class="collapse-item" asp-page="/Admin/SessionEvents/Index" asp-permission="@PermissionKeys.ManageSessionEvents">Session Events</a>
+                </div>
+            </div>
+        </li>
+
     </div>
 
-    <!-- Nav Item - Charts -->
-    <li class="nav-item" asp-permission="@PermissionKeys.ManageUsers">
-        <a class="nav-link" asp-page="/Admin/Users/Index">
-            <i class="fas fa-fw fa-users"></i>
-            <span>Users</span>
-        </a>
-    </li>
-
-    <!-- Nav Item - Tables -->
-    <li class="nav-item" asp-permission="@PermissionKeys.ManageRoles">
-        <a class="nav-link" asp-page="/Admin/Roles/Index">
-            <i class="fas fa-fw fa-user-shield"></i>
-            <span>Roles</span>
-        </a>
-    </li>
-
-    <!-- Nav Item - Tables -->
-    <li class="nav-item" asp-permission="@PermissionKeys.ViewSessions">
-        <a class="nav-link" asp-page="/Admin/Sessions/Index">
-            <i class="fas fa-fw fa-list"></i>
-            <span>Sessions</span>
-        </a>
-    </li>
-
-    <!-- Nav Item - Pages Collapse Menu -->
-    <li class="nav-item" asp-permission="@PermissionKeys.ViewAdmin">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseAdmin" aria-expanded="true" aria-controls="collapseAdmin">
-            <i class="fas fa-fw fa-wrench"></i>
-            <span>Configuration</span>
-        </a>
-        <div id="collapseAdmin" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
-            <div class="bg-white py-2 collapse-inner rounded">
-                <h6 class="collapse-header">Global</h6>
-                <a class="collapse-item" asp-page="/Admin/Configuration/Index" asp-permission="@PermissionKeys.ManageConfiguration">Application</a>
-                <h6 class="collapse-header">Lookups</h6>
-                <a class="collapse-item" asp-page="/Admin/Permissions/Index" asp-permission="@PermissionKeys.ManagePermissions">Permissions</a>
-                <a class="collapse-item" asp-page="/Admin/SessionEvents/Index" asp-permission="@PermissionKeys.ManageSessionEvents">Session Events</a>
-            </div>
-        </div>
-    </li>
-
-    <!-- Divider -->
     <hr class="sidebar-divider d-none d-md-block">
 
     <!-- Sidebar Toggler (Sidebar) -->
