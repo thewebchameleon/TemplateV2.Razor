@@ -40,6 +40,7 @@ Intended for building **small self-contained business applications**, this templ
 - Custom tag helpers
 	- [Multiselect](https://developer.snapappointments.com/bootstrap-select/) dropdown (`MultiselectTagHelper.cs`)
 	- Authorization attribute (`AuthorizationTagHelper.cs`)
+	- MultiCheckbox (`MultiCheckboxTagHelper.cs`)
 
 ### Security
 - Cookie authentication using authorization with permissions
