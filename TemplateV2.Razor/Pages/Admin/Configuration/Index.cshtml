@@ -29,20 +29,28 @@
                     <tbody>
                         @foreach (var configurationItem in Model.ConfigurationItems)
                         {
-                        <tr>
-                            <td>
-                                <span data-toggle="tooltip" data-placement="top" title="@configurationItem.Description">
-                                    <i class="fas fa-question-circle"></i>
-                                </span>
-                                @configurationItem.Key
-                            </td>
-                            <td>@configurationItem.GetDisplayValue()</td>
-                            <td>
-                                <a asp-page="/Admin/Configuration/Edit" asp-route-id="@configurationItem.Id">
-                                    <i class="fas fa-edit"></i>
-                                </a>
-                            </td>
-                        </tr>
+                            <tr>
+                                <td>
+                                    <span data-toggle="tooltip" data-placement="top" title="@configurationItem.Description">
+                                        <i class="fas fa-question-circle"></i>
+                                    </span>
+                                    @configurationItem.Key
+                                </td>
+                                <td>
+                                    @configurationItem.GetDisplayValue()
+                                    @if (configurationItem.Is_Client_Side)
+                                    {
+                                        <span data-toggle="tooltip" data-placement="top" title="Value is sent to the user's browser">
+                                            <i class="fas fa-exclamation-triangle text-warning"></i>
+                                        </span>
+                                    }
+                                </td>
+                                <td>
+                                    <a asp-page="/Admin/Configuration/Edit" asp-route-id="@configurationItem.Id">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                </td>
+                            </tr>
                         }
                     </tbody>
                 </table>
@@ -61,7 +69,7 @@
             var table = $('#dataTable').DataTable({
                 columnDefs: [
                     { orderable: false, targets: -1 },
-                    {  }
+                    {}
                 ]
             });
 

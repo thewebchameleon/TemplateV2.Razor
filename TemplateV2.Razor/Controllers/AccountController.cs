@@ -1,7 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
-using TemplateV2.Models.ServiceModels.Account;
+﻿using Microsoft.AspNetCore.Mvc;
 using TemplateV2.Services.Contracts;
 
 namespace TemplateV2.Razor.Controllers

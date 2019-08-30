@@ -90,7 +90,14 @@
                             {
                                 <div class="form-group">
                                     <label asp-for="FormData.DateTimeValue" class="control-label"></label>
-                                    <input asp-for="FormData.DateTimeValue" class="form-control" />
+                                    <div id="dateDateTime" class="input-group mb-3 date datetimepicker" data-target-input="nearest">
+                                        <input asp-for="FormData.DateTimeValue" type="text" class="form-control datetimepicker-input" data-target="#dateDateTime" />
+                                        <div class="input-group-append" data-target="#dateDateTime" data-toggle="datetimepicker">
+                                            <div class="input-group-text bg-primary text-white">
+                                                <i class="fas fa-calendar-day"></i>
+                                            </div>
+                                        </div>
+                                    </div>
                                     <span asp-validation-for="FormData.DateTimeValue" class="text-danger"></span>
                                 </div>
                             }
@@ -98,7 +105,14 @@
                             {
                                 <div class="form-group">
                                     <label asp-for="FormData.DateValue" class="control-label"></label>
-                                    <input asp-for="FormData.DateValue" class="form-control" />
+                                    <div id="dateDay" class="input-group mb-3 date datepicker" data-target-input="nearest">
+                                        <input asp-for="FormData.DateValue" type="text" class="form-control datetimepicker-input" data-target="#dateDay" />
+                                        <div class="input-group-append" data-target="#dateDay" data-toggle="datetimepicker">
+                                            <div class="input-group-text bg-primary text-white">
+                                                <i class="fas fa-calendar-day"></i>
+                                            </div>
+                                        </div>
+                                    </div>
                                     <span asp-validation-for="FormData.DateValue" class="text-danger"></span>
                                 </div>
                             }
@@ -106,7 +120,14 @@
                             {
                                 <div class="form-group">
                                     <label asp-for="FormData.TimeValue" class="control-label"></label>
-                                    <input asp-for="FormData.TimeValue" class="form-control" />
+                                    <div id="dateTime" class="input-group mb-3 date timepicker" data-target-input="nearest">
+                                        <input asp-for="FormData.TimeValue" type="text" class="form-control datetimepicker-input" data-target="#dateTime" />
+                                        <div class="input-group-append" data-target="#dateTime" data-toggle="datetimepicker">
+                                            <div class="input-group-text bg-primary text-white">
+                                                <i class="fas fa-clock"></i>
+                                            </div>
+                                        </div>
+                                    </div>
                                     <span asp-validation-for="FormData.TimeValue" class="text-danger"></span>
                                 </div>
                             }
