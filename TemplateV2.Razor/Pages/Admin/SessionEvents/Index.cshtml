@@ -12,7 +12,7 @@
 
     <div class="card shadow mb-4">
         <div class="card-header py-3">
-            <div class="panel-controls" asp-permission="@PermissionKeys.ManageSessionEvents">
+            <div class="panel-controls">
                 <a asp-page="/Admin/SessionEvents/Create" class="btn btn-primary">Create</a>
             </div>
         </div>
@@ -34,7 +34,7 @@
                             <td>@sessionEvent.Description</td>
                             <td>
                                 <a asp-page="/Admin/SessionEvents/Edit" asp-route-id="@sessionEvent.Id">
-                                    <i class="fas fa-edit"></i>
+                                    <i class="fas fa-edit" data-toggle="tooltip" data-placement="left" title="Edit"></i>
                                 </a>
                             </td>
                         </tr>

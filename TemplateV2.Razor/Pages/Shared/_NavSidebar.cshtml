@@ -103,7 +103,7 @@
         </a>
     </li>
 
-    <div asp-role-group="@PermissionGroupConstants.Admin">
+    <div asp-permission-group="@PermissionGroupConstants.Admin">
 
         <hr class="sidebar-divider" />
 
@@ -132,19 +132,19 @@
             </a>
         </li>
 
-        <li class="nav-item" asp-permission="@PermissionKeys.ViewAdmin">
+        <li class="nav-item" asp-permission="@PermissionKeys.ManageConfiguration">
             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseAdmin" aria-expanded="true" aria-controls="collapseAdmin">
                 <i class="fas fa-fw fa-wrench"></i>
                 <span>Configuration</span>
             </a>
             <div id="collapseAdmin" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
-                    <h6 class="collapse-header" asp-permission="@PermissionKeys.ManageConfiguration">Global</h6>
-                    <a class="collapse-item" asp-page="/Admin/Configuration/Index" asp-permission="@PermissionKeys.ManageConfiguration">Application</a>
+                    <h6 class="collapse-header">Global</h6>
+                    <a class="collapse-item" asp-page="/Admin/Configuration/Index">Application</a>
                     
-                    <h6 class="collapse-header" asp-permissions="@new List<string>() { PermissionKeys.ManagePermissions, PermissionKeys.ManageSessionEvents }">Lookups</h6>
-                    <a class="collapse-item" asp-page="/Admin/Permissions/Index" asp-permission="@PermissionKeys.ManagePermissions">Permissions</a>
-                    <a class="collapse-item" asp-page="/Admin/SessionEvents/Index" asp-permission="@PermissionKeys.ManageSessionEvents">Session Events</a>
+                    <h6 class="collapse-header">Lookups</h6>
+                    <a class="collapse-item" asp-page="/Admin/Permissions/Index">Permissions</a>
+                    <a class="collapse-item" asp-page="/Admin/SessionEvents/Index">Session Events</a>
                 </div>
             </div>
         </li>

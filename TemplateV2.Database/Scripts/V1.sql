@@ -178,19 +178,7 @@ VALUES ('ROLES_MANAGE', 'Admin', 'Manage roles', 'Create, edit and moderate role
 
 INSERT INTO [Permission]
 ([Key], [Group_Name], [Name], [Description], [Created_By], [Created_Date], [Updated_By], [Updated_Date])
-VALUES ('PERMISSIONS_MANAGE', 'Admin', 'Manage permissions', 'Create and edit permissions', 1, GETDATE(), 1, GETDATE())
-
-INSERT INTO [Permission]
-([Key], [Group_Name], [Name], [Description], [Created_By], [Created_Date], [Updated_By], [Updated_Date])
-VALUES ('SESSION_EVENTS_MANAGE', 'Admin', 'Manage session events', 'Create and edit session events', 1, GETDATE(), 1, GETDATE())
-
-INSERT INTO [Permission]
-([Key], [Group_Name], [Name], [Description], [Created_By], [Created_Date], [Updated_By], [Updated_Date])
 VALUES ('CONFIGURATION_MANAGE', 'Admin', 'Manage configuration', 'Create and edit configuration items', 1, GETDATE(), 1, GETDATE())
-
-INSERT INTO [Permission]
-([Key], [Group_Name], [Name], [Description], [Created_By], [Created_Date], [Updated_By], [Updated_Date])
-VALUES ('ADMIN_VIEW', 'Admin', 'Readonly admin view', 'View the admin section of the website', 1, GETDATE(), 1, GETDATE())
 
 --add roles
 INSERT INTO [Role]

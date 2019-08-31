@@ -12,7 +12,7 @@
 
     <div class="card shadow mb-4">
         <div class="card-header py-3">
-            <a asp-page="/Admin/Roles/Create" class="btn btn-primary" asp-permission="@PermissionKeys.ManageRoles">Create</a>
+            <a asp-page="/Admin/Roles/Create" class="btn btn-primary">Create</a>
 
             <a id="btnReloadData" href="#" class="btn btn-primary float-right">
                 <span class="icon text-white">
@@ -138,18 +138,18 @@
                                 if (row.is_Enabled) {
                                     //disable
                                     actionButtons += '<a href="#" data-toggle="modal" data-target="#modalDisableRole" data-target-id="' + row.id + '" class="mr-4 text-decoration-none">';
-                                    actionButtons += '<i class="fas fa-door-closed text-danger"></i>';
+                                    actionButtons += '<i class="fas fa-door-closed text-danger" data-toggle="tooltip" data-placement="left" title="Disable"></i>';
                                     actionButtons += '</a>';
                                 } else {
                                     // enable
                                     actionButtons += '<a href="#" data-toggle="modal" data-target="#modalEnableRole" data-target-id="' + row.id + '" class="mr-4 text-decoration-none">';
-                                    actionButtons += '<i class="fas fa-door-open text-success"></i>';
+                                    actionButtons += '<i class="fas fa-door-open text-success" data-toggle="tooltip" data-placement="left" title="Enable"></i>';
                                     actionButtons += '</a>';
                                 }
 
                                 // edit
-                                actionButtons += '<a href="/Admin/Roles/Edit?id=' + row.id + '" class="text-decoration-none" data-toggle="tooltip" data-placement="left" title="Edit">';
-                                actionButtons += '<i class="fas fa-edit"></i>';
+                                actionButtons += '<a href="/Admin/Roles/Edit?id=' + row.id + '" class="text-decoration-none" >';
+                                actionButtons += '<i class="fas fa-edit" data-toggle="tooltip" data-placement="left" title="Edit"></i>';
                                 actionButtons += '</a>';
 
                                 return actionButtons;

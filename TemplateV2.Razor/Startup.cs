@@ -134,13 +134,10 @@ namespace TemplateV2.Razor
 
             services.AddAuthorization(options =>
             {
-                options.AddPolicy(PolicyConstants.ViewAdmin, policy => policy.Requirements.Add(new PermissionRequirement(PermissionKeys.ViewAdmin)));
                 options.AddPolicy(PolicyConstants.ViewSessions, policy => policy.Requirements.Add(new PermissionRequirement(PermissionKeys.ViewSessions)));
-                options.AddPolicy(PolicyConstants.ManageSessionEvents, policy => policy.Requirements.Add(new PermissionRequirement(PermissionKeys.ManageSessionEvents)));
                 options.AddPolicy(PolicyConstants.ManageUsers, policy => policy.Requirements.Add(new PermissionRequirement(PermissionKeys.ManageUsers)));
                 options.AddPolicy(PolicyConstants.ManageRoles, policy => policy.Requirements.Add(new PermissionRequirement(PermissionKeys.ManageRoles)));
                 options.AddPolicy(PolicyConstants.ManageConfiguration, policy => policy.Requirements.Add(new PermissionRequirement(PermissionKeys.ManageConfiguration)));
-                options.AddPolicy(PolicyConstants.ManagePermissions, policy => policy.Requirements.Add(new PermissionRequirement(PermissionKeys.ManagePermissions)));
             });
 
             services.AddScoped<IAuthorizationHandler, PermissionsHandler>();
@@ -185,13 +182,12 @@ namespace TemplateV2.Razor
                 options.Conventions.AllowAnonymousToPage("/Account/ResetPassword");
 
                 // custom authorization
-                options.Conventions.AuthorizeFolder("/Admin", PolicyConstants.ViewAdmin);
                 options.Conventions.AuthorizeFolder("/Admin/Sessions", PolicyConstants.ViewSessions);
-                options.Conventions.AuthorizeFolder("/Admin/SessionEvents", PolicyConstants.ManageSessionEvents);
                 options.Conventions.AuthorizeFolder("/Admin/Users", PolicyConstants.ManageUsers);
                 options.Conventions.AuthorizeFolder("/Admin/Roles", PolicyConstants.ManageRoles);
                 options.Conventions.AuthorizeFolder("/Admin/Configuration", PolicyConstants.ManageConfiguration);
-                options.Conventions.AuthorizeFolder("/Admin/Permissions", PolicyConstants.ManagePermissions);
+                options.Conventions.AuthorizeFolder("/Admin/Permissions", PolicyConstants.ManageConfiguration);
+                options.Conventions.AuthorizeFolder("/Admin/SessionEvents", PolicyConstants.ManageConfiguration);
             });
         }
 

@@ -295,9 +295,13 @@
                         },
                         {
                             render: function (data, type, row, meta) {
-                                return '<a href="/Admin/Sessions/View?id=' + row.entity.id + '" class="text-decoration-none" data-toggle="tooltip" data-placement="left" title="View">' +
-                                    '<i class="fas fa-eye"></i>' +
-                                    '</a>';
+                                var actionButtons = '';
+
+                                actionButtons += '<a href="/Admin/Sessions/View?id=' + row.entity.id + '" class="text-decoration-none">';
+                                actionButtons += '<i class="fas fa-eye" data-toggle="tooltip" data-placement="left" title="View"></i>';
+                                actionButtons += '</a>';
+
+                                return actionButtons;
                             }
                         }
                     ],

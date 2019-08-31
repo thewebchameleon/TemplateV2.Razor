@@ -9,7 +9,7 @@ namespace TemplateV2.Razor.TagHelpers
     [HtmlTargetElement(Attributes = "asp-authorize")]
     [HtmlTargetElement(Attributes = "asp-permission")]
     [HtmlTargetElement(Attributes = "asp-permissions")]
-    [HtmlTargetElement(Attributes = "asp-role-group")]
+    [HtmlTargetElement(Attributes = "asp-permission-group")]
     public class AuthorizationTagHelper : TagHelper
     {
         private readonly ISessionManager _sessionManager;
@@ -35,8 +35,8 @@ namespace TemplateV2.Razor.TagHelpers
         /// <summary>
         /// Gets or sets the role group name that determins access to the HTML block.
         /// </summary>
-        [HtmlAttributeName("asp-role-group")]
-        public string RoleGroup { get; set; }
+        [HtmlAttributeName("asp-permission-group")]
+        public string PermissionGroup { get; set; }
 
         public override async Task ProcessAsync(TagHelperContext context, TagHelperOutput output)
         {
@@ -60,9 +60,9 @@ namespace TemplateV2.Razor.TagHelpers
                 output.SuppressOutput();
             }
 
-            // role group
-            if (!string.IsNullOrEmpty(RoleGroup) &&
-                !permissions.Any(p => p.Group_Name.Equals(RoleGroup)))
+            // permission group
+            if (!string.IsNullOrEmpty(PermissionGroup) &&
+                !permissions.Any(p => p.Group_Name.Equals(PermissionGroup)))
             {
                 output.SuppressOutput();
             }
