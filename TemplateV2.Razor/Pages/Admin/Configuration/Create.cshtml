@@ -202,7 +202,7 @@
         // clear values on tab click
         $("#tabConfigType a").click(function () {
             $("#FormData_StringValue").val('');
-            $("#FormData_BooleanValue").val('');
+            $("#FormData_BooleanValue").prop('checked', false);
             $("#FormData_IntValue").val('');
             $("#FormData_DecimalValue").val('');
             $("#FormData_MoneyValue").val('');
