@@ -150,3 +150,10 @@ input[type="date"]::-webkit-calendar-picker-indicator {
         }
     }
 }
+
+@media (min-width: 768px) {
+    .col-lg-12 {
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
+}

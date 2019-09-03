@@ -43,7 +43,7 @@
                             </div>
 
                             <!-- Nav tabs -->
-                            <ul class="nav nav-pills" id="myTab" role="tablist">
+                            <ul class="nav nav-pills" id="tabConfigType" role="tablist">
                                 <li class="nav-item flex-fill">
                                     <a class="nav-link active text-center" id="tab-string" data-toggle="tab" href="#string" role="tab" aria-controls="string" aria-selected="true">
                                         <i class="fas fa-font"></i>
@@ -182,7 +182,10 @@
 
                             </div>
                             <div id="groupCreate" class="form-group my-4">
-                                <button type="submit" class="btn btn-primary btn-block my-3">Create</button>
+                                <div class="btn-group btn-group-flex" role="group" aria-label="Basic example">
+                                    <button type="submit" class="btn btn-primary col-9 col-md-10">Create</button>
+                                    <button type="button" class="btn btn-outline-primary col-3 col-md-2">Clear value</button>
+                                </div>
                             </div>
                         </form>
                     </div>
@@ -196,7 +199,17 @@
 
     <script type="text/javascript">
 
-
+        // clear values on tab click
+        $("#tabConfigType a").click(function () {
+            $("#FormData_StringValue").val('');
+            $("#FormData_BooleanValue").val('');
+            $("#FormData_IntValue").val('');
+            $("#FormData_DecimalValue").val('');
+            $("#FormData_MoneyValue").val('');
+            $("#FormData_DateTimeValue").val('');
+            $("#FormData_DateValue").val('');
+            $("#FormData_TimeValue").val('');
+        });
 
     </script>
 

@@ -150,9 +150,9 @@ function enableAutoLogout(expiryModalSeconds, expirySeconds) {
                     isLoggingOut = true;
                     window.location = '/Account/Logout';
                     return;
+                } else {
+                    document.getElementById('txtAutoLogoutSecondsRemaining').innerText = secondsRemaining;
                 }
-
-                document.getElementById('txtAutoLogoutSecondsRemaining').innerText = secondsRemaining;
             }
         }, 1000); // poll every 1 second
     }
