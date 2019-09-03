@@ -112,6 +112,8 @@ function enableAutoLogout(expiryModalSeconds, expirySeconds) {
 
     if ($('#modalAutoLogout')[0]) { // check if we have the modal available
 
+        var isLoggingOut = false;
+
         // reset idle timer on mouse / keypress movement
         $(this).mousemove(function (e) {
             if (isModalOpen() === false) {
@@ -143,8 +145,9 @@ function enableAutoLogout(expiryModalSeconds, expirySeconds) {
                     day = hour * 24;
 
                 var secondsRemaining = Math.floor(((getExpiryTime() - new Date().getTime()) % (minute)) / second);
-                if (secondsRemaining < 0) {
+                if (secondsRemaining < 0 && isLoggingOut === false) {
                     secondsRemaining = 0;
+                    isLoggingOut = true;
                     window.location = '/Account/Logout';
                     return;
                 }
