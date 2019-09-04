@@ -47,7 +47,6 @@ Intended for building **small self-contained business applications**, this templ
 	- Session / authentication cookies are **not** stored on the user's machine
 - Passwords are hashed using [BCrypt](https://github.com/BcryptNet/bcrypt.net)
 - Users are locked out after a configurable amount of invalid attempts
-- All form posts are marked with a `[ValidateAntiForgeryToken]` attribute
 - Idle sessions are automatically logged out
 
 ### Sessions
