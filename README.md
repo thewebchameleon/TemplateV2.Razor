@@ -38,9 +38,11 @@ Intended for building **small self-contained business applications**, this templ
 - [Bootstrap 4](https://getbootstrap.com/)
 - [SASS](https://sass-lang.com/)
 - Custom tag helpers
-	- [Multiselect](https://developer.snapappointments.com/bootstrap-select/) dropdown (`MultiselectTagHelper.cs`)
 	- Authorization attribute (`AuthorizationTagHelper.cs`)
+	- Back button (`BackButtonTagHelper.cs`)
 	- MultiCheckbox (`MultiCheckboxTagHelper.cs`)
+	- [MultiSelect](https://developer.snapappointments.com/bootstrap-select/) dropdown (`MultiSelectTagHelper.cs`)
+	- Not authenticated attribute (`NotAuthenticatedTagHelper.cs`)
 
 ### Security
 - Cookie authentication using authorization with permissions
