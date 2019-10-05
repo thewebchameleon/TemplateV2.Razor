@@ -1,3 +1,4 @@
+using Microsoft.Extensions.Options;
 using TemplateV2.Infrastructure.Configuration.Models;
 
 namespace TemplateV2.Repositories.DatabaseRepos
@@ -6,9 +7,9 @@ namespace TemplateV2.Repositories.DatabaseRepos
     {
         private readonly ConnectionStringSettings _connectionStrings;
 
-        public BaseSQLRepo(ConnectionStringSettings connectionStrings)
+        public BaseSQLRepo(ConnectionStringSettings connectionStringsSettings)
         {
-            _connectionStrings = connectionStrings;
+            _connectionStrings = connectionStringsSettings;
         }
 
         protected virtual string DefaultConnectionString

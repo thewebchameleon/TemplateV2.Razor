@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Http;
+using System;
 using System.Net.Http;
 using System.Threading.Tasks;
 using TemplateV2.Common.Extensions;
@@ -31,29 +32,45 @@ namespace TemplateV2.Repositories.ServiceRepos.EmailTemplateRepo
         public async Task<string> GetForgotPasswordHTML()
         {
             var baseUrl = _httpContextAccessor.HttpContext.Request.GetBaseUrl();
-            var httpResponse = await HttpHelper.Get(_httpClientFactory, $"{baseUrl}/email-template/forgot-password.html");
-            return httpResponse.Content.ReadAsStringAsync().Result;
+            var httpResponse = await HttpHelper.Get(_httpClientFactory, $"{baseUrl}/Email/ForgotPassword");
+
+            var unprocessedHtml = httpResponse.Content.ReadAsStringAsync().Result;
+            var processedHtml = PreMailer.Net.PreMailer.MoveCssInline(new Uri(baseUrl), unprocessedHtml);
+            
+            return processedHtml.Html;
         }
 
         public async Task<string> GetResetPasswordHTML()
         {
             var baseUrl = _httpContextAccessor.HttpContext.Request.GetBaseUrl();
-            var httpResponse = await HttpHelper.Get(_httpClientFactory, $"{baseUrl}/email-template/reset-password.html");
-            return httpResponse.ReadMessage<string>();
+            var httpResponse = await HttpHelper.Get(_httpClientFactory, $"{baseUrl}/Email/ResetPassword");
+
+            var unprocessedHtml = httpResponse.Content.ReadAsStringAsync().Result;
+            var processedHtml = PreMailer.Net.PreMailer.MoveCssInline(new Uri(baseUrl), unprocessedHtml);
+
+            return processedHtml.Html;
         }
 
         public async Task<string> GetAccountActivationHTML()
         {
             var baseUrl = _httpContextAccessor.HttpContext.Request.GetBaseUrl();
-            var httpResponse = await HttpHelper.Get(_httpClientFactory, $"{baseUrl}/email-template/account-activation.html");
-            return httpResponse.ReadMessage<string>();
+            var httpResponse = await HttpHelper.Get(_httpClientFactory, $"{baseUrl}/Email/AccountActivation");
+
+            var unprocessedHtml = httpResponse.Content.ReadAsStringAsync().Result;
+            var processedHtml = PreMailer.Net.PreMailer.MoveCssInline(new Uri(baseUrl), unprocessedHtml);
+
+            return processedHtml.Html;
         }
 
         public async Task<string> GetContactMessageHTML()
         {
             var baseUrl = _httpContextAccessor.HttpContext.Request.GetBaseUrl();
-            var httpResponse = await HttpHelper.Get(_httpClientFactory, $"{baseUrl}/email-template/contact-message.html");
-            return httpResponse.ReadMessage<string>();
+            var httpResponse = await HttpHelper.Get(_httpClientFactory, $"{baseUrl}/Email/ContactMessage");
+
+            var unprocessedHtml = httpResponse.Content.ReadAsStringAsync().Result;
+            var processedHtml = PreMailer.Net.PreMailer.MoveCssInline(new Uri(baseUrl), unprocessedHtml);
+
+            return processedHtml.Html;
         }
 
         #endregion

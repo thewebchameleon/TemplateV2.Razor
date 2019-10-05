@@ -57,11 +57,6 @@ namespace TemplateV2.Razor
             services.Configure<CacheSettings>(_configuration.GetSection("Cache"));
             services.Configure<EmailSettings>(_configuration.GetSection("Email"));
 
-            // Add our config options directly to dependancy injection
-            services.AddScoped(cfg => cfg.GetService<IOptionsSnapshot<ConnectionStringSettings>>().Value);
-            services.AddScoped(cfg => cfg.GetService<IOptionsSnapshot<CacheSettings>>().Value);
-            services.AddScoped(cfg => cfg.GetService<IOptionsSnapshot<EmailSettings>>().Value);
-
             services.Configure<CookiePolicyOptions>(options =>
             {
                 // Check whether user consent for non-essential cookies is needed for a given request.
@@ -79,7 +74,7 @@ namespace TemplateV2.Razor
 
             // Infrastructure Services
             services.AddTransient<ISessionProvider, SessionProvider>();
-            services.AddTransient<IEmailProvider, EmailProvider>();
+            services.AddTransient<IEmailProvider, SendGridEmailProvider>();
 
             services.AddTransient<IUnitOfWorkFactory, UnitOfWorkFactory>();
             services.AddTransient<IHttpContextAccessor, HttpContextAccessor>();

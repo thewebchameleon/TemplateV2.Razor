@@ -8,6 +8,7 @@ using TemplateV2.Repositories.DatabaseRepos.SessionRepo.Contracts;
 using TemplateV2.Repositories.DatabaseRepos.UserRepo;
 using TemplateV2.Repositories.DatabaseRepos.ConfigurationRepo;
 using TemplateV2.Repositories.DatabaseRepos.SessionRepo;
+using Microsoft.Extensions.Options;
 
 namespace TemplateV2.Repositories.UnitOfWork
 {

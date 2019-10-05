@@ -8,6 +8,7 @@ using TemplateV2.Infrastructure.Configuration.Models;
 using TemplateV2.Repositories.DatabaseRepos.SessionRepo.Models;
 using TemplateV2.Models.DomainModels;
 using TemplateV2.Repositories.DatabaseRepos.SessionRepo.Contracts;
+using Microsoft.Extensions.Options;
 
 namespace TemplateV2.Repositories.DatabaseRepos.SessionRepo
 {
@@ -22,8 +23,8 @@ namespace TemplateV2.Repositories.DatabaseRepos.SessionRepo
 
         #region Constructor
 
-        public SessionRepo(IDbConnection connection, IDbTransaction transaction, ConnectionStringSettings connectionStrings)
-            : base(connectionStrings)
+        public SessionRepo(IDbConnection connection, IDbTransaction transaction, ConnectionStringSettings connectionStringsSettings)
+            : base(connectionStringsSettings)
         {
             _connection = connection;
             _transaction = transaction;

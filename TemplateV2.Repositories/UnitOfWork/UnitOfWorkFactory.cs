@@ -1,3 +1,4 @@
+using Microsoft.Extensions.Options;
 using MySql.Data.MySqlClient;
 using System.Data.SqlClient;
 using TemplateV2.Infrastructure.Configuration.Models;
@@ -9,9 +10,9 @@ namespace TemplateV2.Repositories.UnitOfWork
     {
         private readonly ConnectionStringSettings _connectionSettings;
 
-        public UnitOfWorkFactory(ConnectionStringSettings connectionSettings) : base()
+        public UnitOfWorkFactory(IOptions<ConnectionStringSettings> connectionSettings) : base()
         {
-            _connectionSettings = connectionSettings;
+            _connectionSettings = connectionSettings.Value;
         }
 
         public IUnitOfWork GetUnitOfWork(bool beginTransaction = true)

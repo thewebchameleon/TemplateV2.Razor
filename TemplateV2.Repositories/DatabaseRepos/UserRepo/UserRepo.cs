@@ -8,6 +8,7 @@ using TemplateV2.Infrastructure.Configuration.Models;
 using TemplateV2.Repositories.DatabaseRepos.UserRepo.Contracts;
 using TemplateV2.Repositories.DatabaseRepos.UserRepo.Models;
 using TemplateV2.Models.DomainModels;
+using Microsoft.Extensions.Options;
 
 namespace TemplateV2.Repositories.DatabaseRepos.UserRepo
 {
@@ -22,8 +23,8 @@ namespace TemplateV2.Repositories.DatabaseRepos.UserRepo
 
         #region Constructor
 
-        public UserRepo(IDbConnection connection, IDbTransaction transaction, ConnectionStringSettings connectionStrings)
-            : base(connectionStrings)
+        public UserRepo(IDbConnection connection, IDbTransaction transaction, ConnectionStringSettings connectionStringsSettings)
+            : base(connectionStringsSettings)
         {
             _connection = connection;
             _transaction = transaction;

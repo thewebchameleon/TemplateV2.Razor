@@ -8,6 +8,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="appsettings.Production.json" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Include="wwwroot\lib\globalize\generator\generator.csproj" />
   </ItemGroup>
 
