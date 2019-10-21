@@ -20,7 +20,7 @@ namespace TemplateV2.Services.Contracts
 
         Task<UpdatePasswordResponse> UpdatePassword(UpdatePasswordRequest request);
 
-        void Logout();
+        Task Logout();
 
         Task<GetProfileResponse> GetProfile();
 

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 using TemplateV2.Services.Contracts;
 
 namespace TemplateV2.Razor.Controllers
@@ -25,9 +26,9 @@ namespace TemplateV2.Razor.Controllers
         #region Public Methods
 
         [HttpGet]
-        public IActionResult Logout()
+        public async Task <IActionResult> Logout()
         {
-            _service.Logout();
+            await _service.Logout();
             return RedirectToHome();
         }
 

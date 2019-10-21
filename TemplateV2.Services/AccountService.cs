@@ -1,17 +1,12 @@
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Claims;
 using System.Threading.Tasks;
 using TemplateV2.Common.Extensions;
 using TemplateV2.Common.Notifications;
 using TemplateV2.Infrastructure.Authentication;
 using TemplateV2.Infrastructure.Cache;
-using TemplateV2.Infrastructure.Cache.Contracts;
 using TemplateV2.Infrastructure.Configuration;
 using TemplateV2.Infrastructure.Session;
 using TemplateV2.Infrastructure.Session.Contracts;
@@ -23,6 +18,7 @@ using TemplateV2.Models.ServiceModels.Account;
 using TemplateV2.Services.Contracts;
 using TemplateV2.Services.Managers.Contracts;
 using Newtonsoft.Json;
+using Microsoft.AspNetCore.Http;
 
 namespace TemplateV2.Services
 {
@@ -34,13 +30,12 @@ namespace TemplateV2.Services
 
         private readonly ISessionManager _sessionManager;
         private readonly IAuthenticationManager _authenticationManager;
-
         private readonly IEmailManager _emailManager;
-
-        private readonly IHttpContextAccessor _httpContextAccessor;
-        private readonly IUnitOfWorkFactory _uowFactory;
         private readonly ICacheManager _cache;
+
+        private readonly IUnitOfWorkFactory _uowFactory;
         private readonly ISessionProvider _sessionProvider;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
         #endregion
 
@@ -53,17 +48,19 @@ namespace TemplateV2.Services
             IUnitOfWorkFactory uowFactory,
             ICacheManager cache,
             ISessionProvider sessionProvider,
+            IAuthenticationManager authenticationManager,
             IHttpContextAccessor httpContextAccessor)
         {
             _logger = logger;
 
-            _httpContextAccessor = httpContextAccessor;
             _sessionProvider = sessionProvider;
             _uowFactory = uowFactory;
 
             _cache = cache;
             _sessionManager = sessionManager;
             _emailManager = emailManager;
+            _authenticationManager = authenticationManager;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         #endregion
@@ -333,25 +330,14 @@ namespace TemplateV2.Services
                 EventKey = SessionEventKeys.UserLoggedIn
             });
 
-            var claims = new List<Claim>()
-            {
-                new Claim(ClaimTypes.Name, session.SessionEntity.Id.ToString())
-            };
-
-            var claimsIdentity = new ClaimsIdentity(
-                claims, CookieAuthenticationDefaults.AuthenticationScheme);
-
-            await _httpContextAccessor.HttpContext.SignInAsync(
-                CookieAuthenticationDefaults.AuthenticationScheme,
-                new ClaimsPrincipal(claimsIdentity)); // user principal is controlled in session
+            await _authenticationManager.SignIn(session.SessionEntity.Id);
 
             return response;
         }
 
-        public void Logout()
+        public async Task Logout()
         {
-            _sessionProvider.Remove(SessionConstants.SessionEntity).Wait();
-            _httpContextAccessor.HttpContext.SignOutAsync().Wait();
+            await _authenticationManager.SignOut();
         }
 
         public async Task<GetProfileResponse> GetProfile()
@@ -596,7 +582,7 @@ namespace TemplateV2.Services
                     {
                         info = JsonConvert.DeserializeObject<Dictionary<string, string>>(l.InfoDictionary_JSON);
                     }
-                   
+
                     return new ActivityLog()
                     {
                         Date = l.Created_Date,

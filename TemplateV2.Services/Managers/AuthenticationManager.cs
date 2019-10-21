@@ -1,13 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
-using System;
 using System.Collections.Generic;
 using System.Security.Claims;
-using System.Text;
 using System.Threading.Tasks;
-using TemplateV2.Repositories.DatabaseRepos.SessionRepo.Contracts;
-using TemplateV2.Repositories.UnitOfWork.Contracts;
 using TemplateV2.Infrastructure.Session;
 using TemplateV2.Infrastructure.Session.Contracts;
 using TemplateV2.Services.Managers.Contracts;
@@ -41,13 +37,13 @@ namespace TemplateV2.Services.Managers
 
         #region Public Methods
 
-        public async Task SignIn(Guid sessionGuid, string entityId)
+        public async Task SignIn(int sessionId)
         {
             await _sessionManager.DehydrateSession();
 
             var claims = new List<Claim>()
             {
-                new Claim(ClaimTypes.Name, sessionGuid.ToString())
+                new Claim(ClaimTypes.Name, sessionId.ToString())
             };
 
             var claimsIdentity = new ClaimsIdentity(

@@ -130,9 +130,6 @@ namespace TemplateV2.Services.Admin
                 uow.Commit();
                 return response;
             }
-
-
-
         }
 
         public async Task<GetSessionsResponse> GetSessions(GetSessionsRequest request)
