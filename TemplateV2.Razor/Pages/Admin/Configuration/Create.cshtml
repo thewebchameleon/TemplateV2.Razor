@@ -184,7 +184,7 @@
                             <div id="groupCreate" class="form-group my-4">
                                 <div class="btn-group btn-group-flex" role="group" aria-label="Basic example">
                                     <button type="submit" class="btn btn-primary col-9 col-md-10">Create</button>
-                                    <button type="button" class="btn btn-outline-primary col-3 col-md-2">Clear value</button>
+                                    <button type="button" class="btn btn-outline-primary col-3 col-md-2" id="btnClearValue">Clear value</button>
                                 </div>
                             </div>
                         </form>
@@ -200,7 +200,7 @@
     <script type="text/javascript">
 
         // clear values on tab click
-        $("#tabConfigType a").click(function () {
+        $("#tabConfigType a, #btnClearValue").click(function () {
             $("#FormData_StringValue").val('');
             $("#FormData_BooleanValue").prop('checked', false);
             $("#FormData_IntValue").val('');
