@@ -56,7 +56,7 @@ namespace TemplateV2.Razor.TagHelpers
                     {
                         sb.AppendLine($"<fieldset>");
                         sb.AppendLine($"<legend class=''>{groupedItems.Key}</legend>");
-                        sb.AppendLine($"<div class='form-row'>");
+                        sb.AppendLine($"<div class='form-row mx-0'>");
                         foreach (var item in groupedItems)
                         {
                             var disabledAttribute = item.Disabled ? "disabled" : string.Empty;

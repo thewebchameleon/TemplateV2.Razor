@@ -50,7 +50,7 @@
                                 <input asp-for="FormData.Description" class="form-control" />
                                 <span asp-validation-for="FormData.Description" class="text-danger"></span>
                             </div>
-                            <div class="form-row">
+                            <div class="form-group">
                                 <label asp-for="FormData.PermissionIds" class="control-label w-100"></label>
                                 <multicheckbox asp-for="FormData.PermissionIds" asp-items="Model.PermissionsLookup.ToCheckboxList()"></multicheckbox>
                             </div>

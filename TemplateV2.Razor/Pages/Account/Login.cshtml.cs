@@ -25,6 +25,8 @@ namespace TemplateV2.Razor.Pages
         [BindProperty(SupportsGet = true)]
         public string ReturnUrl { get; set; }
 
+        public bool ShowPassword { get; set; }
+
         #endregion
 
         #region Constructors
