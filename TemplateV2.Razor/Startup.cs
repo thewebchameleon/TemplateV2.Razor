@@ -94,12 +94,14 @@ namespace TemplateV2.Razor
             services.AddTransient<IRoleService, RoleService>();
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<ISessionService, SessionService>();
+            services.AddTransient<IAdminService, AdminService>();
 
             // Business Logic Managers
             services.AddTransient<IAuthenticationManager, AuthenticationManager>();
             services.AddTransient<ICacheManager, CacheManager>();
             services.AddTransient<ISessionManager, SessionManager>();
             services.AddTransient<IEmailManager, EmailManager>();
+            services.AddTransient<IAdminManager, AdminManager>();
 
             // Business Logic Service Repos
             services.AddTransient<IEmailTemplateRepo, EmailTemplateRepo>();
@@ -133,6 +135,8 @@ namespace TemplateV2.Razor
                 options.AddPolicy(PolicyConstants.ManageUsers, policy => policy.Requirements.Add(new PermissionRequirement(PermissionKeys.ManageUsers)));
                 options.AddPolicy(PolicyConstants.ManageRoles, policy => policy.Requirements.Add(new PermissionRequirement(PermissionKeys.ManageRoles)));
                 options.AddPolicy(PolicyConstants.ManageConfiguration, policy => policy.Requirements.Add(new PermissionRequirement(PermissionKeys.ManageConfiguration)));
+
+                options.AddPolicy(PolicyConstants.CreateAdminUser, policy => policy.Requirements.Add(new CreateAdminUserRequirement()));
             });
 
             services.AddScoped<IAuthorizationHandler, PermissionsHandler>();
@@ -183,6 +187,9 @@ namespace TemplateV2.Razor
                 options.Conventions.AuthorizeFolder("/Admin/Configuration", PolicyConstants.ManageConfiguration);
                 options.Conventions.AuthorizeFolder("/Admin/Permissions", PolicyConstants.ManageConfiguration);
                 options.Conventions.AuthorizeFolder("/Admin/SessionEvents", PolicyConstants.ManageConfiguration);
+
+                options.Conventions.AllowAnonymousToPage("/Admin/CreateAdminUser");
+                options.Conventions.AuthorizePage("/Admin/CreateAdminUser", PolicyConstants.CreateAdminUser);
             });
         }
 
@@ -204,6 +211,7 @@ namespace TemplateV2.Razor
                 app.UseHsts();
             }
 
+            app.UseAdminCreationMiddleware();
             app.UseResponseCompression();
             app.UseHttpsRedirection();
             app.UseStaticFiles();

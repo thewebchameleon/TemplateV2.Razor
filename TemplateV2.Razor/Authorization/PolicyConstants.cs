@@ -6,5 +6,7 @@
         public const string ManageUsers = "ManageUsers";
         public const string ManageRoles = "ManageRoles";
         public const string ManageConfiguration = "ManageConfiguration";
+
+        public const string CreateAdminUser = "CreateAdminUser";
     }
 }

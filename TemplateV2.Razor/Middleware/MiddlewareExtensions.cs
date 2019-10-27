@@ -8,5 +8,10 @@ namespace TemplateV2.Razor.Middleware
         {
             return builder.UseMiddleware<SessionMiddleware>();
         }
+
+        public static IApplicationBuilder UseAdminCreationMiddleware(this IApplicationBuilder builder)
+        {
+            return builder.UseMiddleware<AdminCreationMiddleware>();
+        }
     }
 }

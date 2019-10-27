@@ -2,25 +2,13 @@
 	This is a deployment script for the TemplateV2.MVC application.
 	It contains lookups and the creation of an admin user which you can configure below
 
-	The configured password hash is done via the BCrypt library which is used in this TemplateV2
+	The [Password_Hash] in the [User table] is generated with BCrypt which is used in this template
 */
-
-DECLARE @AdminUsername VARCHAR(50) = 'admin',
-		@AdminEmailAddress VARCHAR(50) = 'admin@example.com',
-		@AdminFirstName VARCHAR(50) = 'Admin',
-		@AdminPasswordHash VARCHAR(50) = '$2a$11$mgFGp1fndqWS/xAYrowNE.1ndWKcgRCcow0ynX.j/RrsckOSxr7Ty', -- 123456
-		@AdminUserId INT; -- used for assigning roles at the bottom
 
 --add system user
 INSERT INTO [User]
 ([Username], [Email_Address], [Registration_Confirmed], [First_Name], [Password_Hash], [Is_Enabled], [Created_By], [Created_Date], [Updated_By], [Updated_Date])
 VALUES ('system', 'system@example.com', 1, 'System', 'this-password-will-never-work', 1, NULL, GETDATE(), NULL, GETDATE())
-
-INSERT INTO [User]
-([Username], [Email_Address], [Registration_Confirmed], [First_Name], [Password_Hash], [Is_Enabled], [Created_By], [Created_Date], [Updated_By], [Updated_Date])
-VALUES (@AdminUsername, @AdminEmailAddress, 1, @AdminFirstName, @AdminPasswordHash, 1, NULL, GETDATE(), NULL, GETDATE())
-
-SET @AdminUserId = SCOPE_IDENTITY();
 
 --add session events
 INSERT INTO [Session_Event]
@@ -180,19 +168,14 @@ INSERT INTO [Permission]
 ([Key], [Group_Name], [Name], [Description], [Created_By], [Created_Date], [Updated_By], [Updated_Date])
 VALUES ('CONFIGURATION_MANAGE', 'Admin', 'Manage configuration', 'Create and edit configuration items', 1, GETDATE(), 1, GETDATE())
 
---add roles
+
+--add admin role
 INSERT INTO [Role]
 ([Name], [Description], [Is_Enabled], [Created_By], [Created_Date], [Updated_By], [Updated_Date])
 VALUES ('Admin', 'Administrator account', 1, 1, GETDATE(), 1, GETDATE())
 
---add role permissions
+--add permissions to admin role
 INSERT INTO [Role_Permission]
 ([Role_Id], [Permission_Id], Created_By, [Created_Date], [Updated_By], [Updated_Date])
 SELECT 1, [Id] AS [Permission_Id], 1, GETDATE(), 1, GETDATE()
 FROM [Permission]
-
---add add user role
-INSERT INTO [User_Role]
-([User_Id], [Role_Id], Created_By, [Created_Date], [Updated_By], [Updated_Date])
-SELECT @AdminUserId AS [User_Id], [Id] AS [Role_Id], 1, GETDATE(), 1, GETDATE()
-FROM [Role]
