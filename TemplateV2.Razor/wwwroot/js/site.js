@@ -202,7 +202,7 @@ function showNotification(message, type, autoHide) {
     $('.toast:last').toast(
         {
             autohide: autoHide,
-            delay: TOAST_DELAY_SECONDS
+            delay: TOAST_DELAY_SECONDS * 1000
         }
     ).toast('show');
 }
