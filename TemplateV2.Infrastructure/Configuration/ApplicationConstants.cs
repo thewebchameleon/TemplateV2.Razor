@@ -10,7 +10,7 @@ namespace TemplateV2.Infrastructure.Configuration
         public const int ResponseCachingSeconds = 60 * 60 * 24; // 24 hours
 
         // the amount of seconds before the session times out
-        public const int SessionTimeoutSeconds = 160;// = 60 * 10; // 10 minutes
+        public const int SessionTimeoutSeconds = 60 * 10; // 10 minutes
 
         // the auto-logout popup will appear after X seconds before the sessions times out (X = 30 seconds)
         public const int SessionModalTimeoutSeconds = SessionTimeoutSeconds - 30;
