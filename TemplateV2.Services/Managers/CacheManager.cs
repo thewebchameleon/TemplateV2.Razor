@@ -86,16 +86,20 @@ namespace TemplateV2.Services.Managers
                 uow.Commit();
             }
 
+            // add a 5 second buffer to the front-end session expiration
+            var idleTimeout = ApplicationConstants.SessionTimeoutSeconds - 5;
+            var modalTimeout = idleTimeout - (ApplicationConstants.SessionTimeoutSeconds - ApplicationConstants.SessionModalTimeoutSeconds);
+
             items.Add(new Client_Configuration()
             {
                 Key = "IDLE_TIMEOUT_SECONDS",
-                Int_Value = ApplicationConstants.SessionTimeoutSeconds
+                Int_Value = idleTimeout
             });
 
             items.Add(new Client_Configuration()
             {
                 Key = "IDLE_TIMEOUT_MODAL_SECONDS",
-                Int_Value = ApplicationConstants.SessionModalTimeoutSeconds
+                Int_Value = modalTimeout
             });
 
             _cacheProvider.Set(CacheConstants.ConfigurationItems_Javascript, items);

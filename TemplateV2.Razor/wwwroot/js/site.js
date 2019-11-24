@@ -4,6 +4,8 @@ IDLE_SECONDS = 0;
 IDLE_TIMEOUT_SECONDS = 120; // 2 minutes
 IDLE_TIMEOUT_MODAL_SECONDS = IDLE_TIMEOUT_SECONDS - 30; // 30 seconds before session expires
 AUTO_LOGOUT_IS_ENABLED = false;
+IS_BEATING = false;
+HEARTBEAT_INTERVAL = 2000; // milliseconds
 
 function GlobalViewModel(configJson) {
     var self = this;
@@ -106,6 +108,18 @@ function GlobalViewModel(configJson) {
     };
 }
 
+function heartbeat() {
+    if (IS_BEATING === false) {
+
+        IS_BEATING = true;
+        $.ajax('/Session/Heartbeat');
+
+        setTimeout(function () {
+            IS_BEATING = false;
+        }, HEARTBEAT_INTERVAL);
+    }
+}
+
 // enables the autologut feature
 function enableAutoLogout(expiryModalSeconds, expirySeconds) {
     var expiryTime = new Date().getTime() + (expirySeconds * 1000);
@@ -168,6 +182,8 @@ function enableAutoLogout(expiryModalSeconds, expirySeconds) {
     function resetExpiryTime(expirySeconds) {
         expiryTime = new Date().getTime() + (expirySeconds * 1000);
         IDLE_SECONDS = 0;
+
+        heartbeat();
     }
 }
 
