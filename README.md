@@ -65,7 +65,7 @@ Intended for building **small self-contained business applications**, this templ
 
 ### Configuration
 - Configuration items are used to control various aspects of the application ranging from features to core settings
-- Stored as strong MSSQL types (`boolean`, `datetime`, `date`, `time`, `decimal`, `int`, `money`, `string`)
+- Stored as strong MSSQL types (`boolean`, `datetime`, `date`, `time`, `decimal` (18 before, 2 after), `int`, `money`, `string`)
 
 ### Admin
 - Users can be created, updated, enabled and disabled

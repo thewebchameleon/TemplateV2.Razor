@@ -222,7 +222,7 @@
                     <div id="panelResetLink" class="col-12" style="display: none;">
                         <p>Reset this user's password by going to the link below</p>
                         <div class="input-group mb-3">
-                            <input id="txtResetLink" type="text" class="form-control border-primary text-truncate" value="https://localhost:44369/Account/ResetPassword?token=asdasdhkljhfglkjhaslkdjhfsdafds">
+                            <input id="txtResetLink" type="text" class="form-control border-primary text-truncate" value="">
                             <div class="input-group-append">
                                 <button id="btnCopyLinkText" class="btn btn-primary" data-toggle="tooltip" data-placement="left" title="Copy link">
                                     <i class="far fa-copy"></i>
@@ -333,6 +333,7 @@
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 success: function (response) {
+                    $("#txtResetLink").val(response.url);
                     $("#panelResetLink").show();
                 },
                 error: function (response) {
