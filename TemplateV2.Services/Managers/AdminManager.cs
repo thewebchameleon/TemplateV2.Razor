@@ -34,8 +34,7 @@ namespace TemplateV2.Services.Managers
         {
             var response = new CheckForAdminUserResponse();
 
-            _cacheProvider.TryGet(CacheConstants.RequiresAdminUser, out bool? requiresAdminUser);
-            if (requiresAdminUser != null)
+            if (_cacheProvider.TryGet(CacheConstants.RequiresAdminUser, out bool? requiresAdminUser))
             {
                 response.RequiresAdminUser = requiresAdminUser.Value;
                 return response;

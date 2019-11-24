@@ -201,6 +201,21 @@ namespace TemplateV2.Services
                     Guid = userToken.Guid,
                     Updated_By = ApplicationConstants.SystemUserId
                 });
+
+                var user = await uow.UserRepo.GetUserById(new Repositories.DatabaseRepos.UserRepo.Models.GetUserByIdRequest()
+                {
+                    Id = userToken.User_Id
+                });
+
+                if (!user.Registration_Confirmed)
+                {
+                    await uow.UserRepo.ActivateAccount(new Repositories.DatabaseRepos.UserRepo.Models.ActivateAccountRequest()
+                    {
+                        Id = user.Id,
+                        Updated_By = ApplicationConstants.SystemUserId
+                    });
+                }
+
                 uow.Commit();
             }
 
@@ -209,7 +224,7 @@ namespace TemplateV2.Services
                 EventKey = SessionEventKeys.PasswordUpdated
             });
 
-            response.Notifications.Add($"Your password has been reset", NotificationTypeEnum.Success);
+            response.Notifications.Add($"Your password has been reset.", NotificationTypeEnum.Success);
             return response;
         }
 

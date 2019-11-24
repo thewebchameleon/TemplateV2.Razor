@@ -35,6 +35,8 @@ using TemplateV2.Razor.Authorization.Requirements;
 using TemplateV2.Infrastructure.Authorization;
 using Microsoft.AspNetCore.Authorization;
 using TemplateV2.Razor.Authorization.Handlers;
+using TemplateV2.Razor.Pages;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 
 namespace TemplateV2.Razor
 {

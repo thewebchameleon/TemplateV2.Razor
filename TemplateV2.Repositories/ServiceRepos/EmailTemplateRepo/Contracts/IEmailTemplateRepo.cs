@@ -4,8 +4,6 @@ namespace TemplateV2.Repositories.ServiceRepos.EmailTemplateRepo.Contracts
 {
     public interface IEmailTemplateRepo
     {
-        Task<string> GetForgotPasswordHTML();
-
         Task<string> GetResetPasswordHTML();
 
         Task<string> GetAccountActivationHTML();

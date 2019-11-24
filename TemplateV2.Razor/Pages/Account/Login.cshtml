@@ -29,7 +29,7 @@
                                         <span asp-validation-for="FormData.Password" class="text-danger"></span>
                                     </div>
                                     <div class="form-group">
-                                        <input id="btnShowPassword" type="checkbox">
+                                        <input asp-for="ShowPassword" type="checkbox" class="chkShowpassword">
                                         <label asp-for="ShowPassword"></label>
                                         <label asp-for="ShowPassword">Show Password</label>
                                     </div>
@@ -70,7 +70,7 @@
 @section scripts {
     <script type="text/javascript">
 
-        $("#btnShowPassword").change(function () {
+        $(".chkShowpassword").change(function () {
             var txtPassword = $("#FormData_Password");
             if (txtPassword.attr('type') === 'password') {
                 txtPassword.attr('type', 'text');

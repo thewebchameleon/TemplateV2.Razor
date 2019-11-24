@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@inject Services.Managers.Contracts.ICacheManager _cacheManager
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -28,6 +30,11 @@
 
     <script src="~/js/framework.min.js" asp-append-version="true"></script>
     <script src="~/js/site.min.js" asp-append-version="true"></script>
+
+    <script>
+    var globalViewModel = new GlobalViewModel('@Html.Raw(JsonConvert.SerializeObject(await _cacheManager.Configuration_Javascript()))');
+        globalViewModel.initialise();
+    </script>
 
     @RenderSection("Scripts", required: false)
 </body>

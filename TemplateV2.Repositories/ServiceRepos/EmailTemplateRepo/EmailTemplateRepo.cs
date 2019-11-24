@@ -19,7 +19,8 @@ namespace TemplateV2.Repositories.ServiceRepos.EmailTemplateRepo
 
         #region Constructor
 
-        public EmailTemplateRepo(IHttpClientFactory httpClientFactory, IHttpContextAccessor httpContextAccessor)
+        public EmailTemplateRepo(IHttpClientFactory httpClientFactory, 
+            IHttpContextAccessor httpContextAccessor)
         {
             _httpClientFactory = httpClientFactory;
             _httpContextAccessor = httpContextAccessor;
@@ -29,26 +30,13 @@ namespace TemplateV2.Repositories.ServiceRepos.EmailTemplateRepo
 
         #region Public Methods
 
-        public async Task<string> GetForgotPasswordHTML()
-        {
-            var baseUrl = _httpContextAccessor.HttpContext.Request.GetBaseUrl();
-            var httpResponse = await HttpHelper.Get(_httpClientFactory, $"{baseUrl}/Email/ForgotPassword");
-
-            var unprocessedHtml = httpResponse.Content.ReadAsStringAsync().Result;
-            var processedHtml = PreMailer.Net.PreMailer.MoveCssInline(new Uri(baseUrl), unprocessedHtml);
-            
-            return processedHtml.Html;
-        }
-
         public async Task<string> GetResetPasswordHTML()
         {
             var baseUrl = _httpContextAccessor.HttpContext.Request.GetBaseUrl();
             var httpResponse = await HttpHelper.Get(_httpClientFactory, $"{baseUrl}/Email/ResetPassword");
 
-            var unprocessedHtml = httpResponse.Content.ReadAsStringAsync().Result;
-            var processedHtml = PreMailer.Net.PreMailer.MoveCssInline(new Uri(baseUrl), unprocessedHtml);
-
-            return processedHtml.Html;
+            var html = httpResponse.Content.ReadAsStringAsync().Result;
+            return html;
         }
 
         public async Task<string> GetAccountActivationHTML()
@@ -56,10 +44,8 @@ namespace TemplateV2.Repositories.ServiceRepos.EmailTemplateRepo
             var baseUrl = _httpContextAccessor.HttpContext.Request.GetBaseUrl();
             var httpResponse = await HttpHelper.Get(_httpClientFactory, $"{baseUrl}/Email/AccountActivation");
 
-            var unprocessedHtml = httpResponse.Content.ReadAsStringAsync().Result;
-            var processedHtml = PreMailer.Net.PreMailer.MoveCssInline(new Uri(baseUrl), unprocessedHtml);
-
-            return processedHtml.Html;
+            var html = httpResponse.Content.ReadAsStringAsync().Result;
+            return html;
         }
 
         public async Task<string> GetContactMessageHTML()
@@ -67,10 +53,8 @@ namespace TemplateV2.Repositories.ServiceRepos.EmailTemplateRepo
             var baseUrl = _httpContextAccessor.HttpContext.Request.GetBaseUrl();
             var httpResponse = await HttpHelper.Get(_httpClientFactory, $"{baseUrl}/Email/ContactMessage");
 
-            var unprocessedHtml = httpResponse.Content.ReadAsStringAsync().Result;
-            var processedHtml = PreMailer.Net.PreMailer.MoveCssInline(new Uri(baseUrl), unprocessedHtml);
-
-            return processedHtml.Html;
+            var html = httpResponse.Content.ReadAsStringAsync().Result;
+            return html;
         }
 
         #endregion

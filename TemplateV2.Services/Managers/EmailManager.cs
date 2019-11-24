@@ -74,10 +74,10 @@ namespace TemplateV2.Services.Managers
             var configuration = await _cache.Configuration();
             var baseUrl = _httpContextAccessor.HttpContext.Request.GetBaseUrl();
 
-            var templateHtml = await _emailTemplateRepo.GetForgotPasswordHTML();
+            var templateHtml = await _emailTemplateRepo.GetAccountActivationHTML();
             var template = new AccountActivationTemplate(templateHtml)
             {
-                ActivationUrl = $"{baseUrl}/activate-account?token={activationToken}",
+                ActivationUrl = $"{baseUrl}/Account/ActivateAccount?token={activationToken}",
                 ApplicationUrl = baseUrl
             };
 
@@ -117,10 +117,10 @@ namespace TemplateV2.Services.Managers
             var configuration = await _cache.Configuration();
             var baseUrl = _httpContextAccessor.HttpContext.Request.GetBaseUrl();
 
-            var templateHtml = await _emailTemplateRepo.GetForgotPasswordHTML();
+            var templateHtml = await _emailTemplateRepo.GetResetPasswordHTML();
             var template = new ResetPasswordTemplate(templateHtml)
             {
-                ResetPasswordUrl = $"{baseUrl}/reset-password?token={resetToken}",
+                ResetPasswordUrl = $"{baseUrl}/Account/ResetPassword?token={resetToken}",
                 ApplicationUrl = baseUrl
             };
 
@@ -150,54 +150,6 @@ namespace TemplateV2.Services.Managers
             {
                 FromAddress = request.EmailAddress,
                 ToAddress = configuration.Contact_Email_Address,
-                Subject = template.Subject,
-                Body = template.GetHTMLContent()
-            });
-        }
-
-        public async Task SendForgotPassword(SendForgotPasswordRequest request)
-        {
-            var resetToken = string.Empty;
-
-            UserEntity user;
-            using (var uow = _uowFactory.GetUnitOfWork())
-            {
-                user = await uow.UserRepo.GetUserByEmail(new Repositories.DatabaseRepos.UserRepo.Models.GetUserByEmailRequest()
-                {
-                    Email_Address = request.EmailAddress
-                });
-
-                if (user == null)
-                {
-                    return;
-                }
-
-                resetToken = GenerateUniqueUserToken(uow);
-
-                await uow.UserRepo.CreateUserToken(new Repositories.DatabaseRepos.UserRepo.Models.CreateUserTokenRequest()
-                {
-                    User_Id = user.Id,
-                    Token = new Guid(resetToken),
-                    Type_Id = (int)TokenTypeEnum.ForgotPassword,
-                    Created_By = ApplicationConstants.SystemUserId,
-                });
-                uow.Commit();
-            }
-
-            var configuration = await _cache.Configuration();
-            var baseUrl = _httpContextAccessor.HttpContext.Request.GetBaseUrl();
-
-            var templateHtml = await _emailTemplateRepo.GetForgotPasswordHTML();
-            var template = new ForgotPasswordTemplate(templateHtml)
-            {
-                ResetPasswordUrl = $"{baseUrl}/Account/ResetPassword?token={resetToken}",
-                ApplicationUrl = baseUrl
-            };
-
-            await _emailProvider.Send(new Infrastructure.Email.Models.SendRequest()
-            {
-                FromAddress = configuration.System_From_Email_Address,
-                ToAddress = request.EmailAddress,
                 Subject = template.Subject,
                 Body = template.GetHTMLContent()
             });

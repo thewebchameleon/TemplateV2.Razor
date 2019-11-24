@@ -42,6 +42,7 @@ namespace TemplateV2.Razor.Pages
                 if (response.IsSuccessful)
                 {
                     AddNotifications(response);
+                    return RedirectToHome();
                 }
                 else
                 {

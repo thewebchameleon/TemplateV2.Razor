@@ -1,12 +1,8 @@
-using Microsoft.AspNetCore.Mvc;
 
 namespace TemplateV2.Razor.Pages
 {
-    public class Email_ResetPasswordModel : BasePageModel
+    public class Email_ResetPasswordModel : EmailPageModel
     {
-        public void OnGet()
-        {
 
-        }
     }
 }
