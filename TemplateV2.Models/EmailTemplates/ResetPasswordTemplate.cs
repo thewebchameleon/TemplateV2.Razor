@@ -12,7 +12,7 @@ namespace TemplateV2.Models.EmailTemplates
 
         #region Constructors
 
-        public ResetPasswordTemplate(string body) : base(body)
+        public ResetPasswordTemplate(string body, string applicationUrl) : base(body, applicationUrl)
         {
         }
 

@@ -8,7 +8,7 @@ namespace TemplateV2.Models.EmailTemplates
 
         #region Constructors
 
-        public ForgotPasswordTemplate(string body) : base(body)
+        public ForgotPasswordTemplate(string body, string applicationUrl) : base(body, applicationUrl)
         {
         }
 

@@ -75,10 +75,9 @@ namespace TemplateV2.Services.Managers
             var baseUrl = _httpContextAccessor.HttpContext.Request.GetBaseUrl();
 
             var templateHtml = await _emailTemplateRepo.GetAccountActivationHTML();
-            var template = new AccountActivationTemplate(templateHtml)
+            var template = new AccountActivationTemplate(templateHtml, baseUrl)
             {
-                ActivationUrl = $"{baseUrl}/Account/ActivateAccount?token={activationToken}",
-                ApplicationUrl = baseUrl
+                ActivationUrl = $"{baseUrl}/Account/ActivateAccount?token={activationToken}"
             };
 
             await _emailProvider.Send(new Infrastructure.Email.Models.SendRequest()
@@ -118,10 +117,9 @@ namespace TemplateV2.Services.Managers
             var baseUrl = _httpContextAccessor.HttpContext.Request.GetBaseUrl();
 
             var templateHtml = await _emailTemplateRepo.GetResetPasswordHTML();
-            var template = new ResetPasswordTemplate(templateHtml)
+            var template = new ResetPasswordTemplate(templateHtml, baseUrl)
             {
-                ResetPasswordUrl = $"{baseUrl}/Account/ResetPassword?token={resetToken}",
-                ApplicationUrl = baseUrl
+                ResetPasswordUrl = $"{baseUrl}/Account/ResetPassword?token={resetToken}"
             };
 
             await _emailProvider.Send(new Infrastructure.Email.Models.SendRequest()
@@ -133,22 +131,22 @@ namespace TemplateV2.Services.Managers
             });
         }
 
-        public async Task SendContactMessage(SendContactMessageRequest request)
+        public async Task SendFeedback(SendFeedbackRequest request)
         {
             var configuration = await _cache.Configuration();
             var baseUrl = _httpContextAccessor.HttpContext.Request.GetBaseUrl();
 
-            var templateHtml = await _emailTemplateRepo.GetContactMessageHTML();
-            var template = new ContactMessageTemplate(templateHtml)
+            var templateHtml = await _emailTemplateRepo.GetSendFeedbackHTML();
+            var template = new SendFeedbackTemplate(templateHtml, baseUrl)
             {
                 Name = request.Name,
-                Message = request.Message,
-                ApplicationUrl = baseUrl
+                EmailAddress = request.EmailAddress,
+                Message = request.Message
             };
 
             await _emailProvider.Send(new Infrastructure.Email.Models.SendRequest()
             {
-                FromAddress = request.EmailAddress,
+                FromAddress = configuration.System_From_Email_Address,
                 ToAddress = configuration.Contact_Email_Address,
                 Subject = template.Subject,
                 Body = template.GetHTMLContent()

@@ -1,0 +1,151 @@
+﻿@page
+@model FeedbackModel
+@{
+    ViewData["Title"] = "Feedback";
+}
+
+<!-- Begin Page Content -->
+<div class="container-fluid">
+
+    <!-- Page Heading -->
+    <h1 class="h3 mb-4 text-gray-800">Feedback</h1>
+
+    <div class="row justify-content-center">
+
+        <div class="col-xl-8 col-lg-10 col-sm-12">
+
+            <div class="card o-hidden border-0 shadow-lg">
+                <div class="card-body p-0">
+                    <!-- Nested Row within Card Body -->
+                    <div class="px-5 py-4">
+                        <form class="user" method="post" role="form">
+                            <div asp-validation-summary="All" class="text-danger"></div>
+                            <div class="form-group">
+                                <p>Please let us know of any issues you experience or improvements that you would like to see here.</p>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="FormData.Message" class="control-label"></label>
+                                <textarea asp-for="FormData.Message" class="form-control" style="min-height: 150px"></textarea>
+                                <span asp-validation-for="FormData.Message" class="text-danger"></span>
+                            </div>
+                            <div class="form-group my-3">
+                                <button class="btn btn-primary btn-block" type="submit">
+                                    Send
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+
+</div>
+<!-- /.container-fluid -->
+@* reset password modal *@
+<div class="modal fade" id="modalResetPassword" tabindex="-1" role="dialog" aria-labelledby="modalResetPasswordLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-primary">
+                <h5 class="modal-title text-white" id="modalResetPasswordLabel">Update Password</h5>
+                <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div id="panelUpdatePassword" class="col-12">
+                        <form id="formUpdatePassword" method="post">
+                            <div asp-validation-summary="All" class="text-danger"></div>
+                            <p>Please enter a new password</p>
+                            <div class="form-row">
+                                <div class="form-group col-6">
+                                    <label for="txtPassword">Password</label>
+                                    <input type="password" class="form-control" id="txtPassword">
+                                </div>
+                                <div class="form-group col-6">
+                                    <label for="txtPasswordConfirm">Confirm Password</label>
+                                    <input type="password" class="form-control" id="txtPasswordConfirm">
+                                </div>
+                            </div>
+                            <div class="form-group mt-3">
+                                <button id="btnUpdatePassword" type="button" class="btn btn-primary btn-block">Submit</button>
+                            </div>
+                        </form>
+                    </div>
+                    <div id="panelLoading" class="col-12 text-center" style="display: none;">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="sr-only">Loading...</span>
+                        </div>
+                    </div>
+                    <div id="panelSuccess" class="col-12 text-center pt-2" style="display: none;">
+                        <i class="fas fa-check fa-2x text-success mb-2"></i>
+                        <p>Your password was updated successfully</p>
+                    </div>
+                    <div id="panelFail" class="col-12 text-center" style="display: none;">
+                        <i class="fas fa-times fa-2x text-danger mb-2"></i>
+                        <p>Something went terribly wrong</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    <script type="text/javascript">
+        $("#btnUpdatePassword").click(function () {
+
+            var form = $("#formUpdatePassword");
+            $.ajax({
+                type: "POST",
+                url: '@Url.Page("/Account/Profile", "UpdatePassword")',
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader("XSRF-TOKEN",
+                        form.find('input:hidden[name="__RequestVerificationToken"]').val()
+                    );
+                },
+                data: JSON.stringify({
+                    NewPassword: $("#txtPassword").val(),
+                    NewPasswordConfirm: $("#txtPasswordConfirm").val(),
+                    FormData: null
+                }),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (response) {
+                    $("#panelSuccess").show();
+                    $("#panelUpdatePassword").hide();
+                },
+                error: function (response) {
+
+                    if (response.status == 400) {
+
+                        var valSummary = form.find("[data-valmsg-summary=true]");
+                        var valList = valSummary.find("ul");
+                        valList.empty();
+
+                        var errors = $.map(response.responseJSON, function(item) { return item; });
+                        $.each(errors, function (index, message) {
+                            $("<li />").html(message).appendTo(valList);
+                        });
+
+                        valSummary.removeClass("validation-summary-valid").addClass("validation-summary-errors");
+
+                    }
+                    if (response.status == 500) {
+                          $("#panelFail").show();
+                    }
+
+                },
+                always: function () {
+                    $("#panelLoading").hide();
+                }
+            });
+
+        });
+
+    </script>
+}

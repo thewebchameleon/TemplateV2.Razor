@@ -8,6 +8,6 @@ namespace TemplateV2.Repositories.ServiceRepos.EmailTemplateRepo.Contracts
 
         Task<string> GetAccountActivationHTML();
 
-        Task<string> GetContactMessageHTML();
+        Task<string> GetSendFeedbackHTML();
     }
 }

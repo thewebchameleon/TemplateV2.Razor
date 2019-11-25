@@ -8,5 +8,7 @@ namespace TemplateV2.Services.Managers.Contracts
         Task SendAccountActivation(SendAccountActivationRequest request);
 
         Task SendResetPassword(SendResetPasswordRequest request);
+
+        Task SendFeedback(SendFeedbackRequest request);
     }
 }

@@ -613,6 +613,26 @@ namespace TemplateV2.Services
             }
         }
 
+        public async Task<SendFeedbackResponse> SendFeedback(SendFeedbackRequest request)
+        {
+            var response = new SendFeedbackResponse();
+
+            var user = await _sessionManager.GetUser();
+
+            if (user != null)
+            {
+                await _emailManager.SendFeedback(new Models.ServiceModels.Email.SendFeedbackRequest()
+                {
+                    Name = user.First_Name,
+                    EmailAddress = user.Email_Address,
+                    Message = request.Message
+                });
+            }
+
+            response.Notifications.Add("Thank you for your feedback, we will read it as soon as possible", NotificationTypeEnum.Success);
+            return response;
+        }
+
         #endregion
     }
 }

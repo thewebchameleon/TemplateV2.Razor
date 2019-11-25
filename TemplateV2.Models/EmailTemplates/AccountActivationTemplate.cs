@@ -8,7 +8,7 @@ namespace TemplateV2.Models.EmailTemplates
 
         #region Constructors
 
-        public AccountActivationTemplate(string body) : base(body)
+        public AccountActivationTemplate(string body, string applicationUrl) : base(body, applicationUrl)
         {
         }
 

@@ -48,10 +48,10 @@ namespace TemplateV2.Repositories.ServiceRepos.EmailTemplateRepo
             return html;
         }
 
-        public async Task<string> GetContactMessageHTML()
+        public async Task<string> GetSendFeedbackHTML()
         {
             var baseUrl = _httpContextAccessor.HttpContext.Request.GetBaseUrl();
-            var httpResponse = await HttpHelper.Get(_httpClientFactory, $"{baseUrl}/Email/ContactMessage");
+            var httpResponse = await HttpHelper.Get(_httpClientFactory, $"{baseUrl}/Email/SendFeedback");
 
             var html = httpResponse.Content.ReadAsStringAsync().Result;
             return html;

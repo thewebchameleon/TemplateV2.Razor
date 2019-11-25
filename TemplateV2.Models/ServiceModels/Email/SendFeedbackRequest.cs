@@ -1,10 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.Text;
-
 namespace TemplateV2.Models.ServiceModels.Email
 {
-    public class SendContactMessageRequest
+    public class SendFeedbackRequest
     {
         public string Name { get; set; }
 

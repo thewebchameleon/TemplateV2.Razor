@@ -31,5 +31,7 @@ namespace TemplateV2.Services.Contracts
         Task<DuplicateRoleCheckResponse> DuplicateRoleCheck(DuplicateRoleCheckRequest request);
 
         Task<GetActivityLogsResponse> GetActivityLogs(GetActivityLogsRequest request);
+
+        Task<SendFeedbackResponse> SendFeedback(SendFeedbackRequest request);
     }
 }

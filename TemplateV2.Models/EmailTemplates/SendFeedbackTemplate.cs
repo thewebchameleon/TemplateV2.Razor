@@ -4,17 +4,27 @@ using System.Text;
 
 namespace TemplateV2.Models.EmailTemplates
 {
-    public class ContactMessageTemplate : BaseTemplate
+    public class SendFeedbackTemplate : BaseTemplate
     {
-        public override string Subject => $"General enquiry from {Name}";
+        public override string Subject => $"Feedback received";
 
         public string Name { get; set; }
 
+        public string EmailAddress { get; set; }
+
         public string Message { get; set; }
+
+        public string DisplayName
+        {
+            get
+            {
+                return string.IsNullOrEmpty(Name) ? EmailAddress : Name;
+            }
+        }
 
         #region Constructors
 
-        public ContactMessageTemplate(string body) : base(body)
+        public SendFeedbackTemplate(string body, string applicationUrl) : base(body, applicationUrl)
         {
         }
 
@@ -26,6 +36,7 @@ namespace TemplateV2.Models.EmailTemplates
         {
             // perform replacements
             _body = _body.Replace("{{Name}}", Name);
+            _body = _body.Replace("{{EmailAddress}}", EmailAddress);
             _body = _body.Replace("{{Message}}", Message);
 
             return base.GetHTMLContent();

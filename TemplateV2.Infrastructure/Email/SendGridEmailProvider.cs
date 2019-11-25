@@ -29,7 +29,8 @@ namespace TemplateV2.Infrastructure.Email
 
             if (response.StatusCode != System.Net.HttpStatusCode.Accepted)
             {
-                //todo: log this
+                //todo: handle this better and log
+                throw new System.Exception("Could not send email");
             }
         }
     }

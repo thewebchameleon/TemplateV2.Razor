@@ -1,27 +1,23 @@
-using System;
-using System.Collections.Generic;
-using System.Text;
-
 namespace TemplateV2.Models.EmailTemplates
 {
     public abstract class BaseTemplate
     {
         public string _body;
+        public string _applicationUrl;
 
-        public BaseTemplate(string body)
+        public BaseTemplate(string body, string applicationUrl)
         {
             _body = body;
+            _applicationUrl = applicationUrl;
         }
 
         public abstract string Subject { get; }
-
-        public string ApplicationUrl { get; set; }
 
         public virtual string GetHTMLContent()
         {
             // default replacements
 
-            _body = _body.Replace("{{Application_Url}}", ApplicationUrl);
+            _body = _body.Replace("{{Application_Url}}", _applicationUrl);
             return _body;
         }
     }
