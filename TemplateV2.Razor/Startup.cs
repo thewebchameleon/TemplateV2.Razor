@@ -190,7 +190,7 @@ namespace TemplateV2.Razor
                 options.Conventions.AuthorizeFolder("/Admin/Permissions", PolicyConstants.ManageConfiguration);
                 options.Conventions.AuthorizeFolder("/Admin/SessionEvents", PolicyConstants.ManageConfiguration);
 
-                options.Conventions.AllowAnonymousToPage("/Admin/CreateAdminUser");
+                options.Conventions.AllowAnonymousToPage("/Admin/CreateAdminUser"); // remove default authorization
                 options.Conventions.AuthorizePage("/Admin/CreateAdminUser", PolicyConstants.CreateAdminUser);
             });
         }

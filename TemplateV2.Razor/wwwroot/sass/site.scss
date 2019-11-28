@@ -1,39 +1,10 @@
-﻿tr.disabled-row td {
-    color: lightgrey;
-}
+﻿/* #region Bootstrap */
 
-.modal-content {
-    border-radius: .4rem;
-}
-
-.validation-summary-valid ul {
-    margin-bottom: 0;
-}
-
-.table td {
-    padding: .5rem;
-}
-
-.table-child table {
-    border-radius: 5px;
-}
-
-.json-compact-text {
-    max-width: 0;
-    overflow: hidden;
-    white-space: pre-wrap;
-    text-overflow: ellipsis;
-}
-
-td.table-actions {
-    text-align: right;
-    padding-right: 15px;
-}
-
-ul.tooltip-list {
-    list-style: none;
-    margin: 0;
-    padding: 0;
+@media (min-width: 768px) {
+    .col-lg-12 {
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
 }
 
 .bootstrap-datetimepicker-widget.dropdown-menu {
@@ -44,35 +15,138 @@ ul.tooltip-list {
 .bootstrap-datetimepicker-widget table td.active:hover,
 .bootstrap-datetimepicker-widget table td span.active,
 .bootstrap-datetimepicker-widget table td span.hover {
-    background-color: #4e73df;
-    border-color: #4e73df;
+    background-color: $primary;
+    border-color: $primary;
 }
 
 .bootstrap-datetimepicker-widget table th.picker-switch {
-    background-color: #4e73df;
+    background-color: $primary;
     color: white;
-}
 
-.bootstrap-datetimepicker-widget table th.picker-switch:hover {
-    background-color: unset;
-    color: unset;
+    &:hover {
+        background-color: unset;
+        color: unset;
+    }
 }
 
 .btn-group-flex {
     display: flex;
 
-    button.btn.btn-secondary.active,
-    button.btn.btn-secondary.active:hover {
-        background-color: #4e73df;
-        border-color: #4e73df;
-    }
+    button.btn.btn-secondary {
+        .active,
+        .active:hover {
+            background-color: $primary;
+            border-color: $primary;
+        }
 
-    button.btn.btn-secondary:hover {
-        background-color: #2e59d9;
-        border-color: #2653d4;
+        &:hover {
+            /*background-color: #2e59d9;
+        border-color: #2653d4;*/
+            background-color: darken($primary, 20%);
+            border-color: darken($primary, 20%);
+        }
     }
 }
 
+/* #endregion */
+
+/* #region Global */
+
+input[type="date"]::-webkit-inner-spin-button,
+input[type="date"]::-webkit-calendar-picker-indicator {
+    display: none;
+    -webkit-appearance: none;
+}
+
+@media (max-width: 1100px) {
+    .container, .container-fluid {
+        padding-left: 0;
+        padding-right: 0;
+
+        h1 {
+            padding-left: 1.25rem;
+            padding-right: 1.25rem;
+        }
+    }
+
+    .card-body {
+        padding-left: 0;
+        padding-right: 0;
+    }
+}
+
+.validation-summary-valid ul {
+    margin-bottom: 0;
+}
+
+.table {
+    tr.disabled-row td {
+        color: lightgrey;
+    }
+
+    td {
+        padding: .5rem;
+
+        .table-actions {
+            text-align: right;
+            padding-right: 15px;
+        }
+    }
+}
+
+.table-child table {
+    border-radius: 5px;
+}
+
+
+
+
+
+/* #endregion */
+
+/* #region Modal */
+
+#modalAutoLogout .modal-body {
+    ul {
+        padding: 0;
+        margin: 0;
+        text-align: center;
+
+        li {
+            display: inline-block;
+            font-size: 1.5em;
+            list-style-type: none;
+            text-transform: uppercase;
+
+            span {
+                display: block;
+                font-size: 2.5rem;
+            }
+        }
+    }
+}
+
+.modal-content {
+    border-radius: .4rem;
+}
+
+ul.tooltip-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.json-compact-text {
+    max-width: 0;
+    overflow: hidden;
+    white-space: pre-wrap;
+    text-overflow: ellipsis;
+}
+
+
+/* #endregion */
+
+/* #region Radio buttons */
 
 .aa-radio-btn {
     display: block;
@@ -108,52 +182,4 @@ ul.tooltip-list {
     }
 }
 
-input[type="date"]::-webkit-inner-spin-button,
-input[type="date"]::-webkit-calendar-picker-indicator {
-    display: none;
-    -webkit-appearance: none;
-}
-
-@media (max-width: 1100px) {
-    .container, .container-fluid {
-        padding-left: 0;
-        padding-right: 0;
-
-        h1 {
-            padding-left: 1.25rem;
-            padding-right: 1.25rem;
-        }
-    }
-
-    .card-body {
-        padding-left: 0;
-        padding-right: 0;
-    }
-}
-
-#modalAutoLogout .modal-body {
-    ul {
-        padding: 0;
-        margin: 0;
-        text-align: center;
-
-        li {
-            display: inline-block;
-            font-size: 1.5em;
-            list-style-type: none;
-            text-transform: uppercase;
-
-            span {
-                display: block;
-                font-size: 2.5rem;
-            }
-        }
-    }
-}
-
-@media (min-width: 768px) {
-    .col-lg-12 {
-        flex: 0 0 100%;
-        max-width: 100%;
-    }
-}
+/* #endregion */

@@ -5,42 +5,56 @@ IDLE_TIMEOUT_SECONDS = 120; // 2 minutes
 IDLE_TIMEOUT_MODAL_SECONDS = IDLE_TIMEOUT_SECONDS - 30; // 30 seconds before session expires
 AUTO_LOGOUT_IS_ENABLED = false;
 IS_BEATING = false;
-HEARTBEAT_INTERVAL = 2000; // milliseconds
+HEARTBEAT_INTERVAL = 5000; // milliseconds
 
-function GlobalViewModel(configJson) {
+// from the Notifications/Enums.cs file
+const NotifcationType = {
+    INFORMATION: 1,
+    SUCCESS: 2,
+    WARNING: 3,
+    ERROR: 4
+};
+
+// millisecond groups
+const second = 1000;
+const minute = second * 60;
+
+function GlobalViewModel(configJson, notificationsJson) {
     var self = this;
 
-    var configItems = JSON.parse(configJson).Items; 
+    var configItems = JSON.parse(configJson).Items;
 
     TOAST_DELAY_SECONDS = configItems.filter(function (item) { return item.Key === 'TOAST_DELAY_SECONDS'; })[0].Int_Value;
     IDLE_TIMEOUT_SECONDS = configItems.filter(function (item) { return item.Key === 'IDLE_TIMEOUT_SECONDS'; })[0].Int_Value;
-    IDLE_TIMEOUT_MODAL_SECONDS = configItems.filter(function (item) { return item.Key === 'IDLE_TIMEOUT_MODAL_SECONDS'; })[0].Int_Value; 
+    IDLE_TIMEOUT_MODAL_SECONDS = configItems.filter(function (item) { return item.Key === 'IDLE_TIMEOUT_MODAL_SECONDS'; })[0].Int_Value;
     AUTO_LOGOUT_IS_ENABLED = configItems.filter(function (item) { return item.Key === 'AUTO_LOGOUT_IS_ENABLED'; })[0].Boolean_Value;
+
+    var notifications = (notificationsJson === '' || notificationsJson === undefined) ? [] : JSON.parse(notificationsJson);
 
     self.initialise = function () {
 
         $(document).ready(function () {
 
-            // enable toast notifications
-            $('.toast').toast(
-                {
-                    autohide: true,
-                    delay: TOAST_DELAY_SECONDS * 1000
-                }
-            ).toast('show');
+            // display any server rendered notifications
+            $(notifications).each(function (i, n) {
+                showNotification(n.Message, n.Type, true);
+            });
 
             // enable tooltips
             $('[data-toggle="tooltip"]').tooltip();
 
-            // multiselect component - form value handler
+            // multiselect component
             $('.selectpicker').on('changed.bs.select', function () {
 
+                // find any existing input fields and remove them
                 var dataContainer = $(this).parent('.dropdown').siblings('.selectpicker-data');
                 dataContainer.empty();
 
+                // generate the name property for input fields
                 var id = $(this).attr('id');
                 var propertyName = id.replace('_', '.');
 
+                // create input fields for selected values
                 var selectedValues = $(this).val();
                 selectedValues.forEach(function (value) {
                     dataContainer.append("<input type='hidden' name='" + propertyName + "' value=" + value + "></div>");
@@ -95,7 +109,7 @@ function GlobalViewModel(configJson) {
             // datatables ajax error handling
             if ($.fn.dataTable) {
                 $.fn.dataTable.ext.errMode = function (settings, helpPage, message) {
-                    showNotification(message, 'Error', false);
+                    showNotification(message, NotifcationType.ERROR, false);
                     console.log(message);
                 };
             }
@@ -147,26 +161,26 @@ function enableAutoLogout(expiryModalSeconds, expirySeconds) {
         setInterval(function () {
             IDLE_SECONDS++;
 
+            // show the modal if the user is idle for too long
             if (IDLE_SECONDS >= expiryModalSeconds) {
                 $('#modalAutoLogout').modal({
                     backdrop: "static",
                     keyboard: false
                 });
 
-                const second = 1000,
-                    minute = second * 60,
-                    hour = minute * 60,
-                    day = hour * 24;
-
+                // determine how many seconds are remaining and log the user out if their session has expired
                 var secondsRemaining = Math.floor(((getExpiryTime() - new Date().getTime()) % (minute)) / second);
                 if (secondsRemaining < 0 && isLoggingOut === false) {
+
                     secondsRemaining = 0;
                     isLoggingOut = true;
                     window.location = '/Account/Logout';
                     return;
-                } else {
-                    document.getElementById('txtAutoLogoutSecondsRemaining').innerText = secondsRemaining;
+
                 }
+
+                // display how many seconds are let
+                document.getElementById('txtAutoLogoutSecondsRemaining').innerText = secondsRemaining;
             }
         }, 1000); // poll every 1 second
     }
@@ -189,23 +203,32 @@ function enableAutoLogout(expiryModalSeconds, expirySeconds) {
 
 // displays a toast notification
 function showNotification(message, type, autoHide) {
+
+    // determine which css class to use
     var typeCss = '';
-    if (type === 'Information') {
+    var notificationHeading = '';
+
+    if (type === NotifcationType.INFORMATION || type ===  1) {
         typeCss = 'bg-primary';
+        notificationHeading = 'Information';
     }
-    if (type === 'Success') {
+    if (type === NotifcationType.SUCCESS || type ===  2) {
         typeCss = 'bg-success';
+        notificationHeading = 'Success';
     }
-    if (type === 'Warning') {
+    if (type === NotifcationType.WARNING || type ===  3) {
         typeCss = 'bg-warning';
+        notificationHeading = 'Warning';
     }
-    if (type === 'Error') {
+    if (type === NotifcationType.ERROR || type ===  4) {
         typeCss = 'bg-danger';
+        notificationHeading = 'Error';
     }
 
+    // add the notification html
     $("#notifications-container").append('<div class="toast ml-auto m-4" role="alert">' +
         '<div class="toast-header ' + typeCss + '">' +
-        '<strong class="mr-auto text-white">' + type + '</strong>' +
+        '<strong class="mr-auto text-white">' + notificationHeading + '</strong>' +
         '<button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">' +
         '<span aria-hidden="true">×</span>' +
         '</button>' +
@@ -215,11 +238,12 @@ function showNotification(message, type, autoHide) {
         '</div>' +
         '</div>');
 
+    // show the notification that we have just added
     $('.toast:last').toast(
-        {
-            autohide: autoHide,
-            delay: TOAST_DELAY_SECONDS * 1000
-        }
+    {
+        autohide: autoHide,
+        delay: TOAST_DELAY_SECONDS * 1000
+    }
     ).toast('show');
 }
 
@@ -228,7 +252,7 @@ function resetToolTips() {
     $('[data-toggle="tooltip"]').tooltip('update');
 }
 
-// used to interpret a C# dictionary (JSON) and output an html list <li>
+// used to interpret a C# Dictionary<string, string> and output an html list <li>
 function buildTooltipList(dictionary) {
     var list = '';
 
