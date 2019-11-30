@@ -2,6 +2,6 @@
 {
     public class CheckForAdminUserResponse
     {
-        public bool RequiresAdminUser { get; set; }
+        public bool AdminUserExists { get; set; }
     }
 }

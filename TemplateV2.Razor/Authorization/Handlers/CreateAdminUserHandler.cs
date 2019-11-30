@@ -17,7 +17,7 @@ namespace TemplateV2.Razor.Authorization.Handlers
 
         protected override async Task HandleRequirementAsync(AuthorizationHandlerContext context, CreateAdminUserRequirement requirement)
         {
-            _cacheProvider.TryGet(CacheConstants.RequiresAdminUser, out bool? requiresAdminUser);
+            _cacheProvider.TryGet(CacheConstants.AdminUserExists, out bool? requiresAdminUser);
             if (requiresAdminUser.HasValue &&
                 requiresAdminUser.Value == true)
             {

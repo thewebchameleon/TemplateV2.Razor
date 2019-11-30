@@ -32,7 +32,10 @@
     <script src="~/js/site.min.js" asp-append-version="true"></script>
 
     <script>
-    var globalViewModel = new GlobalViewModel('@Html.Raw(JsonConvert.SerializeObject(await _cacheManager.Configuration_Javascript()))');
+        var globalViewModel = new GlobalViewModel(
+            '@Html.Raw(JsonConvert.SerializeObject(await _cacheManager.Configuration_Javascript()))',
+            '@Html.Raw(TempData["Notifications"] as string)'
+        );
         globalViewModel.initialise();
     </script>
 

@@ -12,6 +12,6 @@ namespace TemplateV2.Infrastructure.Cache
         public const string SessionEvents = "SessionEvents";
         public const string EmailTemplates = "EmailTemplates";
 
-        public const string RequiresAdminUser = "RequiresAdminUser";
+        public const string AdminUserExists = "AdminUserExists";
     }
 }

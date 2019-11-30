@@ -34,13 +34,13 @@ namespace TemplateV2.Services.Managers
         {
             var response = new CheckForAdminUserResponse();
 
-            if (_cacheProvider.TryGet(CacheConstants.RequiresAdminUser, out bool? requiresAdminUser))
+            if (_cacheProvider.TryGet(CacheConstants.AdminUserExists, out bool? requiresAdminUser))
             {
-                response.RequiresAdminUser = requiresAdminUser.Value;
+                response.AdminUserExists = requiresAdminUser.Value;
                 return response;
             }
 
-            var username = "admin";
+            var username = "admin"; // todo: move this to the configuration table
             using (var uow = _uowFactory.GetUnitOfWork())
             {
                 var user = await uow.UserRepo.GetUserByUsername(new Repositories.DatabaseRepos.UserRepo.Models.GetUserByUsernameRequest()
@@ -48,14 +48,14 @@ namespace TemplateV2.Services.Managers
                     Username = username
                 });
 
-                if (user == null)
+                if (user != null)
                 {
-                    response.RequiresAdminUser = true;
-                    _cacheProvider.Set(CacheConstants.RequiresAdminUser, true);
+                    response.AdminUserExists = true;
+                    _cacheProvider.Set(CacheConstants.AdminUserExists, true);
                 }
                 else
                 {
-                    _cacheProvider.Set(CacheConstants.RequiresAdminUser, false);
+                    _cacheProvider.Set(CacheConstants.AdminUserExists, false);
                 }
             }
             return response;

@@ -17,7 +17,7 @@ namespace TemplateV2.Razor.Middleware
         {
             // check if an admin user exists
             var response = await adminManager.CheckForAdminUser();
-            if (response.RequiresAdminUser && context.Request.Path != "/Admin/CreateAdminUser")
+            if (!response.AdminUserExists && context.Request.Path != "/Admin/CreateAdminUser")
             {
                 context.Response.Redirect("/Admin/CreateAdminUser");
             }

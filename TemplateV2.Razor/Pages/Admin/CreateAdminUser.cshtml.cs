@@ -2,7 +2,6 @@ using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using TemplateV2.Models.ServiceModels.Admin;
 using TemplateV2.Services.Admin.Contracts;
-using TemplateV2.Services.Managers.Contracts;
 
 namespace TemplateV2.Razor.Pages
 {
@@ -30,9 +29,16 @@ namespace TemplateV2.Razor.Pages
 
         #endregion
 
-        public async Task OnGet()
+        public async Task<IActionResult> OnGet()
         {
+            var response = await _adminService.CheckIfCanCreateAdminUser();
+            if (!response.IsSuccessful)
+            {
+                AddNotifications(response);
+                return RedirectToHome();
+            }
             FormData = new CreateAdminUserRequest();
+            return Page();
         }
 
         public async Task<IActionResult> OnPost()

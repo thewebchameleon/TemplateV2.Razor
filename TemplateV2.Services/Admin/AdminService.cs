@@ -31,6 +31,8 @@ namespace TemplateV2.Services.Admin
 
         private readonly ICacheProvider _cacheProvider;
 
+        private readonly IAdminManager _adminManager;
+
         #endregion
 
         #region Constructor
@@ -41,6 +43,7 @@ namespace TemplateV2.Services.Admin
             ISessionProvider sessionProvider,
             IUnitOfWorkFactory uowFactory,
             ICacheProvider cacheProvider,
+            IAdminManager adminManager,
              IAuthenticationManager authenticationManager)
         {
             _uowFactory = uowFactory;
@@ -48,12 +51,25 @@ namespace TemplateV2.Services.Admin
             _accountService = accountService;
             _sessionManager = sessionManager;
             _sessionProvider = sessionProvider;
+            _adminManager = adminManager;
             _authenticationManager = authenticationManager;
         }
 
         #endregion
 
         #region Public Methods
+
+        public async Task<CheckIfCanCreateAdminUserResponse> CheckIfCanCreateAdminUser()
+        {
+            var response = new CheckIfCanCreateAdminUserResponse();
+
+            var adminCheckResponse = await _adminManager.CheckForAdminUser();
+            if (adminCheckResponse.AdminUserExists)
+            {
+                response.Notifications.AddError("Admin already exists");
+            }
+            return response;
+        }
 
         public async Task<CreateAdminUserResponse> CreateAdminUser(CreateAdminUserRequest request)
         {
@@ -102,7 +118,7 @@ namespace TemplateV2.Services.Admin
                 uow.Commit();
             }
 
-            _cacheProvider.Set(CacheConstants.RequiresAdminUser, false);
+            _cacheProvider.Set(CacheConstants.AdminUserExists, false);
             await _authenticationManager.SignIn(session.SessionEntity.Id);
 
             return response;

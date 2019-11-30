@@ -5,6 +5,8 @@ namespace TemplateV2.Services.Admin.Contracts
 {
     public interface IAdminService
     {
+        Task<CheckIfCanCreateAdminUserResponse> CheckIfCanCreateAdminUser();
+
         Task<CreateAdminUserResponse> CreateAdminUser(CreateAdminUserRequest request);
     }
 }
