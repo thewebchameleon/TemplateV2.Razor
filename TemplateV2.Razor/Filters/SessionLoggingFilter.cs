@@ -47,8 +47,12 @@ namespace TemplateV2.Razor.Filters
             int sessionLogId;
             using (var uow = _uowFactory.GetUnitOfWork())
             {
-                var methoInfo = context.HandlerMethod.MethodInfo.Name;
+                var methodInfo = context.HandlerMethod.MethodInfo.Name;
+
                 var method = context.HttpContext.Request.Method;
+                var isAjax = !(methodInfo == "OnGet" || methodInfo == "OnPost"
+                       || methodInfo == "OnGetAsync" || methodInfo == "OnPostAsync");
+
                 var dbRequest = new Repositories.DatabaseRepos.SessionRepo.Models.CreateSessionLogRequest()
                 {
                     Session_Id = session.SessionEntity.Id,
@@ -57,7 +61,7 @@ namespace TemplateV2.Razor.Filters
                     Method = method,
                     Controller = (string)context.RouteData.Values["Controller"],
                     Action = (string)context.RouteData.Values["Action"],
-                    IsAJAX = !(methoInfo == "OnGet" || methoInfo == "OnPost"),
+                    IsAJAX = isAjax,
                     Url = context.HttpContext.Request.GetDisplayUrl(),
                     Created_By = ApplicationConstants.SystemUserId
                 };
@@ -74,9 +78,8 @@ namespace TemplateV2.Razor.Filters
 
                     var formData = context.HandlerInstance.GetType().GetProperty("FormData");
                     var hasFormData = formData != null;
-                    if (hasFormData)
+                    if (hasFormData && !isAjax)
                     {
-                        // todo: FormData always gets added on ajax posts :/ figure out how to filter it out
                         postData.Add("Form_Data", ((dynamic)context.HandlerInstance).FormData);
                     }
 

@@ -35,8 +35,7 @@ namespace TemplateV2.Models.EmailTemplates
         public override string GetHTMLContent()
         {
             // perform replacements
-            _body = _body.Replace("{{Name}}", Name);
-            _body = _body.Replace("{{EmailAddress}}", EmailAddress);
+            _body = _body.Replace("{{DisplayName}}", DisplayName);
             _body = _body.Replace("{{Message}}", Message);
 
             return base.GetHTMLContent();
