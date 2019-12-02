@@ -11,6 +11,7 @@ using TemplateV2.Repositories.UnitOfWork.Contracts;
 using System.Collections.Generic;
 using TemplateV2.Services.Managers.Contracts;
 using System.Timers;
+using System.Diagnostics;
 
 namespace TemplateV2.Razor.Filters
 {
@@ -20,7 +21,7 @@ namespace TemplateV2.Razor.Filters
         private readonly IUnitOfWorkFactory _uowFactory;
         private readonly ICacheManager _cache;
         private readonly ISessionProvider _sessionProvider;
-        private readonly Timer _timer;
+        private readonly Stopwatch _stopwatch;
 
         public SessionLoggingFilter(
             ISessionManager sessionManager,
@@ -32,18 +33,18 @@ namespace TemplateV2.Razor.Filters
             _uowFactory = uowFactory;
             _cache = cache;
             _sessionProvider = sessionProvider;
-            _timer = new Timer();
+            _stopwatch = new Stopwatch();
         }
 
         public async Task OnPageHandlerExecutionAsync(PageHandlerExecutingContext context, PageHandlerExecutionDelegate next)
         {
-            _timer.Start();
+            _stopwatch.Start();
 
             // do something before the action executes
             var resultContext = await next();
             // do something after the action executes; resultContext.Result will be set
 
-            _timer.Stop();
+            _stopwatch.Stop();
 
             // validate feature is enabled
             var config = await _cache.Configuration();
@@ -74,7 +75,7 @@ namespace TemplateV2.Razor.Filters
                     Action = (string)context.RouteData.Values["Action"],
                     IsAJAX = isAjax,
                     Url = context.HttpContext.Request.GetDisplayUrl(),
-                    Elapsed_Milliseconds = _timer.Interval,
+                    Elapsed_Milliseconds = _stopwatch.ElapsedMilliseconds,
                     Created_By = ApplicationConstants.SystemUserId
                 };
 
