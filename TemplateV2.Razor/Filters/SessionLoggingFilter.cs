@@ -38,14 +38,6 @@ namespace TemplateV2.Razor.Filters
 
         public async Task OnPageHandlerExecutionAsync(PageHandlerExecutingContext context, PageHandlerExecutionDelegate next)
         {
-            _stopwatch.Start();
-
-            // do something before the action executes
-            var resultContext = await next();
-            // do something after the action executes; resultContext.Result will be set
-
-            _stopwatch.Stop();
-
             // validate feature is enabled
             var config = await _cache.Configuration();
             if (!config.Session_Logging_Is_Enabled)
@@ -54,7 +46,15 @@ namespace TemplateV2.Razor.Filters
                 return;
             }
 
+            _stopwatch.Start();
+
+            // do something before the action executes
+            var resultContext = await next();
+            // do something after the action executes; resultContext.Result will be set
+            
             var session = await _sessionManager.GetSession();
+
+            _stopwatch.Stop();
 
             int sessionLogId;
             using (var uow = _uowFactory.GetUnitOfWork())
