@@ -21,7 +21,8 @@ namespace TemplateV2.Infrastructure.Cache
 
         public bool TryGet<T>(string id, out T value)
         {
-            if (_cache.TryGetValue(id, out value))
+            if (_cache.TryGetValue(id, out value) 
+                && _settings.IsEnabled) // ensures that the cache is ignored
             {
                 return true;
             }

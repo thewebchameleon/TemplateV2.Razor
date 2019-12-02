@@ -202,7 +202,7 @@ namespace TemplateV2.Razor
             CultureInfo.DefaultThreadCurrentCulture = ApplicationConstants.Culture;
             CultureInfo.DefaultThreadCurrentUICulture = ApplicationConstants.Culture;
 
-            if (env.IsDevelopment())
+            if (env.IsDevelopment()) 
             {
                 app.UseDeveloperExceptionPage();
             }

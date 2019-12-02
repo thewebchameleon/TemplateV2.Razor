@@ -32,6 +32,7 @@
                             <th>Method</th>
                             <th>Route</th>
                             <th>Handler</th>
+                            <th>Performance (seconds)</th>
                         </tr>
                     </thead>
                 </table>
@@ -102,6 +103,14 @@
                 },
                 {
                     data: "entity.handler_Name"
+                },
+                {
+                    data: "entity.elapsed_Milliseconds",
+                    render: {
+                        display: function (data) {
+                            return data / 1000.0;
+                        }
+                    }
                 }
             ],
             columnDefs: [

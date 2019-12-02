@@ -13,6 +13,7 @@ BEGIN
 		[S].[Method],
 		[S].[Action_Data_JSON],
 		[S].[Url],
+		[S].[Elapsed_Milliseconds],
 		[S].[Created_By],
 		[S].[Created_Date],
 		[S].[Updated_By],

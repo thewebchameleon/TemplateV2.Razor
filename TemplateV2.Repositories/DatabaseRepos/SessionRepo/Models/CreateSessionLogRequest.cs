@@ -20,6 +20,8 @@ namespace TemplateV2.Repositories.DatabaseRepos.SessionRepo.Models
 
         public string Url { get; set; }
 
+        public double Elapsed_Milliseconds { get; set; }
+
         public int Created_By { get; set; }
     }
 }

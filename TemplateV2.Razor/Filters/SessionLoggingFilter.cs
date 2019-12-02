@@ -10,6 +10,7 @@ using TemplateV2.Infrastructure.Session.Contracts;
 using TemplateV2.Repositories.UnitOfWork.Contracts;
 using System.Collections.Generic;
 using TemplateV2.Services.Managers.Contracts;
+using System.Timers;
 
 namespace TemplateV2.Razor.Filters
 {
@@ -19,6 +20,7 @@ namespace TemplateV2.Razor.Filters
         private readonly IUnitOfWorkFactory _uowFactory;
         private readonly ICacheManager _cache;
         private readonly ISessionProvider _sessionProvider;
+        private readonly Timer _timer;
 
         public SessionLoggingFilter(
             ISessionManager sessionManager,
@@ -30,10 +32,19 @@ namespace TemplateV2.Razor.Filters
             _uowFactory = uowFactory;
             _cache = cache;
             _sessionProvider = sessionProvider;
+            _timer = new Timer();
         }
 
         public async Task OnPageHandlerExecutionAsync(PageHandlerExecutingContext context, PageHandlerExecutionDelegate next)
         {
+            _timer.Start();
+
+            // do something before the action executes
+            var resultContext = await next();
+            // do something after the action executes; resultContext.Result will be set
+
+            _timer.Stop();
+
             // validate feature is enabled
             var config = await _cache.Configuration();
             if (!config.Session_Logging_Is_Enabled)
@@ -63,6 +74,7 @@ namespace TemplateV2.Razor.Filters
                     Action = (string)context.RouteData.Values["Action"],
                     IsAJAX = isAjax,
                     Url = context.HttpContext.Request.GetDisplayUrl(),
+                    Elapsed_Milliseconds = _timer.Interval,
                     Created_By = ApplicationConstants.SystemUserId
                 };
 
@@ -95,22 +107,18 @@ namespace TemplateV2.Razor.Filters
 
                 // required for session event logging
                 await _sessionProvider.Set(SessionConstants.SessionLogId, sessionLogId);
-            }
 
-            // do something before the action executes
-            var resultContext = await next();
-            // do something after the action executes; resultContext.Result will be set
-
-            if (resultContext.Exception != null && !resultContext.ExceptionHandled)
-            {
-                await _sessionManager.WriteSessionLogEvent(new Models.ManagerModels.Session.CreateSessionLogEventRequest()
+                if (resultContext.Exception != null && !resultContext.ExceptionHandled)
                 {
-                    EventKey = SessionEventKeys.Error,
-                    Info = new Dictionary<string, string>()
+                    await _sessionManager.WriteSessionLogEvent(new Models.ManagerModels.Session.CreateSessionLogEventRequest()
+                    {
+                        EventKey = SessionEventKeys.Error,
+                        Info = new Dictionary<string, string>()
                     {
                         { "Message", resultContext.Exception.Message }
                     }
-                });
+                    });
+                }
             }
         }
 

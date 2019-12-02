@@ -19,5 +19,7 @@ namespace TemplateV2.Models.DomainModels
         public string Action_Data_JSON { get; set; }
 
         public string Url { get; set; }
+
+        public double Elapsed_Milliseconds { get; set; }
     }
 }
