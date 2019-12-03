@@ -4,6 +4,7 @@ AS
 BEGIN
    SELECT TOP 1
 		[S].[Id],
+		[S].User_Agent,
 		[S].[User_Id],
 		[S].[Created_By],
 		[S].[Created_Date],

@@ -4,13 +4,13 @@ AS
 BEGIN
 	SELECT
 		[S].[Id],
+		[S].User_Agent,
 		[S].[User_Id],
 		[S].[Created_By],
 		[S].[Created_Date],
 		[S].[Updated_By],
 		[S].[Updated_Date],
 		[S].Is_Deleted,
-
 		[U].[Username],
 		MAX(SL.Updated_Date) AS Last_Session_Log_Date,
 		MAX(SLE.Updated_Date) AS Last_Session_Event_Date
@@ -25,13 +25,13 @@ BEGIN
 	AND S.[User_Id] = @User_Id
 	GROUP BY
 		[S].[Id],
+		[S].User_Agent,
 		[S].[User_Id],
 		[S].[Created_By],
 		[S].[Created_Date],
 		[S].[Updated_By],
 		[S].[Updated_Date],
 		[S].Is_Deleted,
-
 		[U].[Username]
 	ORDER BY [S].[Created_Date] DESC
 END

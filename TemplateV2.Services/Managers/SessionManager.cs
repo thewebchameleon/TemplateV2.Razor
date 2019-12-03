@@ -13,6 +13,7 @@ using TemplateV2.Infrastructure.Session.Contracts;
 using TemplateV2.Models.DomainModels;
 using TemplateV2.Models.ManagerModels.Session;
 using TemplateV2.Services.Managers.Contracts;
+using Microsoft.Net.Http.Headers;
 
 namespace TemplateV2.Services.Managers
 {
@@ -58,10 +59,13 @@ namespace TemplateV2.Services.Managers
                 await _httpContextAccessor.HttpContext.SignOutAsync();
                 await _sessionProvider.Clear();
 
+                var userAgent = _httpContextAccessor.HttpContext.Request.Headers[HeaderNames.UserAgent].FirstOrDefault();
+
                 using (var uow = _uowFactory.GetUnitOfWork())
                 {
                     response.SessionEntity = await uow.SessionRepo.CreateSession(new Repositories.DatabaseRepos.SessionRepo.Models.CreateSessionRequest()
                     {
+                        User_Agent = userAgent,
                         Created_By = ApplicationConstants.SystemUserId
                     });
                     uow.Commit();

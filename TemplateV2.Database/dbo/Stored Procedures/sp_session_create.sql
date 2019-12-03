@@ -1,9 +1,11 @@
 ﻿CREATE PROCEDURE [dbo].[sp_session_create]
+	@User_Agent VARCHAR(256),
 	@Created_By INT
 AS
 BEGIN
    INSERT INTO [Session]
 	    (
+		[User_Agent],
 		[Created_By],
 		[Created_Date],
 		[Updated_By],
@@ -12,6 +14,7 @@ BEGIN
 	    )
    VALUES
 	    (
+		@User_Agent,
 		@Created_By,
 		GETDATE(),
 		@Created_By,
@@ -21,6 +24,7 @@ BEGIN
 
 	SELECT
 		[S].[Id],
+		[S].User_Agent,
 		[S].[User_Id],
 		[S].[Created_By],
 		[S].[Created_Date],

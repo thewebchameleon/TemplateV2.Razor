@@ -14,6 +14,7 @@ BEGIN
 
    SELECT
 		[S].[Id],
+		[S].User_Agent,
 		[S].[User_Id],
 		[S].[Created_By],
 		[S].[Created_Date],
