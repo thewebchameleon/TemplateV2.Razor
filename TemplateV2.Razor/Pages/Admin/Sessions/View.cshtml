@@ -14,8 +14,10 @@
         <div class="card-header py-3 ">
 
             <div class="row">
+                <div class="col-12"><strong>User Agent:</strong> @Model.SessionEntity.User_Agent</div>
+                <hr />
                 <div class="col-6"><strong>Session Id:</strong> @Model.SessionEntity.Id</div>
-                <div class="col-6 text-right"><strong>Date:</strong> @Model.SessionEntity.Created_Date.ToLongDateTimeString()</div>
+                <div class="col-6 text-right"><strong>Start Date:</strong> @Model.SessionEntity.Created_Date.ToLongDateTimeString()</div>
                 @if (Model.UserEntity != null)
                 {
                     <div class="col-12"><strong>Username:</strong> @Model.UserEntity.Username</div>
