@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
 using TemplateV2.Services.Admin.Contracts;
+using TemplateV2.Services.Contracts;
 
 namespace TemplateV2.Razor.Pages
 {
@@ -7,10 +8,7 @@ namespace TemplateV2.Razor.Pages
     {
         #region Private Fields
 
-        private readonly IUserService _userService;
-        private readonly ISessionService _sessionService;
-        private readonly IRoleService _roleService;
-        private readonly IConfigurationService _configurationService;
+        private readonly IDashboardService _dashboardService;
 
         #endregion
 
@@ -28,40 +26,24 @@ namespace TemplateV2.Razor.Pages
 
         #region Constructors
 
-        public IndexModel(
-            IUserService userService,
-            ISessionService sessionService,
-            IRoleService roleService,
-            IConfigurationService configurationService
-        )
+        public IndexModel(IDashboardService dashboardService)
         {
-            _userService = userService;
-            _sessionService = sessionService;
-            _roleService = roleService;
-            _configurationService = configurationService;
+            _dashboardService = dashboardService;
         }
 
         #endregion
 
         public async Task OnGet()
         {
-            // note: this is inefficient and is merely for demonstrating the UI
-            // we should rather build a custom stored proc(s) to get the data we need
-            // and even cache it if necessary
-            var usersResponse = await _userService.GetUsers();
-            TotalUsers = usersResponse.Users.Count;
-
-            var sessionsResponse = await _sessionService.GetSessions(new Models.ServiceModels.Admin.Sessions.GetSessionsRequest()
+            var response = await _dashboardService.GetIndexDashBoard();
+            if (response.IsSuccessful)
             {
-                LastXDays = 9999
-            }) ;
-            TotalSessions = sessionsResponse.Sessions.Count;
-
-            var rolesResponse = await _roleService.GetRoles();
-            TotalRoles = rolesResponse.Roles.Count;
-
-            var configItems = await _configurationService.GetConfigurationItems();
-            TotalConfigItems = configItems.ConfigurationItems.Count;
+                TotalUsers = response.TotalUsers;
+                TotalSessions = response.TotalSessions;
+                TotalRoles = response.TotalRoles;
+                TotalConfigItems = response.TotalConfigItems;
+            }
+            AddNotifications(response);
         }
     }
 }

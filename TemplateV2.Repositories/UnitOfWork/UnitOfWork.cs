@@ -8,7 +8,8 @@ using TemplateV2.Repositories.DatabaseRepos.SessionRepo.Contracts;
 using TemplateV2.Repositories.DatabaseRepos.UserRepo;
 using TemplateV2.Repositories.DatabaseRepos.ConfigurationRepo;
 using TemplateV2.Repositories.DatabaseRepos.SessionRepo;
-using Microsoft.Extensions.Options;
+using TemplateV2.Repositories.DatabaseRepos.DashboardRepo;
+using TemplateV2.Repositories.DatabaseRepos.DashboardRepo.Contracts;
 
 namespace TemplateV2.Repositories.UnitOfWork
 {
@@ -22,6 +23,7 @@ namespace TemplateV2.Repositories.UnitOfWork
         private IConfigurationRepo _configurationRepo;
         private ISessionRepo _sessionRepo;
         private IUserRepo _userRepo;
+        private IDashboardRepo _dashboardRepo;
 
         private bool _disposed;
         private readonly ConnectionStringSettings _connectionSettings;
@@ -61,6 +63,11 @@ namespace TemplateV2.Repositories.UnitOfWork
         public IUserRepo UserRepo
         {
             get { return _userRepo ?? (_userRepo = new UserRepo(_connection, _transaction, _connectionSettings)); }
+        }
+
+        public IDashboardRepo DashboardRepo
+        {
+            get { return _dashboardRepo ?? (_dashboardRepo = new DashboardRepo(_connection, _transaction, _connectionSettings)); }
         }
 
         #endregion
@@ -109,6 +116,7 @@ namespace TemplateV2.Repositories.UnitOfWork
             _configurationRepo = null;
             _sessionRepo = null;
             _userRepo = null;
+            _dashboardRepo = null;
         }
 
         private void dispose(bool disposing)

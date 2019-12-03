@@ -8,7 +8,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
 using TemplateV2.Infrastructure.Cache;
 using TemplateV2.Infrastructure.Cache.Contracts;
 using TemplateV2.Infrastructure.Configuration;
@@ -35,8 +34,6 @@ using TemplateV2.Razor.Authorization.Requirements;
 using TemplateV2.Infrastructure.Authorization;
 using Microsoft.AspNetCore.Authorization;
 using TemplateV2.Razor.Authorization.Handlers;
-using TemplateV2.Razor.Pages;
-using Microsoft.AspNetCore.Mvc.Infrastructure;
 
 namespace TemplateV2.Razor
 {
@@ -88,7 +85,7 @@ namespace TemplateV2.Razor
 
             // Business Logic Services
             services.AddTransient<IAccountService, AccountService>();
-            services.AddTransient<IHomeService, HomeService>();
+            services.AddTransient<IDashboardService, DashboardService>();
 
             // Business Logic Admin Service
             services.AddTransient<IConfigurationService, ConfigurationService>();

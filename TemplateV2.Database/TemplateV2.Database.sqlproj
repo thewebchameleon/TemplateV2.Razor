@@ -134,5 +134,6 @@
     <Build Include="dbo\Stored Procedures\sp_session_log_events_get_by_user_id.sql" />
     <Build Include="dbo\Stored Procedures\sp_user_permissions_get_by_user_id.sql" />
     <Build Include="dbo\Tables\User_Permission.sql" />
+    <Build Include="dbo\Stored Procedures\sp_dashboard_get.sql" />
   </ItemGroup>
 </Project>
