@@ -15,8 +15,16 @@ namespace TemplateV2.Razor.Middleware
 
         public async Task Invoke(HttpContext context, ISessionManager sessionManager)
         {
-            // calling this method ensures a session is created if one does not already exist.
-            var session = await sessionManager.GetSession();
+            if (context.Request.Path.HasValue &&
+                context.Request.Path.Value.Contains("/Diagnostics/"))
+            {
+
+            }
+            else
+            {
+                // calling this method ensures a session is created if one does not already exist.
+                var session = await sessionManager.GetSession();
+            }
 
             // Call the next delegate/middleware in the pipeline
             await _next(context);
