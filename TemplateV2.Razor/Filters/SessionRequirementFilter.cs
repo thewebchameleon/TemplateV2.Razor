@@ -21,11 +21,19 @@ namespace TemplateV2.Razor.Filters
 
         public async Task OnAuthorizationAsync(AuthorizationFilterContext context)
         {
-            var session = await _sessionManager.GetSession();
-            if (context.HttpContext.User.Identity.IsAuthenticated && !session.SessionEntity.User_Id.HasValue)
+            if (context.HttpContext.Request.Path.HasValue &&
+                context.HttpContext.Request.Path.Value.Contains("/Diagnostics/"))
             {
-                await context.HttpContext.SignOutAsync();
-                context.Result = new ChallengeResult();
+
+            }
+            else
+            {
+                var session = await _sessionManager.GetSession();
+                if (context.HttpContext.User.Identity.IsAuthenticated && !session.SessionEntity.User_Id.HasValue)
+                {
+                    await context.HttpContext.SignOutAsync();
+                    context.Result = new ChallengeResult();
+                }
             }
         }
     }

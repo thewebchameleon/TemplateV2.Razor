@@ -51,10 +51,8 @@ namespace TemplateV2.Razor.Filters
             // do something before the action executes
             var resultContext = await next();
             // do something after the action executes; resultContext.Result will be set
-            
-            var session = await _sessionManager.GetSession();
 
-            _stopwatch.Stop();
+            var session = await _sessionManager.GetSession();
 
             int sessionLogId;
             using (var uow = _uowFactory.GetUnitOfWork())
@@ -75,7 +73,6 @@ namespace TemplateV2.Razor.Filters
                     Action = (string)context.RouteData.Values["Action"],
                     IsAJAX = isAjax,
                     Url = context.HttpContext.Request.GetDisplayUrl(),
-                    Elapsed_Milliseconds = _stopwatch.ElapsedMilliseconds,
                     Created_By = ApplicationConstants.SystemUserId
                 };
 
@@ -103,6 +100,9 @@ namespace TemplateV2.Razor.Filters
                     }
                 }
 
+                _stopwatch.Stop();
+                dbRequest.Elapsed_Milliseconds = _stopwatch.ElapsedMilliseconds;
+
                 sessionLogId = await uow.SessionRepo.CreateSessionLog(dbRequest);
                 uow.Commit();
 
@@ -115,9 +115,9 @@ namespace TemplateV2.Razor.Filters
                     {
                         EventKey = SessionEventKeys.Error,
                         Info = new Dictionary<string, string>()
-                    {
-                        { "Message", resultContext.Exception.Message }
-                    }
+                        {
+                            { "Message", resultContext.Exception.Message }
+                        }
                     });
                 }
             }
