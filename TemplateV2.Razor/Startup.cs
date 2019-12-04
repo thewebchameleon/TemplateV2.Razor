@@ -34,6 +34,7 @@ using TemplateV2.Razor.Authorization.Requirements;
 using TemplateV2.Infrastructure.Authorization;
 using Microsoft.AspNetCore.Authorization;
 using TemplateV2.Razor.Authorization.Handlers;
+using Microsoft.Net.Http.Headers;
 
 namespace TemplateV2.Razor
 {
@@ -64,7 +65,7 @@ namespace TemplateV2.Razor
                 // Although this setting breaks OAuth2 and other cross-origin authentication schemes, 
                 // it elevates the level of cookie security for other types of apps that don't rely 
                 // on cross-origin request processing.
-                options.MinimumSameSitePolicy = SameSiteMode.Strict;
+                options.MinimumSameSitePolicy = Microsoft.AspNetCore.Http.SameSiteMode.Strict;
             });
 
             #endregion
@@ -213,7 +214,14 @@ namespace TemplateV2.Razor
             app.UseAdminCreationMiddleware();
             app.UseResponseCompression();
             app.UseHttpsRedirection();
-            app.UseStaticFiles();
+            app.UseStaticFiles(new StaticFileOptions()
+            {
+                OnPrepareResponse = ctx =>
+                {
+                    ctx.Context.Response.Headers[HeaderNames.CacheControl] =
+                        "public,max-age=" + ApplicationConstants.StaticFileCachingSeconds;
+                }
+            });
             app.UseSession();
             app.UseSessionMiddleware();
             app.UseAuthentication();
