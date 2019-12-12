@@ -68,8 +68,8 @@ Intended for building **small self-contained business applications**, this templ
 - Stored as strong MSSQL types (`boolean`, `datetime`, `date`, `time`, `decimal` (18 before, 2 after), `int`, `money`, `string`)
 
 ### Admin
-- Users can be created, updated, enabled and disabled
-- Roles can be created, updated, enabled and disabled
+- Users can be created, updated, assigned roles, enabled and disabled
+- Roles can be created, updated, assigned permissions, enabled and disabled
 - Permissions can be created and updated
 - Configuration items can be created and updated
 - Session log events can be created and updated
