@@ -7,7 +7,7 @@ using System.IO;
 
 namespace TemplateV2.Razor
 {
-    public class Program
+    public static class Program
     {
         public static IConfiguration Configuration { get; } = new ConfigurationBuilder()
             .SetBasePath(Directory.GetCurrentDirectory())
@@ -39,7 +39,6 @@ namespace TemplateV2.Razor
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
-                .UseApplicationInsights()
                 .UseStartup<Startup>()
                 .UseSerilog();
     }

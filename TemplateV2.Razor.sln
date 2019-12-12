@@ -24,7 +24,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution", "Solution", "{5D
 		README.md = README.md
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TemplateV2.Repositories", "TemplateV2.Repositories\TemplateV2.Repositories.csproj", "{B9DB8A76-E0F6-4FBB-8F26-513FEB333C3E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TemplateV2.Repositories", "TemplateV2.Repositories\TemplateV2.Repositories.csproj", "{B9DB8A76-E0F6-4FBB-8F26-513FEB333C3E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

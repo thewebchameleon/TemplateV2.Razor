@@ -35,12 +35,13 @@ using TemplateV2.Infrastructure.Authorization;
 using Microsoft.AspNetCore.Authorization;
 using TemplateV2.Razor.Authorization.Handlers;
 using Microsoft.Net.Http.Headers;
+using Microsoft.Extensions.Hosting;
 
 namespace TemplateV2.Razor
 {
     public class Startup
     {
-        private IConfiguration _configuration { get; }
+        private readonly IConfiguration _configuration;
 
         public Startup(IConfiguration configuration)
         {
@@ -79,6 +80,7 @@ namespace TemplateV2.Razor
             services.AddTransient<IUnitOfWorkFactory, UnitOfWorkFactory>();
             services.AddTransient<IHttpContextAccessor, HttpContextAccessor>();
             services.AddHttpClient();
+            services.AddApplicationInsightsTelemetry();
 
             // Caching
             services.AddDistributedMemoryCache();
@@ -165,7 +167,7 @@ namespace TemplateV2.Razor
                 options.Filters.Add(typeof(SessionRequirementFilter));
                 options.Filters.Add(typeof(SessionLoggingFilter));
             })
-            .SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
+            .SetCompatibilityVersion(CompatibilityVersion.Version_3_0)
             .AddRazorPagesOptions(options =>
             {
                 // apply authorization by default to all pages
@@ -194,7 +196,7 @@ namespace TemplateV2.Razor
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             // force the application to run under the specified culture
             CultureInfo.DefaultThreadCurrentCulture = ApplicationConstants.Culture;
@@ -211,7 +213,6 @@ namespace TemplateV2.Razor
                 app.UseHsts();
             }
 
-            app.UseAdminCreationMiddleware();
             app.UseResponseCompression();
             app.UseHttpsRedirection();
             app.UseStaticFiles(new StaticFileOptions()
@@ -222,13 +223,24 @@ namespace TemplateV2.Razor
                         "public,max-age=" + ApplicationConstants.StaticFileCachingSeconds;
                 }
             });
+
+            app.UseRouting();
+
             app.UseSession();
             app.UseSessionMiddleware();
-            app.UseAuthentication();
-            app.UseStatusCodePages();
-            app.UseStatusCodePagesWithReExecute("/Error/{0}");
 
-            app.UseMvc();
+            app.UseAdminCreationMiddleware();
+            app.UseAuthentication();
+            app.UseAuthorization();
+
+            app.UseStatusCodePages();
+            app.UseStatusCodePagesWithRedirects("/Error/{0}");
+
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+                endpoints.MapRazorPages();
+            });
         }
     }
 }

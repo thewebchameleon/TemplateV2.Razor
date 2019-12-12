@@ -1,4 +1,6 @@
-﻿/* #region Bootstrap */
+﻿@import 'framework.scss';
+
+/* #region Bootstrap */
 
 @media (min-width: 768px) {
     .col-lg-12 {
@@ -180,6 +182,16 @@ ul.tooltip-list {
         top: 0;
         left: 0;
     }
+}
+
+/* #endregion */
+
+/* #region Notifications */
+
+#notifications-container {
+    top: 0;
+    right: 0;
+    width: 400px !important;
 }
 
 /* #endregion */

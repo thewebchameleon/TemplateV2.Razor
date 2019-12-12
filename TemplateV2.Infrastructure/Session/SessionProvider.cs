@@ -34,7 +34,7 @@ namespace TemplateV2.Infrastructure.Session
                 }
                 catch { }
             }
-            return default(T);
+            return default;
         }
 
         public async Task<T> Set<T>(string key, T value)
