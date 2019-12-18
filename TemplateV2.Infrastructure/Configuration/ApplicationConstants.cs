@@ -8,7 +8,7 @@ namespace TemplateV2.Infrastructure.Configuration
     {
         public const int SystemUserId = 1;
         public const int ResponseCachingSeconds = 60 * 60 * 24; // 24 hours
-        public const int StaticFileCachingSeconds = 60 * 60 * 24 * 7; // 7 days
+        public const int StaticFileCachingSeconds = 60 * 60 * 24 * 30; // 30 days
 
         // the amount of seconds before the session times out
         public const int SessionTimeoutSeconds = 60 * 10; // 10 minutes
