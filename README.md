@@ -15,11 +15,11 @@ Intended for building **small self-contained business applications**, this templ
 ## Architecture
  - Built with [Razor Pages](https://docs.microsoft.com/en-us/aspnet/core/razor-pages)
  - N-tier application with a focus on seperation of concerns
- - Uses MVC 6 with the latest version of Visual Studio 2019 and [ASP.NET Core 2.2](https://asp.net)
+ - Uses MVC 6 with the latest version of Visual Studio 2019 and [ASP.NET Core 3.1](https://asp.net)
  - UI validation is shared with backend validation (client-side can only perform basic rules)
 
 ### Database
-- Database project targets Microsoft SQL Server 2017 and uses the micro ORM [Dapper](https://github.com/StackExchange/Dapper)
+- Database project targets Microsoft SQL Server 2019 and uses the micro ORM [Dapper](https://github.com/StackExchange/Dapper)
 - Initial roll out script `V1.sql` is included and contains lookup data and an admin user
 - Tables contain a soft-delete metadata column `Is_Deleted` to allow foreign key integrity
 - Stored procedures are used to perform CRUD-like operations on the database.
