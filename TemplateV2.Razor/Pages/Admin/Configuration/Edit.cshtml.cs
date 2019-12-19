@@ -34,12 +34,18 @@ namespace TemplateV2.Razor.Pages
 
         #endregion
 
-        public async Task OnGet()
+        public async Task<IActionResult> OnGet()
         {
             var response = await _configService.GetConfigurationItem(new GetConfigurationItemRequest()
             {
                 Id = Id
             });
+
+            if (!response.IsSuccessful)
+            {
+                return NotFound();
+            }
+
             Key = response.ConfigurationItem.Key;
             FormData = new UpdateConfigurationItemRequest()
             {
@@ -55,6 +61,8 @@ namespace TemplateV2.Razor.Pages
                 MoneyValue = response.ConfigurationItem.Money_Value,
                 StringValue = response.ConfigurationItem.String_Value,
             };
+
+            return Page();
         }
 
         public async Task<IActionResult> OnPost()

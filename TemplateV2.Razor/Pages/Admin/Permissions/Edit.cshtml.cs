@@ -34,12 +34,18 @@ namespace TemplateV2.Razor.Pages
 
         #endregion
 
-        public async Task OnGet()
+        public async Task<IActionResult> OnGet()
         {
             var response = await _permissionsService.GetPermission(new GetPermissionRequest()
             {
                 Id = Id
             });
+
+            if (!response.IsSuccessful)
+            {
+                return NotFound();
+            }
+
             Key = response.Permission.Key;
             FormData = new UpdatePermissionRequest()
             {
@@ -48,6 +54,8 @@ namespace TemplateV2.Razor.Pages
                 GroupName = response.Permission.Group_Name,
                 Name = response.Permission.Name
             };
+
+            return Page();
         }
 
         public async Task<IActionResult> OnPost()

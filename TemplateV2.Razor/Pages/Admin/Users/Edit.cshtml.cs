@@ -43,12 +43,18 @@ namespace TemplateV2.Razor.Pages
 
         #endregion
 
-        public async Task OnGet()
+        public async Task<IActionResult> OnGet()
         {
             var response = await _userService.GetUser(new GetUserRequest()
             {
                 Id = Id
             });
+
+            if (!response.IsSuccessful)
+            {
+                return NotFound();
+            }
+
             RolesLookup = await _cache.Roles();
             UserEntity = response.User;
             FormData = new UpdateUserRequest()
@@ -60,6 +66,7 @@ namespace TemplateV2.Razor.Pages
                 MobileNumber = response.User.Mobile_Number,
                 RoleIds = response.Roles.Select(r => r.Id).ToList()
             };
+            return Page();
         }
 
         public async Task<IActionResult> OnPost()

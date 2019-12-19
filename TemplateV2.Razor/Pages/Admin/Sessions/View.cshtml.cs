@@ -35,14 +35,22 @@ namespace TemplateV2.Razor.Pages
 
         #endregion
 
-        public async Task OnGet()
+        public async Task<IActionResult> OnGet()
         {
             var response = await _sessionService.GetSession(new GetSessionRequest()
             {
                 Id = Id
             });
+
+            if (!response.IsSuccessful)
+            {
+                return NotFound();
+            }
+
             UserEntity = response.User;
             SessionEntity = response.Session;
+
+            return Page();
         }
 
         public async Task<JsonResult> OnGetData(int id)

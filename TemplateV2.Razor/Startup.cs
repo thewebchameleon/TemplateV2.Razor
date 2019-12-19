@@ -110,14 +110,6 @@ namespace TemplateV2.Razor
 
             #endregion
 
-            //services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
-            //services.AddScoped<IUrlHelper>(x =>
-            //{
-            //    var actionContext = x.GetRequiredService<IActionContextAccessor>().ActionContext;
-            //    var factory = x.GetRequiredService<IUrlHelperFactory>();
-            //    return factory.GetUrlHelper(actionContext);
-            //});
-
             #region Authentication and Authorization
 
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options =>
@@ -208,7 +200,7 @@ namespace TemplateV2.Razor
             }
             else
             {
-                app.UseExceptionHandler("/Error/500");
+                app.UseStatusCodePagesWithReExecute("/Error/{0}");
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
@@ -233,8 +225,7 @@ namespace TemplateV2.Razor
             app.UseAuthentication();
             app.UseAuthorization();
 
-            app.UseStatusCodePages();
-            app.UseStatusCodePagesWithRedirects("/Error/{0}");
+            
 
             app.UseEndpoints(endpoints =>
             {

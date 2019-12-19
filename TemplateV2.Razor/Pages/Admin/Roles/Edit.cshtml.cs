@@ -44,12 +44,18 @@ namespace TemplateV2.Razor.Pages
 
         #endregion
 
-        public async Task OnGet()
+        public async Task<IActionResult> OnGet()
         {
             var response = await _roleService.GetRole(new GetRoleRequest()
             {
                 Id = Id
             });
+
+            if (!response.IsSuccessful)
+            {
+                return NotFound();
+            }
+
             PermissionsLookup = await _cache.Permissions();
             RoleEntity = response.Role;
             FormData = new UpdateRoleRequest()
@@ -62,6 +68,8 @@ namespace TemplateV2.Razor.Pages
                     Selected = true
                 }).ToList()
             };
+
+            return Page();
         }
 
         public async Task<IActionResult> OnPost()

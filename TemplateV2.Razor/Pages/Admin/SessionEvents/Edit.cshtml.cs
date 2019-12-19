@@ -34,18 +34,26 @@ namespace TemplateV2.Razor.Pages
 
         #endregion
 
-        public async Task OnGet()
+        public async Task<IActionResult> OnGet()
         {
             var response = await _sessionService.GetSessionEvent(new GetSessionEventRequest()
             {
                 Id = Id
             });
+
+            if (!response.IsSuccessful)
+            {
+                return NotFound();
+            }
+
             Key = response.SessionEvent.Key;
             FormData = new UpdateSessionEventRequest()
             {
                 Id = response.SessionEvent.Id,
                 Description = response.SessionEvent.Description
             };
+
+            return Page();
         }
 
         public async Task<IActionResult> OnPost()
