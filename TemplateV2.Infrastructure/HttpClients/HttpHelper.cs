@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Text;
@@ -11,12 +12,10 @@ namespace TemplateV2.Infrastructure.HttpClients
 {
     public static class HttpHelper
     {
-        public static async Task<HttpResponseMessage> Post(IHttpClientFactory _httpClientFactory, string serviceName, string method, string jsonData = null)
+        public static async Task<HttpResponseMessage> Post(IHttpClientFactory _httpClientFactory, string baseUrl, string method, string jsonData = null, Dictionary<string, string> headers = null)
         {
-            var httpClient = _httpClientFactory.CreateClient(serviceName);
-
-            var baseUrl = httpClient.BaseAddress.ToString();
-            var methodCallUrl = $"{baseUrl}{method}";
+            var httpClient = _httpClientFactory.CreateClient(baseUrl);
+            var methodCallUrl = $"{baseUrl}/{method}";
 
             var httpRequest = new HttpRequestMessage()
             {
@@ -29,53 +28,40 @@ namespace TemplateV2.Infrastructure.HttpClients
                 var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
                 httpRequest.Content = content;
             }
-            return await httpClient.SendAsync(httpRequest);
-        }
 
-        public static async Task<HttpResponseMessage> Post(IHttpClientFactory _httpClientFactory, string url, string jsonData = null)
-        {
-            var httpClient = _httpClientFactory.CreateClient(url);
-
-            var httpRequest = new HttpRequestMessage()
+            if (headers != null)
             {
-                RequestUri = new Uri(url),
-                Method = HttpMethod.Post,
-            };
-
-            if (!string.IsNullOrEmpty(jsonData))
-            {
-                var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
-                httpRequest.Content = content;
+                foreach (var header in headers)
+                {
+                    httpRequest.Headers.Add(header.Key, header.Value);
+                }
             }
+
             return await httpClient.SendAsync(httpRequest);
         }
 
-        public static async Task<HttpResponseMessage> Get(IHttpClientFactory _httpClientFactory, string serviceName, string method)
+        public static async Task<HttpResponseMessage> Get(IHttpClientFactory _httpClientFactory, string baseUrl, string method, Dictionary<string, string> headers = null)
         {
-            var httpClient = _httpClientFactory.CreateClient(serviceName);
-
-            var baseUrl = httpClient.BaseAddress.ToString();
-            var methodCallUrl = $"{baseUrl}{method}";
+            var httpClient = _httpClientFactory.CreateClient(baseUrl);
+            var methodCallUrl = $"{baseUrl}/{method}";
 
             var httpRequest = new HttpRequestMessage()
             {
                 RequestUri = new Uri(methodCallUrl),
                 Method = HttpMethod.Get,
             };
-            return await httpClient.SendAsync(httpRequest);
-        }
 
-        public static async Task<HttpResponseMessage> Get(IHttpClientFactory _httpClientFactory, string url)
-        {
-            var httpClient = _httpClientFactory.CreateClient(url);
-
-            var httpRequest = new HttpRequestMessage()
+            if (headers != null)
             {
-                RequestUri = new Uri(url),
-                Method = HttpMethod.Get,
-            };
+                foreach (var header in headers)
+                {
+                    httpRequest.Headers.Add(header.Key, header.Value);
+                }
+            }
+
             return await httpClient.SendAsync(httpRequest);
         }
+
 
         public static T ReadMessage<T>(this HttpResponseMessage responseMessage)
         {
@@ -96,5 +82,4 @@ namespace TemplateV2.Infrastructure.HttpClients
             throw new UnsupportedHttpCodeException(httpCode, responseMessage.ReasonPhrase);
         }
     }
-
 }

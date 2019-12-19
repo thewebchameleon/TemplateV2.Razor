@@ -33,7 +33,7 @@ namespace TemplateV2.Repositories.ServiceRepos.EmailTemplateRepo
         public async Task<string> GetResetPasswordHTML()
         {
             var baseUrl = _httpContextAccessor.HttpContext.Request.GetBaseUrl();
-            var httpResponse = await HttpHelper.Get(_httpClientFactory, $"{baseUrl}/Email/ResetPassword");
+            var httpResponse = await HttpHelper.Get(_httpClientFactory, baseUrl, "Email/ResetPassword");
 
             var html = httpResponse.Content.ReadAsStringAsync().Result;
             return html;
@@ -42,7 +42,7 @@ namespace TemplateV2.Repositories.ServiceRepos.EmailTemplateRepo
         public async Task<string> GetAccountActivationHTML()
         {
             var baseUrl = _httpContextAccessor.HttpContext.Request.GetBaseUrl();
-            var httpResponse = await HttpHelper.Get(_httpClientFactory, $"{baseUrl}/Email/AccountActivation");
+            var httpResponse = await HttpHelper.Get(_httpClientFactory, baseUrl, "Email/AccountActivation");
 
             var html = httpResponse.Content.ReadAsStringAsync().Result;
             return html;
@@ -51,7 +51,7 @@ namespace TemplateV2.Repositories.ServiceRepos.EmailTemplateRepo
         public async Task<string> GetSendFeedbackHTML()
         {
             var baseUrl = _httpContextAccessor.HttpContext.Request.GetBaseUrl();
-            var httpResponse = await HttpHelper.Get(_httpClientFactory, $"{baseUrl}/Email/SendFeedback");
+            var httpResponse = await HttpHelper.Get(_httpClientFactory, baseUrl, "Email/SendFeedback");
 
             var html = httpResponse.Content.ReadAsStringAsync().Result;
             return html;
