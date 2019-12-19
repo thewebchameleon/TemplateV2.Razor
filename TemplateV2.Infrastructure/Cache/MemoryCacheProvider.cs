@@ -49,7 +49,7 @@ namespace TemplateV2.Infrastructure.Cache
             {
                 return _cache.Set(key, value, expiryDate);
             }
-            return default(T);
+            return default;
         }
     }
 }

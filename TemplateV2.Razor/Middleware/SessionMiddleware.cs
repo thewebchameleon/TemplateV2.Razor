@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using System.Threading.Tasks;
+using TemplateV2.Infrastructure.Session;
 using TemplateV2.Services.Managers.Contracts;
 
 namespace TemplateV2.Razor.Middleware
@@ -16,7 +17,7 @@ namespace TemplateV2.Razor.Middleware
         public async Task Invoke(HttpContext context, ISessionManager sessionManager)
         {
             if (context.Request.Path.HasValue &&
-                context.Request.Path.Value.Contains("/Diagnostics/"))
+                SessionConstants.ExcludedSessionPaths.Contains(context.Request.Path.Value))
             {
 
             }

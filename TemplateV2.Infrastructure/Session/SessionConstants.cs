@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace TemplateV2.Infrastructure.Session
 {
     public class SessionConstants
@@ -8,5 +10,18 @@ namespace TemplateV2.Infrastructure.Session
 
         public const string UserEntity = "UserEntity";
         public const string UserPermissions = "UserPermissions";
+
+        public static List<string> ExcludedSessionPaths
+        {
+            get
+            {
+                return new List<string>()
+                {
+                    "/Diagnostics/",
+                    "/Email/",
+                    "/Session/"
+                };
+            }
+        }
     }
 }

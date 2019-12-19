@@ -225,8 +225,6 @@ namespace TemplateV2.Razor
             app.UseAuthentication();
             app.UseAuthorization();
 
-            
-
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

@@ -51,7 +51,7 @@ namespace TemplateV2.Infrastructure.Configuration
         }
 
         /// <summary>
-        /// a list of field names that may contain user-sensitive data to be used in 
+        /// a list of field names that may contain user-sensitive data to be used in
         /// </summary>
         public static List<string> ObfuscatedActionArgumentFields
         {
