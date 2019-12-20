@@ -158,6 +158,7 @@ namespace TemplateV2.Razor
             {
                 options.Filters.Add(typeof(SessionRequirementFilter));
                 options.Filters.Add(typeof(SessionLoggingFilter));
+                options.Filters.Add(typeof(MetaTagPageFilter));
             })
             .SetCompatibilityVersion(CompatibilityVersion.Version_3_0)
             .AddRazorPagesOptions(options =>
