@@ -1,7 +1,7 @@
 ﻿@page
 @model ManagePermissionsModel
 @{
-    ViewData["Title"] = "Manage Permissions";
+    ViewData.SetMeta("Manage Permission");
 }
 
 <!-- Begin Page Content -->
@@ -30,16 +30,16 @@
                     <tbody>
                         @foreach (var permission in Model.Permissions)
                         {
-                        <tr>
-                            <td>@permission.Group_Name</td>
-                            <td>@permission.Name</td>
-                            <td>@permission.Description</td>
-                            <td>
-                                <a asp-page="/Admin/Permissions/Edit" asp-route-id="@permission.Id">
-                                    <i class="fas fa-edit" data-toggle="tooltip" data-placement="left" title="Edit"></i>
-                                </a>
-                            </td>
-                        </tr>
+                            <tr>
+                                <td>@permission.Group_Name</td>
+                                <td>@permission.Name</td>
+                                <td>@permission.Description</td>
+                                <td>
+                                    <a asp-page="/Admin/Permissions/Edit" asp-route-id="@permission.Id">
+                                        <i class="fas fa-edit" data-toggle="tooltip" data-placement="left" title="Edit"></i>
+                                    </a>
+                                </td>
+                            </tr>
                         }
                     </tbody>
                 </table>
@@ -58,7 +58,7 @@
             var table = $('#dataTable').DataTable({
                 columnDefs: [
                     { orderable: false, targets: -1 },
-                    {  }
+                    {}
                 ]
             });
 

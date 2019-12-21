@@ -1,7 +1,7 @@
 ﻿@page
 @model ManageSessionEventsModel
 @{
-    ViewData["Title"] = "Manage Session Events";
+    ViewData.SetMeta("Manage Session Events");
 }
 
 <!-- Begin Page Content -->
@@ -29,15 +29,15 @@
                     <tbody>
                         @foreach (var sessionEvent in Model.SessionEvents)
                         {
-                        <tr>
-                            <td>@sessionEvent.Key</td>
-                            <td>@sessionEvent.Description</td>
-                            <td>
-                                <a asp-page="/Admin/SessionEvents/Edit" asp-route-id="@sessionEvent.Id">
-                                    <i class="fas fa-edit" data-toggle="tooltip" data-placement="left" title="Edit"></i>
-                                </a>
-                            </td>
-                        </tr>
+                            <tr>
+                                <td>@sessionEvent.Key</td>
+                                <td>@sessionEvent.Description</td>
+                                <td>
+                                    <a asp-page="/Admin/SessionEvents/Edit" asp-route-id="@sessionEvent.Id">
+                                        <i class="fas fa-edit" data-toggle="tooltip" data-placement="left" title="Edit"></i>
+                                    </a>
+                                </td>
+                            </tr>
                         }
                     </tbody>
                 </table>
@@ -56,7 +56,7 @@
             var table = $('#dataTable').DataTable({
                 columnDefs: [
                     { orderable: false, targets: -1 },
-                    {  }
+                    {}
                 ]
             });
 
