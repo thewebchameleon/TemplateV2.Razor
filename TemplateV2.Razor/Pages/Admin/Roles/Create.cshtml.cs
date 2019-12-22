@@ -33,6 +33,7 @@ namespace TemplateV2.Razor.Pages
             _roleService = roleService;
             _cache = cache;
             PermissionsLookup = new List<PermissionEntity>();
+            FormData = new CreateRoleRequest();
         }
 
         #endregion

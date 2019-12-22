@@ -26,6 +26,7 @@ namespace TemplateV2.Razor.Pages
         public CreatePermissionModel(IPermissionsService permissionsService)
         {
             _permissionsService = permissionsService;
+            FormData = new CreatePermissionRequest();
         }
 
         #endregion

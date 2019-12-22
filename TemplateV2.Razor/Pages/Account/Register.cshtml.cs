@@ -1,9 +1,5 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 using TemplateV2.Models.ServiceModels;
 using TemplateV2.Services.Contracts;
 
@@ -23,7 +19,7 @@ namespace TemplateV2.Razor.Pages
         public RegisterRequest FormData { get; set; }
 
         [BindProperty(SupportsGet = true)]
-        public string ReturnUrl { get; set; }
+        public string? ReturnUrl { get; set; }
 
         #endregion
 
@@ -32,6 +28,7 @@ namespace TemplateV2.Razor.Pages
         public RegisterModel(IAccountService accountService)
         {
             _accountService = accountService;
+            FormData = new RegisterRequest();
         }
 
         #endregion

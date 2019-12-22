@@ -25,6 +25,7 @@ namespace TemplateV2.Razor.Pages
         public CreateSessionEventModel(ISessionService sessionService)
         {
             _sessionService = sessionService;
+            FormData = new CreateSessionEventRequest();
         }
 
         #endregion

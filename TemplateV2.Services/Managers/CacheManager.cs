@@ -42,8 +42,7 @@ namespace TemplateV2.Services.Managers
 
         public async Task<ApplicationConfiguration> Configuration()
         {
-            var items = new List<ConfigurationEntity>();
-            if (_cacheProvider.TryGet(CacheConstants.ConfigurationItems, out items))
+            if (_cacheProvider.TryGet(CacheConstants.ConfigurationItems, out List<ConfigurationEntity> items))
             {
                 return new ApplicationConfiguration(items);
             }
@@ -53,7 +52,6 @@ namespace TemplateV2.Services.Managers
                 items = await uow.ConfigurationRepo.GetConfigurationItems();
                 uow.Commit();
             }
-
             _cacheProvider.Set(CacheConstants.ConfigurationItems, items);
 
             return new ApplicationConfiguration(items);
@@ -61,8 +59,7 @@ namespace TemplateV2.Services.Managers
 
         public async Task<ApplicationConfiguration_Javascript> Configuration_Javascript()
         {
-            var items = new List<Client_Configuration>();
-            if (_cacheProvider.TryGet(CacheConstants.ConfigurationItems_Javascript, out items))
+            if (_cacheProvider.TryGet(CacheConstants.ConfigurationItems_Javascript, out List<Client_Configuration> items))
             {
                 return new ApplicationConfiguration_Javascript(items);
             }
@@ -86,10 +83,11 @@ namespace TemplateV2.Services.Managers
                 uow.Commit();
             }
 
-            // add a 5 second buffer to the front-end session expiration
+            // add a 5 second buffer to the front-end session expiration to account for time drift
             var idleTimeout = ApplicationConstants.SessionTimeoutSeconds - 5;
             var modalTimeout = idleTimeout - (ApplicationConstants.SessionTimeoutSeconds - ApplicationConstants.SessionModalTimeoutSeconds);
 
+            // add immutable config items
             items.Add(new Client_Configuration()
             {
                 Key = "IDLE_TIMEOUT_SECONDS",
@@ -101,7 +99,6 @@ namespace TemplateV2.Services.Managers
                 Key = "IDLE_TIMEOUT_MODAL_SECONDS",
                 Int_Value = modalTimeout
             });
-
             _cacheProvider.Set(CacheConstants.ConfigurationItems_Javascript, items);
 
             return new ApplicationConfiguration_Javascript(items);
@@ -109,8 +106,7 @@ namespace TemplateV2.Services.Managers
 
         public async Task<List<PermissionEntity>> Permissions()
         {
-            var items = new List<PermissionEntity>();
-            if (_cacheProvider.TryGet(CacheConstants.Permissions, out items))
+            if (_cacheProvider.TryGet(CacheConstants.Permissions, out List<PermissionEntity> items))
             {
                 return items;
             }
@@ -120,7 +116,6 @@ namespace TemplateV2.Services.Managers
                 items = await uow.UserRepo.GetPermissions();
                 uow.Commit();
             }
-
             _cacheProvider.Set(CacheConstants.Permissions, items);
 
             return items;
@@ -128,8 +123,7 @@ namespace TemplateV2.Services.Managers
 
         public async Task<List<SessionEventEntity>> SessionEvents()
         {
-            var items = new List<SessionEventEntity>();
-            if (_cacheProvider.TryGet(CacheConstants.SessionEvents, out items))
+            if (_cacheProvider.TryGet(CacheConstants.SessionEvents, out List<SessionEventEntity>  items))
             {
                 return items;
             }
@@ -139,7 +133,6 @@ namespace TemplateV2.Services.Managers
                 items = await uow.SessionRepo.GetSessionEvents();
                 uow.Commit();
             }
-
             _cacheProvider.Set(CacheConstants.SessionEvents, items);
 
             return items;
@@ -147,8 +140,7 @@ namespace TemplateV2.Services.Managers
 
         public async Task<List<RolePermissionEntity>> RolePermissions()
         {
-            var items = new List<RolePermissionEntity>();
-            if (_cacheProvider.TryGet(CacheConstants.RolePermissions, out items))
+            if (_cacheProvider.TryGet(CacheConstants.RolePermissions, out List<RolePermissionEntity> items))
             {
                 return items;
             }
@@ -158,7 +150,6 @@ namespace TemplateV2.Services.Managers
                 items = await uow.UserRepo.GetRolePermissions();
                 uow.Commit();
             }
-
             _cacheProvider.Set(CacheConstants.RolePermissions, items);
 
             return items;
@@ -166,8 +157,7 @@ namespace TemplateV2.Services.Managers
 
         public async Task<List<RoleEntity>> Roles()
         {
-            var items = new List<RoleEntity>();
-            if (_cacheProvider.TryGet(CacheConstants.Roles, out items))
+            if (_cacheProvider.TryGet(CacheConstants.Roles, out List<RoleEntity> items))
             {
                 return items;
             }
@@ -185,8 +175,7 @@ namespace TemplateV2.Services.Managers
 
         public async Task<List<UserRoleEntity>> UserRoles()
         {
-            var items = new List<UserRoleEntity>();
-            if (_cacheProvider.TryGet(CacheConstants.UserRoles, out items))
+            if (_cacheProvider.TryGet(CacheConstants.UserRoles, out List<UserRoleEntity> items))
             {
                 return items;
             }

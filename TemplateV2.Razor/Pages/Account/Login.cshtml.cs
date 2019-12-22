@@ -23,7 +23,7 @@ namespace TemplateV2.Razor.Pages
         public LoginRequest FormData { get; set; }
 
         [BindProperty(SupportsGet = true)]
-        public string ReturnUrl { get; set; }
+        public string? ReturnUrl { get; set; }
 
         public bool ShowPassword { get; set; }
 
@@ -34,6 +34,7 @@ namespace TemplateV2.Razor.Pages
         public LoginModel(IAccountService accountService)
         {
             _accountService = accountService;
+            FormData = new LoginRequest();
         }
 
         #endregion
@@ -44,7 +45,7 @@ namespace TemplateV2.Razor.Pages
             ViewData["ReturnUrl"] = ReturnUrl;
         }
 
-        public async Task<IActionResult> OnPost(string returnUrl = null)
+        public async Task<IActionResult> OnPost(string returnUrl)
         {
             ReturnUrl = returnUrl;
 

@@ -43,12 +43,4 @@ namespace TemplateV2.Razor.Filters
 
         }
     }
-
-    public static class OpenGraphHelper
-    {
-        public static void Set(string title, string description = null)
-        {
-
-        }
-    }
 }

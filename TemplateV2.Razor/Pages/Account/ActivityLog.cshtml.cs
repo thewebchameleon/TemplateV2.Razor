@@ -17,7 +17,7 @@ namespace TemplateV2.Razor.Pages
 
         #region Properties
 
-        public UserEntity UserEntity { get; set; }
+        public UserEntity? UserEntity { get; set; }
 
         public List<ActivityLog> ActivityLogs { get; set; }
 
@@ -39,7 +39,7 @@ namespace TemplateV2.Razor.Pages
             UserEntity = response.User;
         }
 
-        public async Task<JsonResult> OnGetData(int id)
+        public async Task<JsonResult> OnGetData()
         {
             var response = await _accountService.GetActivityLogs(new GetActivityLogsRequest());
             return new JsonResult(response);

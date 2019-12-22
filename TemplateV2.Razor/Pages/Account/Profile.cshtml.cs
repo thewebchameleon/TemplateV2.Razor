@@ -20,7 +20,7 @@ namespace TemplateV2.Razor.Pages
         [BindProperty]
         public UpdateProfileRequest FormData { get; set; }
 
-        public UserEntity UserEntity { get; set; }
+        public UserEntity? UserEntity { get; set; }
 
         public List<RoleEntity> Roles { get; set; }
 
@@ -31,6 +31,8 @@ namespace TemplateV2.Razor.Pages
         public ProfileModel(IAccountService service)
         {
             _service = service;
+            Roles = new List<RoleEntity>();
+            FormData = new UpdateProfileRequest();
         }
 
         #endregion

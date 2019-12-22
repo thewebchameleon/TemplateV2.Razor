@@ -21,7 +21,7 @@ namespace TemplateV2.Razor.Pages
         [BindProperty]
         public UpdatePermissionRequest FormData { get; set; }
 
-        public string Key { get; set; }
+        public string? Key { get; set; }
 
         #endregion
 
@@ -30,6 +30,7 @@ namespace TemplateV2.Razor.Pages
         public EditPermissionModel(IPermissionsService permissionsService)
         {
             _permissionsService = permissionsService;
+            FormData = new UpdatePermissionRequest();
         }
 
         #endregion

@@ -20,9 +20,9 @@ namespace TemplateV2.Razor.Pages
         public int Id { get; set; }
 
 
-        public UserEntity UserEntity { get; set; }
+        public UserEntity? UserEntity { get; set; }
 
-        public SessionEntity SessionEntity { get; set; }
+        public SessionEntity? SessionEntity { get; set; }
 
         #endregion
 

@@ -13,28 +13,21 @@ namespace TemplateV2.Razor.TagHelpers
     [HtmlTargetElement("multicheckbox", Attributes = "asp-items, asp-for")]
     public class MultiCheckboxTagHelper : TagHelper
     {
-        private readonly IHttpContextAccessor _httpContextAccessor;
+        private string ElementId { get { return SelectedValues?.Name.Replace(".", "_") ?? string.Empty; } } // tag names are generated with a dot (.) which makes it difficulte for jquery selections
 
-        private string ElementId { get { return SelectedValues.Name.Replace(".", "_"); } } // tag names are generated with a dot (.) which makes it difficulte for jquery selections
-
-        private string ElementName { get { return SelectedValues.Name; } }
-
-        public MultiCheckboxTagHelper(IHttpContextAccessor httpContextAccessor)
-        {
-            _httpContextAccessor = httpContextAccessor;
-        }
+        private string ElementName { get { return SelectedValues?.Name ?? string.Empty; } }
 
         /// <summary>
         /// Gets or sets the items that are bound to this multiselect list
         /// </summary>
         [HtmlAttributeName("asp-items")]
-        public IEnumerable<CheckboxListItem> Items { get; set; }
+        public IEnumerable<CheckboxListItem>? Items { get; set; }
 
         /// <summary>
         /// Gets or sets the selected values for the list
         /// </summary>
         [HtmlAttributeName("asp-for")]
-        public ModelExpression SelectedValues { get; set; }
+        public ModelExpression? SelectedValues { get; set; }
 
         public override void Process(TagHelperContext context, TagHelperOutput output)
         {
@@ -44,7 +37,7 @@ namespace TemplateV2.Razor.TagHelpers
             //output.Attributes.SetAttribute("class", "selectpicker form-control");
             //output.Attributes.SetAttribute(new TagHelperAttribute("multiple"));
 
-            if (SelectedValues.Model != null)
+            if (SelectedValues?.Model != null && Items != null)
             {
                 var sb = new StringBuilder();
 
@@ -52,7 +45,7 @@ namespace TemplateV2.Razor.TagHelpers
                 if (mustGroup)
                 {
                     int index = 0;
-                    foreach (var groupedItems in Items.GroupBy(i => i.Group.Name))
+                    foreach (var groupedItems in Items.GroupBy(i => i.Group?.Name))
                     {
                         sb.AppendLine($"<fieldset>");
                         sb.AppendLine($"<legend class=''>{groupedItems.Key}</legend>");
@@ -93,15 +86,11 @@ namespace TemplateV2.Razor.TagHelpers
         public static List<CheckboxListItem> ToCheckboxList(this List<PermissionEntity> items)
         {
             return items.Select(i =>
-            new CheckboxListItem()
-            {
-                Text = i.Name,
-                Value = i.Id.ToString(),
-                Group = new SelectListGroup()
+                new CheckboxListItem(i.Name, i.Id.ToString(), new SelectListGroup()
                 {
                     Name = i.Group_Name
-                }
-            }).ToList();
+                })
+            ).ToList();
         }
     }
 
@@ -111,10 +100,17 @@ namespace TemplateV2.Razor.TagHelpers
 
         public string Value { get; set; }
 
-        public SelectListGroup Group { get; set; }
+        public SelectListGroup? Group { get; set; }
 
         public bool Disabled { get; set; }
 
         public bool Selected { get; set; }
+
+        public CheckboxListItem(string text, string value, SelectListGroup group)
+        {
+            Text = text;
+            Value = value;
+            Group = group;
+        }
     }
 }

@@ -25,6 +25,7 @@ namespace TemplateV2.Razor.Pages
         public FeedbackModel(IAccountService service)
         {
             _service = service;
+            FormData = new SendFeedbackRequest();
         }
 
         #endregion

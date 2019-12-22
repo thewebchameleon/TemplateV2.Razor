@@ -11,9 +11,7 @@ namespace TemplateV2.Razor.Pages
 
         public bool ShowRequestId => !string.IsNullOrEmpty(RequestId);
 
-        public Error500Model(IHttpContextAccessor httpContextAccessor) : base(httpContextAccessor) { }
-
-        public void OnGet()
+        public Error500Model(IHttpContextAccessor httpContextAccessor) : base(httpContextAccessor)
         {
             RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier;
         }

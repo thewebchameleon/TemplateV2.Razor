@@ -26,7 +26,7 @@ namespace TemplateV2.Razor.Pages
         [BindProperty]
         public UpdateUserRequest FormData { get; set; }
 
-        public UserEntity UserEntity { get; set; }
+        public UserEntity? UserEntity { get; set; }
 
         public List<RoleEntity> RolesLookup { get; set; }
 
@@ -39,6 +39,7 @@ namespace TemplateV2.Razor.Pages
             _userService = userService;
             _cache = cache;
             RolesLookup = new List<RoleEntity>();
+            FormData = new UpdateUserRequest();
         }
 
         #endregion
@@ -73,7 +74,10 @@ namespace TemplateV2.Razor.Pages
         {
             if (ModelState.IsValid)
             {
-                FormData.Id = Id;
+                if (FormData != null)
+                {
+                    FormData.Id = Id;
+                }
                 var response = await _userService.UpdateUser(FormData);
                 if (response.IsSuccessful)
                 {

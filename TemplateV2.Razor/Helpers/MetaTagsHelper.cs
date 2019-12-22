@@ -6,7 +6,7 @@ namespace TemplateV2.Razor.Helpers
 {
     public static class MetaTagsHelper
     {
-        public static void SetMeta(this ViewDataDictionary viewData, string title, string description = null)
+        public static void SetMeta(this ViewDataDictionary viewData, string title, string? description = null)
         {
             var model = viewData[ViewDataConstants.OpenGraphViewModel] as OpenGraphViewModel;
 
@@ -16,7 +16,7 @@ namespace TemplateV2.Razor.Helpers
             }
 
             model.Title = title;
-            if (!string.IsNullOrEmpty(description))
+            if (description != null)
             {
                 model.Description = description;
             }

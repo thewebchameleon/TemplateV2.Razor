@@ -19,7 +19,7 @@ namespace TemplateV2.Razor.Pages
         public ResetPasswordRequest FormData { get; set; }
 
         [BindProperty(SupportsGet = true)]
-        public string Token { get; set; }
+        public string? Token { get; set; }
 
         #endregion
 
@@ -28,6 +28,7 @@ namespace TemplateV2.Razor.Pages
         public ResetPasswordModel(IAccountService accountService)
         {
             _accountService = accountService;
+            FormData = new ResetPasswordRequest();
         }
 
         #endregion
@@ -39,7 +40,10 @@ namespace TemplateV2.Razor.Pages
 
         public async Task<IActionResult> OnPost()
         {
-            FormData.Token = Token;
+            if (FormData != null)
+            {
+                FormData.Token = Token;
+            }
             if (ModelState.IsValid)
             {
                 var response = await _accountService.ResetPassword(FormData);

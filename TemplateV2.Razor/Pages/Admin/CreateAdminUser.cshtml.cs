@@ -25,6 +25,7 @@ namespace TemplateV2.Razor.Pages
         public CreateAdminUserModel(IAdminService adminService)
         {
             _adminService = adminService;
+            FormData = new CreateAdminUserRequest();
         }
 
         #endregion

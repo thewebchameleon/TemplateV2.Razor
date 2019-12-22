@@ -25,6 +25,7 @@ namespace TemplateV2.Razor.Pages
         public CreateConfigurationModel(IConfigurationService configService)
         {
             _configService = configService;
+            FormData = new CreateConfigurationItemRequest();
         }
 
         #endregion

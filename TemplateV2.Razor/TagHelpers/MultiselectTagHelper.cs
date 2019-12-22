@@ -12,28 +12,21 @@ namespace TemplateV2.Razor.TagHelpers
     [HtmlTargetElement("multiselect", Attributes = "asp-items, asp-for")]
     public class MultiSelectTagHelper : TagHelper
     {
-        private readonly IHttpContextAccessor _httpContextAccessor;
+        private string ElementId { get { return SelectedValues?.Name.Replace(".", "_") ?? string.Empty; } } // tag names are generated with a dot (.) which makes it difficulte for jquery selections
 
-        private string ElementId { get { return SelectedValues.Name.Replace(".", "_"); } } // tag names are generated with a dot (.) which makes it difficulte for jquery selections
-
-        private string ElementName { get { return SelectedValues.Name; } }
-
-        public MultiSelectTagHelper(IHttpContextAccessor httpContextAccessor)
-        {
-            _httpContextAccessor = httpContextAccessor;
-        }
+        private string ElementName { get { return SelectedValues?.Name ?? string.Empty; } }
 
         /// <summary>
         /// Gets or sets the items that are bound to this multiselect list
         /// </summary>
         [HtmlAttributeName("asp-items")]
-        public IEnumerable<SelectListItem> Items { get; set; }
+        public IEnumerable<SelectListItem>? Items { get; set; }
 
         /// <summary>
         /// Gets or sets the selected values for the list
         /// </summary>
         [HtmlAttributeName("asp-for")]
-        public ModelExpression SelectedValues { get; set; }
+        public ModelExpression? SelectedValues { get; set; }
 
         public override void Process(TagHelperContext context, TagHelperOutput output)
         {
@@ -44,7 +37,7 @@ namespace TemplateV2.Razor.TagHelpers
             output.Attributes.SetAttribute("class", "selectpicker form-control");
             output.Attributes.SetAttribute(new TagHelperAttribute("multiple"));
 
-            if (SelectedValues.Model != null)
+            if (SelectedValues?.Model != null && Items != null)
             {
                 var sb = new StringBuilder();
 
@@ -77,7 +70,7 @@ namespace TemplateV2.Razor.TagHelpers
                 // configure selected inputs container
                 sb = new StringBuilder();
                 sb.AppendLine($"<div class='selectpicker-data'>");
-                foreach (var value in SelectedValues.Model as List<int>)
+                foreach (var value in SelectedValues.Model as List<int> ?? new List<int>())
                 {
                     sb.AppendLine($"<input type='hidden' name='{ElementName}' value='{value}' />");
                 }

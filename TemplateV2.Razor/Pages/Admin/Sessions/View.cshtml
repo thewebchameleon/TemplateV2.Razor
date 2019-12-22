@@ -4,47 +4,46 @@
     ViewData.SetMeta("Session");
 }
 
-<!-- Begin Page Content -->
-<div class="container-fluid">
+@if (Model.SessionEntity != null)
+{
+    <div class="container-fluid">
 
-    <!-- Page Heading -->
-    <h1 class="h3 mb-4 text-gray-800">@ViewData["Title"] </h1>
+        <h1 class="h3 mb-4 text-gray-800">@ViewData["Title"] </h1>
 
-    <div class="card shadow mb-4">
-        <div class="card-header py-3 ">
+        <div class="card shadow mb-4">
+            <div class="card-header py-3 ">
 
-            <div class="row">
-                <div class="col-12"><strong>User Agent:</strong> @Model.SessionEntity.User_Agent</div>
-                <hr />
-                <div class="col-6"><strong>Session Id:</strong> @Model.SessionEntity.Id</div>
-                <div class="col-6 text-right"><strong>Start Date:</strong> @Model.SessionEntity.Created_Date.ToLongDateTimeString()</div>
-                @if (Model.UserEntity != null)
-                {
-                    <div class="col-12"><strong>Username:</strong> @Model.UserEntity.Username</div>
-                }
+                <div class="row">
+                    <div class="col-12"><strong>User Agent:</strong> @Model.SessionEntity.User_Agent</div>
+                    <hr />
+                    <div class="col-6"><strong>Session Id:</strong> @Model.SessionEntity.Id</div>
+                    <div class="col-6 text-right"><strong>Start Date:</strong> @Model.SessionEntity.Created_Date.ToLongDateTimeString()</div>
+                    @if (Model.UserEntity != null)
+                    {
+                        <div class="col-12"><strong>Username:</strong> @Model.UserEntity.Username</div>
+                    }
+                </div>
+
             </div>
-
-        </div>
-        <div class="card-body py-0">
-            <div class="table-responsive">
-                <table id="dataTable" class="table table-borderless" style="width: 100%;" cellspacing="0">
-                    <thead>
-                        <tr>
-                            <th>Time</th>
-                            <th>Method</th>
-                            <th>Route</th>
-                            <th>Handler</th>
-                            <th>Performance (seconds)</th>
-                        </tr>
-                    </thead>
-                </table>
+            <div class="card-body py-0">
+                <div class="table-responsive">
+                    <table id="dataTable" class="table table-borderless" style="width: 100%;" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>Time</th>
+                                <th>Method</th>
+                                <th>Route</th>
+                                <th>Handler</th>
+                                <th>Performance (seconds)</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
+}
 
-</div>
-
-<!-- /.container-fluid -->
 @section Scripts  {
 
     <script type="text/javascript">

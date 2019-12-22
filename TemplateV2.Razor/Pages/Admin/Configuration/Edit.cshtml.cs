@@ -21,7 +21,7 @@ namespace TemplateV2.Razor.Pages
         [BindProperty]
         public UpdateConfigurationItemRequest FormData { get; set; }
 
-        public string Key { get; set; }
+        public string? Key { get; set; }
 
         #endregion
 
@@ -30,6 +30,7 @@ namespace TemplateV2.Razor.Pages
         public EditConfigurationModel(IConfigurationService configService)
         {
             _configService = configService;
+            FormData = new UpdateConfigurationItemRequest();
         }
 
         #endregion
@@ -69,7 +70,11 @@ namespace TemplateV2.Razor.Pages
         {
             if (ModelState.IsValid)
             {
-                FormData.Id = Id;
+                if (FormData != null)
+                {
+                    FormData.Id = Id;
+                }
+
                 var response = await _configService.UpdateConfigurationItem(FormData);
                 if (response.IsSuccessful)
                 {

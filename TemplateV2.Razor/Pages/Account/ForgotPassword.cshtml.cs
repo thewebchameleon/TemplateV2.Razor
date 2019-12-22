@@ -25,6 +25,7 @@ namespace TemplateV2.Razor.Pages
         public ForgotPasswordModel(IAccountService service)
         {
             _service = service;
+            FormData = new ForgotPasswordRequest();
         }
 
         #endregion

@@ -24,7 +24,7 @@ namespace TemplateV2.Razor.TagHelpers
         /// Gets or sets the permission name that determines access to the HTML block.
         /// </summary>
         [HtmlAttributeName("asp-permission")]
-        public string Permission { get; set; }
+        public string? Permission { get; set; }
 
         /// <summary>
         /// Gets or sets the permission name that determines access to the HTML block.
@@ -36,7 +36,7 @@ namespace TemplateV2.Razor.TagHelpers
         /// Gets or sets the role group name that determins access to the HTML block.
         /// </summary>
         [HtmlAttributeName("asp-permission-group")]
-        public string PermissionGroup { get; set; }
+        public string? PermissionGroup { get; set; }
 
         public override async Task ProcessAsync(TagHelperContext context, TagHelperOutput output)
         {

@@ -21,7 +21,7 @@ namespace TemplateV2.Razor.Pages
         [BindProperty]
         public UpdateSessionEventRequest FormData { get; set; }
 
-        public string Key { get; set; }
+        public string? Key { get; set; }
 
         #endregion
 
@@ -30,6 +30,7 @@ namespace TemplateV2.Razor.Pages
         public EditSessionEventModel(ISessionService sessionService)
         {
             _sessionService = sessionService;
+            FormData = new UpdateSessionEventRequest();
         }
 
         #endregion

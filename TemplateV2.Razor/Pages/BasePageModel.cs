@@ -34,9 +34,9 @@ namespace TemplateV2.Razor.Pages
             return RedirectToPage("/Account/Login");
         }
 
-        public IActionResult RedirectToHome(string returnUrl)
+        public IActionResult RedirectToHome(string? returnUrl)
         {
-            if (Url.IsLocalUrl(returnUrl))
+            if (returnUrl != null && Url.IsLocalUrl(returnUrl))
             {
                 return Redirect(returnUrl);
             }

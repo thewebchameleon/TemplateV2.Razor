@@ -4,248 +4,250 @@
     ViewData.SetMeta("Edit User");
 }
 
-<div class="container-fluid">
+@if (Model.UserEntity != null)
+{
+    <div class="container-fluid">
 
-    <!-- Page Heading -->
-    <h1 class="h3 mb-4 text-gray-800">@ViewData["Title"]</h1>
+        <h1 class="h3 mb-4 text-gray-800">@ViewData["Title"]</h1>
 
-    <div class="row justify-content-center">
+        <div class="row justify-content-center">
 
-        <div class="col-xl-10 col-lg-12 col-md-9">
+            <div class="col-xl-10 col-lg-12 col-md-9">
 
-            <div class="card border-0 shadow-lg">
-                <div class="card-header py-3 text-right">
-                    @if (!Model.UserEntity.Registration_Confirmed)
-                    {
-                        <form asp-page-handler="ConfirmRegistration" method="post" class="d-inline-block">
-                            <input name="Id" type="hidden" value="@Model.UserEntity.Id" />
-                            <button class="btn btn-success btn-icon-split" type="submit">
+                <div class="card border-0 shadow-lg">
+                    <div class="card-header py-3 text-right">
+                        @if (!Model.UserEntity.Registration_Confirmed)
+                        {
+                            <form asp-page-handler="ConfirmRegistration" method="post" class="d-inline-block">
+                                <input name="Id" type="hidden" value="@Model.UserEntity.Id" />
+                                <button class="btn btn-success btn-icon-split" type="submit">
+                                    <span class="icon text-white-50">
+                                        <i class="fas fa-id-badge"></i>
+                                    </span>
+                                    <span class="text">Confirm Registration</span>
+                                </button>
+                            </form>
+                        }
+                        @if (Model.UserEntity.Is_Locked_Out)
+                        {
+                            <a href="#" class="btn btn-warning btn-icon-split" data-toggle="modal" data-target="#modalUnlockUser" data-target-id="@Model.UserEntity.Id">
                                 <span class="icon text-white-50">
-                                    <i class="fas fa-id-badge"></i>
+                                    <i class="fas fa-unlock"></i>
                                 </span>
-                                <span class="text">Confirm Registration</span>
-                            </button>
-                        </form>
-                    }
-                    @if (Model.UserEntity.Is_Locked_Out)
-                    {
-                        <a href="#" class="btn btn-warning btn-icon-split" data-toggle="modal" data-target="#modalUnlockUser" data-target-id="@Model.UserEntity.Id">
+                                <span class="text">Unlock</span>
+                            </a>
+                        }
+                        @if (Model.UserEntity.Is_Enabled)
+                        {
+                            <a href="#" class="btn btn-danger btn-icon-split" data-toggle="modal" data-target="#modalDisableUser" data-target-id="@Model.UserEntity.Id">
+                                <span class="icon text-white-50">
+                                    <i class="fas fa-door-closed"></i>
+                                </span>
+                                <span class="text">Disable</span>
+                            </a>
+                        }
+                        else
+                        {
+                            <a href="#" class="btn btn-success btn-icon-split" data-toggle="modal" data-target="#modalEnableUser" data-target-id="@Model.UserEntity.Id">
+                                <span class="icon text-white-50">
+                                    <i class="fas fa-door-open"></i>
+                                </span>
+                                <span class="text">Enable</span>
+                            </a>
+                        }
+                        <a href="#" class="btn btn-info btn-icon-split" data-toggle="modal" data-target="#modalResetPassword" data-target-id="@Model.UserEntity.Id">
                             <span class="icon text-white-50">
-                                <i class="fas fa-unlock"></i>
+                                <i class="fas fa-key"></i>
                             </span>
-                            <span class="text">Unlock</span>
+                            <span class="text">Reset Password</span>
                         </a>
-                    }
-                    @if (Model.UserEntity.Is_Enabled)
-                    {
-                        <a href="#" class="btn btn-danger btn-icon-split" data-toggle="modal" data-target="#modalDisableUser" data-target-id="@Model.UserEntity.Id">
-                            <span class="icon text-white-50">
-                                <i class="fas fa-door-closed"></i>
-                            </span>
-                            <span class="text">Disable</span>
-                        </a>
-                    }
-                    else
-                    {
-                        <a href="#" class="btn btn-success btn-icon-split" data-toggle="modal" data-target="#modalEnableUser" data-target-id="@Model.UserEntity.Id">
-                            <span class="icon text-white-50">
-                                <i class="fas fa-door-open"></i>
-                            </span>
-                            <span class="text">Enable</span>
-                        </a>
-                    }
-                    <a href="#" class="btn btn-info btn-icon-split" data-toggle="modal" data-target="#modalResetPassword" data-target-id="@Model.UserEntity.Id">
-                        <span class="icon text-white-50">
-                            <i class="fas fa-key"></i>
-                        </span>
-                        <span class="text">Reset Password</span>
-                    </a>
-                </div>
-                <div class="card-body p-0">
-                    <!-- Nested Row within Card Body -->
-                    <div class="px-5 py-4">
-                        <form asp-controller="Admin" asp-action="EditUser" method="post" class="form-horizontal" role="form">
-                            <div asp-validation-summary="All" class="text-danger"></div>
-                            <div class="form-group">
-                                <label asp-for="FormData.Username" class="control-label"></label>
-                                <input asp-for="FormData.Username" class="form-control" />
-                                <span asp-validation-for="FormData.Username" class="text-danger"></span>
-                            </div>
-                            <div class="form-row">
-                                <div class="form-group col-md-6">
-                                    <label asp-for="FormData.EmailAddress" class="control-label"></label>
-                                    <input asp-for="FormData.EmailAddress" class="form-control" />
-                                    <span asp-validation-for="FormData.EmailAddress" class="text-danger"></span>
-                                </div>
-                                <div class="form-group col-md-6">
-                                    <label asp-for="FormData.MobileNumber" class="control-label"></label>
-                                    <input asp-for="FormData.MobileNumber" class="form-control" />
-                                    <span asp-validation-for="FormData.MobileNumber" class="text-danger"></span>
-                                </div>
-                            </div>
-                            <div class="form-row">
-                                <div class="form-group col-md-6">
-                                    <label asp-for="FormData.FirstName" class="control-label"></label>
-                                    <input asp-for="FormData.FirstName" class="form-control" />
-                                    <span asp-validation-for="FormData.FirstName" class="text-danger"></span>
-                                </div>
-                                <div class="form-group col-md-6">
-                                    <label asp-for="FormData.LastName" class="control-label"></label>
-                                    <input asp-for="FormData.LastName" class="form-control" />
-                                    <span asp-validation-for="FormData.LastName" class="text-danger"></span>
-                                </div>
-                            </div>
-                            <div class="form-row">
-                                <div class="form-group col-md-6">
-                                    <label asp-for="FormData.RoleIds" class="control-label"></label>
-                                    <multiselect asp-for="FormData.RoleIds" asp-items="Model.RolesLookup.ToSelectList()"></multiselect>
-                                </div>
-                            </div>
-                            <div class="form-group my-4">
-                                <button type="submit" class="btn btn-primary btn-block">Update</button>
-                            </div>
-                        </form>
                     </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-@* disable modal *@
-<div class="modal fade" id="modalDisableUser" tabindex="-1" role="dialog" aria-labelledby="modalDisableUserLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header bg-primary">
-                <h5 class="modal-title text-white" id="modalDisableUserLabel">Disable User</h5>
-                <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                Are you sure you want to disable this user?
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-outline-primary" data-dismiss="modal">No</button>
-                <form asp-page-handler="DisableUser" method="post">
-                    <input name="Id" type="hidden" />
-                    <button type="submit" class="btn btn-primary">Yes</button>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-
-@* enable modal *@
-<div class="modal fade" id="modalEnableUser" tabindex="-1" role="dialog" aria-labelledby="modalEnableUserLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header bg-primary">
-                <h5 class="modal-title text-white" id="modalEnableUserLabel">Enable User</h5>
-                <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                Are you sure you want to enable this user?
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-outline-primary" data-dismiss="modal">No</button>
-                <form asp-page-handler="EnableUser" method="post">
-                    <input name="Id" type="hidden" />
-                    <button type="submit" class="btn btn-primary">Yes</button>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-
-@* unlock modal *@
-<div class="modal fade" id="modalUnlockUser" tabindex="-1" role="dialog" aria-labelledby="modalUnlockUserLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header bg-primary">
-                <h5 class="modal-title text-white" id="modalUnlockUserLabel">Unlock User</h5>
-                <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                Are you sure you want to unlock this user?
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-outline-primary" data-dismiss="modal">No</button>
-                <form asp-page-handler="UnlockUser" method="post">
-                    <input name="Id" type="hidden" />
-                    <button type="submit" class="btn btn-primary">Yes</button>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-
-@* reset password modal *@
-<div class="modal fade" id="modalResetPassword" tabindex="-1" role="dialog" aria-labelledby="modalResetPasswordLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header bg-primary">
-                <h5 class="modal-title text-white" id="modalResetPasswordLabel">Reset Password</h5>
-                <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                How would you like to reset this user's password?
-
-                <div class="row text-center">
-                    <div class="col-12 p-4">
-                        <div class="btn-group btn-group-lg" role="group" aria-label="Basic example">
-                            <form id="formResetPassword" method="post">
+                    <div class="card-body p-0">
+                        <!-- Nested Row within Card Body -->
+                        <div class="px-5 py-4">
+                            <form asp-controller="Admin" asp-action="EditUser" method="post" class="form-horizontal" role="form">
                                 <div asp-validation-summary="All" class="text-danger"></div>
-                                <button id="btnGenerateLink" type="button" class="btn btn-secondary" data-toggle="tooltip" data-placement="top" title="Generate a link">
-                                    <i class="fas fa-link"></i>
-                                    Generate Link
-                                </button>
-                                <button id="btnSendEmail" type="button" class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="Send them an email">
-                                    <i class="fas fa-envelope"></i>
-                                    Send Email
-                                </button>
+                                <div class="form-group">
+                                    <label asp-for="FormData.Username" class="control-label"></label>
+                                    <input asp-for="FormData.Username" class="form-control" />
+                                    <span asp-validation-for="FormData.Username" class="text-danger"></span>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                        <label asp-for="FormData.EmailAddress" class="control-label"></label>
+                                        <input asp-for="FormData.EmailAddress" class="form-control" />
+                                        <span asp-validation-for="FormData.EmailAddress" class="text-danger"></span>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label asp-for="FormData.MobileNumber" class="control-label"></label>
+                                        <input asp-for="FormData.MobileNumber" class="form-control" />
+                                        <span asp-validation-for="FormData.MobileNumber" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                        <label asp-for="FormData.FirstName" class="control-label"></label>
+                                        <input asp-for="FormData.FirstName" class="form-control" />
+                                        <span asp-validation-for="FormData.FirstName" class="text-danger"></span>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label asp-for="FormData.LastName" class="control-label"></label>
+                                        <input asp-for="FormData.LastName" class="form-control" />
+                                        <span asp-validation-for="FormData.LastName" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                        <label asp-for="FormData.RoleIds" class="control-label"></label>
+                                        <multiselect asp-for="FormData.RoleIds" asp-items="Model.RolesLookup.ToSelectList()"></multiselect>
+                                    </div>
+                                </div>
+                                <div class="form-group my-4">
+                                    <button type="submit" class="btn btn-primary btn-block">Update</button>
+                                </div>
                             </form>
                         </div>
                     </div>
-                    <div id="panelLoading" class="col-12 text-center" style="display: none;">
-                        <div class="spinner-border text-primary" role="status">
-                            <span class="sr-only">Loading...</span>
-                        </div>
-                    </div>
-                    <div id="panelResetLink" class="col-12" style="display: none;">
-                        <p>Reset this user's password by going to the link below</p>
-                        <div class="input-group mb-3">
-                            <input id="txtResetLink" type="text" class="form-control border-primary text-truncate" value="">
-                            <div class="input-group-append">
-                                <button id="btnCopyLinkText" class="btn btn-primary" data-toggle="tooltip" data-placement="left" title="Copy link">
-                                    <i class="far fa-copy"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                    <div id="panelSendEmail" class="col-12" style="display: none;">
-                        <i class="fas fa-check-circle fa-2x text-success mb-2"></i>
-                        <p>A reset link has been sent to @Model.UserEntity.Email_Address</p>
-                    </div>
-                    <div id="panelFail" class="col-12" style="display: none;">
-                        <i class="fas fa-times fa-2x text-danger mb-2"></i>
-                        <p>Something went terribly wrong</p>
-                    </div>
                 </div>
             </div>
-
         </div>
     </div>
-</div>
 
-@section scripts  {
-    <script type="text/javascript">
+    @* disable modal *@
+    <div class="modal fade" id="modalDisableUser" tabindex="-1" role="dialog" aria-labelledby="modalDisableUserLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header bg-primary">
+                    <h5 class="modal-title text-white" id="modalDisableUserLabel">Disable User</h5>
+                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Are you sure you want to disable this user?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-primary" data-dismiss="modal">No</button>
+                    <form asp-page-handler="DisableUser" method="post">
+                        <input name="Id" type="hidden" />
+                        <button type="submit" class="btn btn-primary">Yes</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @* enable modal *@
+    <div class="modal fade" id="modalEnableUser" tabindex="-1" role="dialog" aria-labelledby="modalEnableUserLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header bg-primary">
+                    <h5 class="modal-title text-white" id="modalEnableUserLabel">Enable User</h5>
+                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Are you sure you want to enable this user?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-primary" data-dismiss="modal">No</button>
+                    <form asp-page-handler="EnableUser" method="post">
+                        <input name="Id" type="hidden" />
+                        <button type="submit" class="btn btn-primary">Yes</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @* unlock modal *@
+    <div class="modal fade" id="modalUnlockUser" tabindex="-1" role="dialog" aria-labelledby="modalUnlockUserLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header bg-primary">
+                    <h5 class="modal-title text-white" id="modalUnlockUserLabel">Unlock User</h5>
+                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Are you sure you want to unlock this user?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-primary" data-dismiss="modal">No</button>
+                    <form asp-page-handler="UnlockUser" method="post">
+                        <input name="Id" type="hidden" />
+                        <button type="submit" class="btn btn-primary">Yes</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @* reset password modal *@
+    <div class="modal fade" id="modalResetPassword" tabindex="-1" role="dialog" aria-labelledby="modalResetPasswordLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header bg-primary">
+                    <h5 class="modal-title text-white" id="modalResetPasswordLabel">Reset Password</h5>
+                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    How would you like to reset this user's password?
+
+                    <div class="row text-center">
+                        <div class="col-12 p-4">
+                            <div class="btn-group btn-group-lg" role="group" aria-label="Basic example">
+                                <form id="formResetPassword" method="post">
+                                    <div asp-validation-summary="All" class="text-danger"></div>
+                                    <button id="btnGenerateLink" type="button" class="btn btn-secondary" data-toggle="tooltip" data-placement="top" title="Generate a link">
+                                        <i class="fas fa-link"></i>
+                                        Generate Link
+                                    </button>
+                                    <button id="btnSendEmail" type="button" class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="Send them an email">
+                                        <i class="fas fa-envelope"></i>
+                                        Send Email
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                        <div id="panelLoading" class="col-12 text-center" style="display: none;">
+                            <div class="spinner-border text-primary" role="status">
+                                <span class="sr-only">Loading...</span>
+                            </div>
+                        </div>
+                        <div id="panelResetLink" class="col-12" style="display: none;">
+                            <p>Reset this user's password by going to the link below</p>
+                            <div class="input-group mb-3">
+                                <input id="txtResetLink" type="text" class="form-control border-primary text-truncate" value="">
+                                <div class="input-group-append">
+                                    <button id="btnCopyLinkText" class="btn btn-primary" data-toggle="tooltip" data-placement="left" title="Copy link">
+                                        <i class="far fa-copy"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="panelSendEmail" class="col-12" style="display: none;">
+                            <i class="fas fa-check-circle fa-2x text-success mb-2"></i>
+                            <p>A reset link has been sent to @Model.UserEntity.Email_Address</p>
+                        </div>
+                        <div id="panelFail" class="col-12" style="display: none;">
+                            <i class="fas fa-times fa-2x text-danger mb-2"></i>
+                            <p>Something went terribly wrong</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+    @section scripts  {
+        <script type="text/javascript">
         $("#btnCopyLinkText").click(function () {
             // copy text to clipboard
             var copyText = document.getElementById("txtResetLink");
@@ -278,7 +280,7 @@
                     );
                 },
                 data: JSON.stringify({
-                    UserId: @Model.UserEntity.Id
+                    UserId: '@Model.UserEntity.Id'
                 }),
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
@@ -327,7 +329,7 @@
                     );
                 },
                 data: JSON.stringify({
-                    UserId: @Model.UserEntity.Id
+                    UserId: '@Model.UserEntity.Id'
                 }),
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
@@ -362,5 +364,7 @@
             });
 
         });
-    </script>
+        </script>
+    }
+
 }
