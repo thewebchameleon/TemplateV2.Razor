@@ -9,9 +9,12 @@ namespace TemplateV2.Razor
 {
     public static class Program
     {
+        public static string EnvironmentName { get; } = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Development";
+
         public static IConfiguration Configuration { get; } = new ConfigurationBuilder()
             .SetBasePath(Directory.GetCurrentDirectory())
             .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+            .AddJsonFile($"appsettings.{EnvironmentName}.json", optional: true)
             .AddEnvironmentVariables()
             .Build();
 
