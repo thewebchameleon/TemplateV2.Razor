@@ -17,6 +17,7 @@ Intended for building **small self-contained business applications**, this templ
  - N-tier application with a focus on seperation of concerns
  - Uses MVC 6 with the latest version of Visual Studio 2019 and [ASP.NET Core 3.1](https://asp.net)
  - UI validation is shared with backend validation (client-side can only perform basic rules)
+ - C# 8.0 Nullable References are enabled (.NET Standard 2.1)
 
 ### Database
 - Database project targets Microsoft SQL Server 2019 and uses the micro ORM [Dapper](https://github.com/StackExchange/Dapper)
