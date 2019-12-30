@@ -156,7 +156,6 @@ namespace TemplateV2.Razor
 
             services.AddMvc(options =>
             {
-                options.Filters.Add(typeof(SessionRequirementFilter));
                 options.Filters.Add(typeof(SessionLoggingFilter));
                 options.Filters.Add(typeof(OpenGraphPageFilter));
             })
@@ -218,10 +217,7 @@ namespace TemplateV2.Razor
             });
 
             app.UseRouting();
-
             app.UseSession();
-            app.UseSessionMiddleware();
-
             app.UseAdminCreationMiddleware();
             app.UseAuthentication();
             app.UseAuthorization();
