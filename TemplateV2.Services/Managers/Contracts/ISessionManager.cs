@@ -41,6 +41,6 @@ namespace TemplateV2.Services.Managers.Contracts
         /// <returns></returns>
         Task AddUserToSession(int sessionId, int userId);
 
-        Task<UserEntity> GetUser();
+        Task<UserEntity?> GetUser();
     }
 }

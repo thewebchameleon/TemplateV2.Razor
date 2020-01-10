@@ -178,7 +178,7 @@ namespace TemplateV2.Services.Managers
             }
         }
 
-        public async Task<UserEntity> GetUser()
+        public async Task<UserEntity?> GetUser()
         {
             var user = await _sessionProvider.Get<UserEntity>(SessionConstants.UserEntity);
             if (user != null)
@@ -204,7 +204,6 @@ namespace TemplateV2.Services.Managers
             }
 
             await _sessionProvider.Set(SessionConstants.UserEntity, user);
-
             return user;
         }
 

@@ -118,7 +118,7 @@ namespace TemplateV2.Services.Admin
                 uow.Commit();
             }
 
-            _cacheProvider.Set(CacheConstants.AdminUserExists, false);
+            _cacheProvider.Set(CacheConstants.AdminUserExists, true);
             await _authenticationManager.SignIn(session.SessionEntity.Id);
 
             return response;

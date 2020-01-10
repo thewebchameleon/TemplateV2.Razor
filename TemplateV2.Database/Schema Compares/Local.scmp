@@ -9,7 +9,7 @@
   </SourceModelProvider>
   <TargetModelProvider>
     <ConnectionBasedModelProvider>
-      <ConnectionString>Data Source=.;Initial Catalog=templatev2;Integrated Security=True;Persist Security Info=False;Pooling=False;MultipleActiveResultSets=False;Connect Timeout=60;Encrypt=False;TrustServerCertificate=False</ConnectionString>
+      <ConnectionString>Data Source=thewebchameleon-dev.database.windows.net;Initial Catalog=templatev2;Persist Security Info=False;User ID=abrink;Pooling=False;MultipleActiveResultSets=False;Connect Timeout=60;Encrypt=True;TrustServerCertificate=False</ConnectionString>
     </ConnectionBasedModelProvider>
   </TargetModelProvider>
   <SchemaCompareSettingsService>
@@ -154,6 +154,10 @@
       </PropertyElementName>
       <PropertyElementName>
         <Name>IgnorePartitionSchemes</Name>
+        <Value>False</Value>
+      </PropertyElementName>
+      <PropertyElementName>
+        <Name>IgnoreTablePartitionOptions</Name>
         <Value>False</Value>
       </PropertyElementName>
       <PropertyElementName>
