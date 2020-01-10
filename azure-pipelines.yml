@@ -1,44 +1,39 @@
-# ASP.NET
-# Build and test ASP.NET projects.
-# Add steps that publish symbols, save build artifacts, deploy, and more:
-# https://docs.microsoft.com/azure/devops/pipelines/apps/aspnet/build-aspnet-4
-
 trigger:
-- master
+- main
 
 pool:
-  vmImage: 'windows-latest'
+  vmImage: 'ubuntu-latest'
 
 variables:
   buildConfiguration: 'Release'
 
 steps:
-- task: UseDotNet@2
-  displayName: 'Use .NET Core 3.1 SDK'
+
+- task: UseDotNet@2 
+  displayName: ".NET Core 3.1.x"
   inputs:
+    version: '3.1.x'
     packageType: sdk
-    version: 3.1.100
-    installationPath: $(Agent.ToolsDirectory)/dotnet
-
-- script: dotnet restore
-  displayName: Restore
+- script: dotnet build --configuration $(buildConfiguration)
+  displayName: 'dotnet build $(buildConfiguration)'
 
 - task: DotNetCoreCLI@2
-  displayName: Build
+  displayName: "Test"
   inputs:
-    command: build
-    projects: '**/*.csproj'
-    arguments: '--configuration $(BuildConfiguration)'
+    command: test
+    projects: '**/*tests/*.csproj'
+    arguments: '--configuration $(buildConfiguration)'
 
 - task: DotNetCoreCLI@2
-  displayName: Publish
+  displayName: "Publish"
   inputs:
-    command: publish
-    publishWebProjects: True
-    arguments: '--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory)'
-    zipAfterPublish: True
+    command: 'publish'
+    publishWebProjects: true
+    arguments: '-r linux-x64 --configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory)'
+    zipAfterPublish: true
 
 - task: PublishBuildArtifacts@1
-  displayName: Create Artifact
+  displayName: "Upload Artifacts"
   inputs:
-   pathtoPublish: $(Build.ArtifactStagingDirectory)
+    pathtoPublish: '$(Build.ArtifactStagingDirectory)' 
+    #artifactName: 'calamariblog' 
