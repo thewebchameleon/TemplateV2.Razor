@@ -22,7 +22,7 @@ steps:
     projects: |
       **/*.csproj
       !**/*.sqlproj
-      !**/wwwroot/*/*.csproj
+      !**/wwwroot/**/*.csproj
 
 - task: DotNetCoreCLI@2
   displayName: "Publish"
