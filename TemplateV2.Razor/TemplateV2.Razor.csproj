@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
-    <ApplicationInsightsResourceId>/subscriptions/e3a69efd-2ca6-41c1-8c58-97310f0e5376/resourcegroups/thewebchameleon/providers/microsoft.insights/components/templatev2-razor</ApplicationInsightsResourceId>
+    <ApplicationInsightsResourceId>/subscriptions/e3a69efd-2ca6-41c1-8c58-97310f0e5376/resourcegroups/thewebchameleon-euwest-dev/providers/microsoft.insights/components/templatev2-razor</ApplicationInsightsResourceId>
     <ApplicationInsightsAnnotationResourceId>/subscriptions/e3a69efd-2ca6-41c1-8c58-97310f0e5376/resourcegroups/thewebchameleon/providers/microsoft.insights/components/templatev2-razor</ApplicationInsightsAnnotationResourceId>
     <AssemblyName>TemplateV2.Razor</AssemblyName>
     <Nullable>enable</Nullable>
