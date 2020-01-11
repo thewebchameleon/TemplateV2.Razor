@@ -44,6 +44,7 @@ namespace TemplateV2.Razor.TagHelpers
             if (permissions == null)
             {
                 output.SuppressOutput();
+                return;
             }
 
             // permission
@@ -51,13 +52,15 @@ namespace TemplateV2.Razor.TagHelpers
                 !permissions.Select(p => p.Key).Contains(Permission))
             {
                 output.SuppressOutput();
+                return;
             }
 
             // list of permissions
-            if (Permissions.Any() &&
+            if (Permissions != null && Permissions.Any() &&
                 !permissions.Select(p => p.Key).Any(p => Permissions.Contains(p)))
             {
                 output.SuppressOutput();
+                return;
             }
 
             // permission group
@@ -65,6 +68,7 @@ namespace TemplateV2.Razor.TagHelpers
                 !permissions.Any(p => p.Group_Name.Equals(PermissionGroup)))
             {
                 output.SuppressOutput();
+                return;
             }
         }
     }

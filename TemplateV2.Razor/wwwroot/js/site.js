@@ -1,4 +1,20 @@
-﻿// default values 
+﻿// Webfont loader
+WebFontConfig = {
+    google: {
+        families: [
+            'Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i'
+        ]
+    }
+};
+
+(function (d) {
+    var wf = d.createElement('script'), s = d.scripts[0];
+    wf.src = 'https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js';
+    wf.async = true;
+    s.parentNode.insertBefore(wf, s);
+})(document);
+
+// default values
 TOAST_DELAY_SECONDS = 6; // toasts last 6 seconds
 IDLE_SECONDS = 0;
 IDLE_TIMEOUT_SECONDS = 120; // 2 minutes

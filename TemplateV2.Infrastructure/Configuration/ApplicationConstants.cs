@@ -7,7 +7,6 @@ namespace TemplateV2.Infrastructure.Configuration
     public static class ApplicationConstants
     {
         public const int SystemUserId = 1;
-        public const int ResponseCachingSeconds = 60 * 60 * 24; // 24 hours
         public const int StaticFileCachingSeconds = 60 * 60 * 24 * 365; // 1 year
 
         // the amount of seconds before the session times out

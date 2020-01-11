@@ -1,4 +1,5 @@
-﻿@import 'sb-admin-2/sb-admin-2.scss'; /* import template */
+﻿@import '../../node_modules/startbootstrap-sb-admin-2/scss/sb-admin-2.scss';
+
 @import "../lib/datatables/dataTables.bootstrap4.min";
 @import "../../node_modules/bootstrap-select/dist/css/bootstrap-select.min";
 @import "../../node_modules/pretty-print-json/dist/pretty-print-json";
