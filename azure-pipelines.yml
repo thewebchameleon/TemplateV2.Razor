@@ -1,5 +1,5 @@
 trigger:
-- main
+- master
 
 pool:
   vmImage: 'ubuntu-latest'
@@ -13,16 +13,16 @@ steps:
   displayName: ".NET Core 3.1.x"
   inputs:
     version: '3.1.x'
-    packageType: sdk
-- script: dotnet build --configuration $(buildConfiguration)
-  displayName: 'dotnet build $(buildConfiguration)'
+    packageType: 'sdk'
 
 - task: DotNetCoreCLI@2
-  displayName: "Test"
+  displayName: "Build & Restore"
   inputs:
-    command: test
-    projects: '**/*tests/*.csproj'
-    arguments: '--configuration $(buildConfiguration)'
+    command: 'build'
+    projects: |
+      **/*.csproj
+      !**/*.sqlproj
+      !**/wwwroot/**/*.csproj
 
 - task: DotNetCoreCLI@2
   displayName: "Publish"
@@ -36,4 +36,3 @@ steps:
   displayName: "Upload Artifacts"
   inputs:
     pathtoPublish: '$(Build.ArtifactStagingDirectory)' 
-    #artifactName: 'calamariblog' 
