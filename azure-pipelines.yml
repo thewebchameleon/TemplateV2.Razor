@@ -10,22 +10,13 @@ variables:
 steps:
 
 - task: UseDotNet@2 
-  displayName: "Install .NET Core 5.0.x SDK"
+  displayName: ".NET Core 5.0.x"
   inputs:
     version: '5.0.x'
     packageType: 'sdk'
 
 - task: DotNetCoreCLI@2
-  displayName: "Restore"
-  inputs:
-    command: 'restore'
-    projects: |
-      **/*.csproj
-      !**/*.sqlproj
-      !**/wwwroot/**/*.csproj
-
-- task: DotNetCoreCLI@2
-  displayName: "Build"
+  displayName: "Build & Restore"
   inputs:
     command: 'build'
     projects: |
@@ -40,3 +31,8 @@ steps:
     publishWebProjects: true
     arguments: '-r linux-x64 --configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory)'
     zipAfterPublish: true
+
+- task: PublishBuildArtifacts@1
+  displayName: "Upload Artifacts"
+  inputs:
+    pathtoPublish: '$(Build.ArtifactStagingDirectory)' 
