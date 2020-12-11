@@ -18,7 +18,7 @@ steps:
 - task: DotNetCoreCLI@2
   displayName: "Build & Restore"
   inputs:
-    command: 'build'
+    command: 'dotnet restore'
     projects: |
       **/*.csproj
       !**/*.sqlproj
