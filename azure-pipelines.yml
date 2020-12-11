@@ -13,10 +13,24 @@ steps:
   displayName: ".NET Core 5.0.x"
   inputs:
     version: '5.0.x'
-    packageType: 'sdk'
+    includePreviewVersions: true # Required for preview versions
+
+- task: UseDotNet@2
+  inputs:
+    version: '3.0.x'
+    packageType: runtime
 
 - task: DotNetCoreCLI@2
-  displayName: "Build & Restore"
+  displayName: "Restore"
+  inputs:
+    command: 'restore'
+    projects: |
+      **/*.csproj
+      !**/*.sqlproj
+      !**/wwwroot/**/*.csproj
+
+- task: DotNetCoreCLI@2
+  displayName: "Build"
   inputs:
     command: 'build'
     projects: |
@@ -29,10 +43,11 @@ steps:
   inputs:
     command: 'publish'
     publishWebProjects: true
-    arguments: '-r linux-x64 --configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory)'
+    arguments: '--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory)'
     zipAfterPublish: true
 
 - task: PublishBuildArtifacts@1
   displayName: "Upload Artifacts"
   inputs:
     pathtoPublish: '$(Build.ArtifactStagingDirectory)' 
+    artifactName: 'TemplateV2'
