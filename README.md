@@ -15,7 +15,7 @@ Intended for building **small self-contained business applications**, this templ
 ## Architecture
  - Built with [Razor Pages](https://docs.microsoft.com/en-us/aspnet/core/razor-pages)
  - [N-tier application](https://docs.microsoft.com/en-us/visualstudio/data-tools/n-tier-data-applications-overview) with a focus on seperation of concerns
- - Uses MVC 6 with the latest version of Visual Studio 2019 and [ASP.NET Core 3.1](https://asp.net)
+ - Uses MVC 6 with the latest version of Visual Studio 2019 and [ASP.NET 5](https://asp.net)
  - UI validation is shared with backend validation (client-side can only perform basic rules)
  - C# 8.0 Nullable References are enabled (.NET Standard 2.1)
 
