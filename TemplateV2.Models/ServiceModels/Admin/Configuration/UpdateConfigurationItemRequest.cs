@@ -41,7 +41,7 @@ namespace TemplateV2.Models.ServiceModels.Admin.Configuration
         public decimal? MoneyValue { get; set; }
 
         [Display(Name = "String value")]
-        public string StringValue { get; set; }
+        public string? StringValue { get; set; }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
@@ -82,7 +82,7 @@ namespace TemplateV2.Models.ServiceModels.Admin.Configuration
                 populatedFieldCount++;
             }
 
-            if (StringValue != null)
+            if (!string.IsNullOrEmpty(StringValue))
             {
                 populatedFieldCount++;
             }
