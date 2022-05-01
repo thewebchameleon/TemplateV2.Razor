@@ -27,4 +27,8 @@
     <ProjectReference Include="..\TemplateV2.Services\TemplateV2.Services.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Properties\PublishProfiles\" />
+  </ItemGroup>
+
 </Project>
