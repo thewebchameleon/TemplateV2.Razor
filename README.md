@@ -23,10 +23,12 @@ Intended for building **small self-contained business applications**, this templ
  - C# 8.0 Nullable References are enabled (.NET Standard 2.1)
 
 ### Database
-- Database project targets Microsoft SQL Server 2019 and uses the micro ORM [Dapper](https://github.com/StackExchange/Dapper) with stored procedures
-- Initial roll out script `V1.sql` is included and contains lookup data and an admin user
+- It is recommended to use SQL Server so that you can utilise the database project included
+- Database project targets Microsoft SQL Server 2019 and uses the micro ORM [Dapper](https://github.com/StackExchange/Dapper)
+- This project ONLY uses stored procedures to perform database querys
+- Initial roll out script `V1.sql` is included and contains seed data
 - Tables contain a soft-delete metadata column `Is_Deleted` to allow foreign key integrity
-- Stored procedures are used to perform CRUD-like operations on the database.
+- Stored procedures are used to perform CRUD-like operations on the database
 - Connecting to a MySQL database is supported
 
 ### Backend
@@ -57,7 +59,8 @@ Intended for building **small self-contained business applications**, this templ
 ### Sessions
 - Custom session logging implementation which is recorded to the database
 - Sessions can be viewed in detail on the `Sessions` admin page
-- Session logs are recorded for each `GET` and `POST` request and include form data (sensitive data can be obfuscated)
+- Session logs are recorded for each `GET` and `POST` request and includes form data
+- Form data properties can be obfuscated to `******` if the data is sensitive (passwords)
 - Session log events are high level actions that users may perform and may be useful for tracking / auditing user behavior
 
 ### Users, Roles, Permissions
